@@ -1,8 +1,24 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux';
+import { Modal, Button } from 'antd';
+function info() {
+  Modal.info({
+    title: 'This is a notification message',
+    content: (
+      <div>
+        <p>some messages...some messages...</p>
+        <p>some messages...some messages...</p>
+      </div>
+    ),
+    onOk() {},
+  });
+}
 
 const Login = ({errorMessage}) => (
-  <div>Login</div>
+  <div>
+    Login
+    <Button onClick={info}>Info</Button>
+  </div>
 );
 
 Login.propsType = {
