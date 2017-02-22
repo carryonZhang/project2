@@ -1,23 +1,14 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux';
-import { Modal, Button } from 'antd';
-function info() {
-  Modal.info({
-    title: 'This is a notification message',
-    content: (
-      <div>
-        <p>some messages...some messages...</p>
-        <p>some messages...some messages...</p>
-      </div>
-    ),
-    onOk() {},
-  });
-}
 
-const Login = ({errorMessage}) => (
-  <div>
-    Login
-    <Button onClick={info}>Info</Button>
+import styles from './style.css';
+
+import LoginField from '../../components/loginField';
+
+
+const Login = ({form, errorMessage, onSubmit}) => (
+  <div className={styles.wrapper}>
+    <LoginField className={styles.loginField} onSubmit={onSubmit}/>
   </div>
 );
 
@@ -30,8 +21,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onClickLogin: (event) => {
-
+  onSubmit: (event) => {
+    console.log(event)
   }
 });
 

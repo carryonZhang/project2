@@ -74,10 +74,6 @@ module.exports = {
         include: /node_modules/
       },
       {
-        test: /\.less$/,
-        loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss!less?{modifyVars:{"@primary-color":"#1DA57A"}}'
-      },
-      {
         test: /\.json$/,
         loader: 'json'
       },

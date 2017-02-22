@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react'
-import styles from './style.css'
 
 const App = ({children}) => (
-    <div className={styles.wrapper}>{children}</div>
+    <div>{children}</div>
 );
 
 App.propTypes = {
