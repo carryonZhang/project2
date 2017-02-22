@@ -17,6 +17,22 @@ export default function createRoutes(store) {
           render(null, container);
         });
       }
-    }
+    },
+    {
+      path: '/brands',
+      name: 'brands',
+      getComponent: (location, render) => {
+        require.ensure([
+          './container/brands/reducers',
+          './container/brands'
+        ], (require) => {
+          const container = require('./container/brands').default;
+          const reducer = require('./container/brands/reducers').default;
+
+          injectAsyncReducer(store, 'brands', reducer);
+          render(null, container);
+        });
+      }
+    },
   ]
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, hashHistory} from 'react-router';
+import nattyFetch from 'natty-fetch';
 
 import configureStore from './store';
 import createRoutes from './routes';
@@ -16,6 +17,8 @@ const rootRoute = {
   component: App,
   childRoutes: createRoutes(store)
 };
+
+nattyFetch.setGlobal({});
 
 render(
   <Provider store={store}>

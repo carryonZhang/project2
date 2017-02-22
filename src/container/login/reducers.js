@@ -1,8 +1,8 @@
-import {THROW_ERROR} from './constants';
+import {LOGIN_FAILURE} from './constants';
 
 const loginReducer = (state = {}, action) => {
   switch (action.type) {
-    case THROW_ERROR:
+    case LOGIN_FAILURE:
       return state;
     default:
       return state

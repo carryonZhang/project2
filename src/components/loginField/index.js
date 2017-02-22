@@ -11,7 +11,7 @@ const LoginField = ({className, form, onSubmit}) => (
 
       form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
+          onSubmit(values);
         }
       });
     }} className="login-form">
@@ -53,6 +53,5 @@ LoginField.propsType = {
   form: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
-
 
 export default Form.create()(LoginField)

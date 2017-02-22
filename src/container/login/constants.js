@@ -1,1 +1,1 @@
-export const THROW_ERROR = 'platform/Login/THROW_ERROR';
+export const LOGIN_FAILURE = 'platform/Login/LOGIN_FAILURE';
