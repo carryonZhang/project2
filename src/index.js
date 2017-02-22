@@ -6,7 +6,7 @@ import nattyFetch from 'natty-fetch';
 
 import configureStore from './store';
 import createRoutes from './routes';
-import App from './container/App';
+import App from './container/app';
 
 import './global.css';
 
@@ -18,7 +18,19 @@ const rootRoute = {
   childRoutes: createRoutes(store)
 };
 
-nattyFetch.setGlobal({});
+// 全局 API 配置
+nattyFetch.setGlobal({
+  mock: true,
+  withCredentials: false,
+  mockUrlPrefix: '//mock.2dfire-daily.com/mock-serverapi/mockjsdata/',
+  fit: (res) => {
+    return {
+      success: !res.errors || res.errors.length === 0,
+      content: res.content,
+      error: res.errors && res.errors[0]
+    }
+  }
+});
 
 render(
   <Provider store={store}>
