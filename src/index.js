@@ -6,6 +6,7 @@ import {Router, hashHistory} from 'react-router';
 import configureStore from './store';
 import createRoutes from './routes';
 import App from './container/App';
+import Reports from "./container/Reports"
 
 import './global.css';
 

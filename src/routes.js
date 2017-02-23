@@ -3,17 +3,17 @@ import {injectAsyncReducer} from './utils/asyncInjector';
 export default function createRoutes(store) {
   return [
     {
-      path: '/login',
-      name: 'login',
+      path: '/',
+      name: 'Reports',
       getComponent: (location, render) => {
         require.ensure([
-          './container/login/reducers',
-          './container/login'
+          './container/Reports/reducers',
+          './container/Reports'
         ], (require) => {
-          const container = require('./container/login').default;
-          const reducer = require('./container/login/reducers').default;
+          const container = require('./container/Reports').default;
+          const reducer = require('./container/Reports/reducers').default;
 
-          injectAsyncReducer(store, 'login', reducer);
+          injectAsyncReducer(store, 'Reports', reducer);
           render(null, container);
         });
       }
