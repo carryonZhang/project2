@@ -1,0 +1,30 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.searchForm, .charts{
+    margin: 20px 80px 0 20px;
+    /*padding: 20px;*/
+    /* todo test*/
+    border: 1px solid lightgray;
+}
+.gridRow {
+
+}
+.gridCol {
+
+}
+
+.charts {
+    height: 500px;
+    background-color: lightgray;
+}
+
+.disabled {
+    color: gray;
+}

@@ -26,7 +26,7 @@ function presentECharts(chartType, data) {
 
 
 
-    // 数据
+    /*// 数据
     let keys = data.keys;
     let maps = data.maps;
 
@@ -47,7 +47,7 @@ function presentECharts(chartType, data) {
 
     let isAscSort = true;
 
-    /**线图*/
+    /!**线图*!/
     if (chartType.indexOf("_LINE") > 0 ||
         chartType.indexOf("_BAR") > 0) {
 
@@ -80,21 +80,13 @@ function presentECharts(chartType, data) {
             )
         });
 
-        // 所有图例标签
+        // legend
         legendData = (data.graphEntity.yAxisLabel).split(";");
         console.log(legendData);
-        // series 这里必须重新设置为空 ?
-        series = [];
+
         legendData.forEach((legendName, indx) => {
 
-            // 默认选中第一项
-            /*if (indx === 0) {
-                legendSelected[legendName] = true;
-            }*/
-            // fixme 选中所有
             legendSelected[legendName] = true;
-
-            // legendSelected[legendName] = (indx === 0);
 
             // series item
             let seriesItem = {};
@@ -104,14 +96,11 @@ function presentECharts(chartType, data) {
                 return daily[legendName];
             });
             series.push(seriesItem);
-            /*   //查询该指标在所有指标中的位置
-             // fixme index改成了 key
-             INDEX = ele // keys.indexOf(ele);
-             */
+
         });
 
 
-        /*    if (isAscSort) {
+        /!*    if (isAscSort) {
 
          } else {
          // todo  是否与 if 重复
@@ -145,7 +134,7 @@ function presentECharts(chartType, data) {
 
          series.push(seriesObj);
          });
-         }*/
+         }*!/
 
         //获取x轴标签间隔多少显示
         let interval = 0;
@@ -162,9 +151,10 @@ function presentECharts(chartType, data) {
             grid: {
                 left: '15%',
                 right: '1px',
-                top: '5%'
+                top: '5%',
+                containeLabel: true
             },
-            /*设备背影色为白色, 透明度:0.1*/
+            /!*设备背影色为白色, 透明度:0.1*!/
             backgroundColor: 'rgba(255,255,255, 0.1)',
             tooltip: {
                 show: false,
@@ -174,20 +164,20 @@ function presentECharts(chartType, data) {
                 show: false
             },
             legend: {
-                /*默认只有第一个显示*/
-                selected: legendSelected,
+                /!*默认只有第一个显示*!/
+                // selected: legendSelected,
                 data: legendData
             },
             xAxis: {
                 data: xAxisData,
                 axisLabel: {
                     interval: interval,
-                    /*45度角倾斜显示*/
+                    /!*45度角倾斜显示*!/
                     rotate: 45
                 }
             },
             yAxis: {
-                //min: 'dataMin', /*将数据最小值作为开始值*/
+                //min: 'dataMin', /!*将数据最小值作为开始值*!/
                 axisLabel: {
                     formatter: function (value) {
                         if (value >= 10000) {
@@ -201,7 +191,7 @@ function presentECharts(chartType, data) {
             series: series
         };
     }
-    /**饼图*/
+    /!**饼图*!/
     else if (chartType.indexOf("_PIE") > 0) {
         console.log("PIE")
         // todo hide chart tools
@@ -219,9 +209,9 @@ function presentECharts(chartType, data) {
         let xAxisLabel = data.graphEntity.xAxisLabel;
         let yAxisLabel = data.graphEntity.yAxisLabel;
 
-        /*    INDEX = -1;
+        /!*    INDEX = -1;
          INDEX = keys.indexOf(item);
-         */
+         *!/
         maps.forEach((daily, indx) => {
 
             let seriesItem = {};
@@ -230,7 +220,7 @@ function presentECharts(chartType, data) {
                 " " :
                 daily[xAxisLabel];
 
-            /*自定义生成颜色*/
+            /!*自定义生成颜色*!/
             legendColor[indx] = getRandomColor();
             // 默认全部选中
             legendSelected[daily[xAxisLabel]] = true;
@@ -270,87 +260,88 @@ function presentECharts(chartType, data) {
     } else if (chartType.indexOf("_AREA") > 0) {
         console.log("AREA")
         // seriesItemType = 'area';
-    }
+    }*/
 
     /**使用刚指定的配置项和数据显示图表 */
     //test begin
-    let option = {
-        title: {
-            text: '未来一周气温变化',
-            subtext: '纯属虚构'
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data: ['最高气温', '最低气温']
-        },
-        toolbox: {
-            show: false,
-            feature: {
-                mark: {show: true},
-                dataView: {show: true, readOnly: false},
-                magicType: {show: true, type: ['line', 'bar']},
-                restore: {show: true},
-                saveAsImage: {show: true}
-            }
-        },
-        calculable: true,
-        xAxis: [
-            {
-                type: 'category',
-                boundaryGap: false,
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-            }
-        ],
-        yAxis: [
-            {
-                type: 'value',
-                axisLabel: {
-                    formatter: '{value} °C'
-                }
-            }
-        ],
-        series: [
-            {
-                name: '最高气温',
-                type: 'line',
-                data: [11, 11, 15, 13, 12, 13, 10],
-                markPoint: {
-                    data: [
-                        {type: 'max', name: '最大值'},
-                        {type: 'min', name: '最小值'}
-                    ]
-                },
-                markLine: {
-                    data: [
-                        {type: 'average', name: '平均值'}
-                    ]
-                }
-            },
-            {
-                name: '最低气温',
-                type: 'line',
-                data: [1, -2, 2, 5, 3, 2, 0],
-                markPoint: {
-                    data: [
-                        {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
-                    ]
-                },
-                markLine: {
-                    data: [
-                        {type: 'average', name: '平均值'}
-                    ]
-                }
-            }
-        ]
-    };
+    // let option = {
+    //     title: {
+    //         text: '未来一周气温变化',
+    //         subtext: '纯属虚构'
+    //     },
+    //     tooltip: {
+    //         trigger: 'axis'
+    //     },
+    //     legend: {
+    //         data: ['最高气温', '最低气温']
+    //     },
+    //     toolbox: {
+    //         show: false,
+    //         feature: {
+    //             mark: {show: true},
+    //             dataView: {show: true, readOnly: false},
+    //             magicType: {show: true, type: ['line', 'bar']},
+    //             restore: {show: true},
+    //             saveAsImage: {show: true}
+    //         }
+    //     },
+    //     calculable: true,
+    //     xAxis: [
+    //         {
+    //             type: 'category',
+    //             boundaryGap: false,
+    //             data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+    //         }
+    //     ],
+    //     yAxis: [
+    //         {
+    //             type: 'value',
+    //             axisLabel: {
+    //                 formatter: '{value} °C'
+    //             }
+    //         }
+    //     ],
+    //     series: [
+    //         {
+    //             name: '最高气温',
+    //             type: 'line',
+    //             data: [11, 11, 15, 13, 12, 13, 10],
+    //             markPoint: {
+    //                 data: [
+    //                     {type: 'max', name: '最大值'},
+    //                     {type: 'min', name: '最小值'}
+    //                 ]
+    //             },
+    //             markLine: {
+    //                 data: [
+    //                     {type: 'average', name: '平均值'}
+    //                 ]
+    //             }
+    //         },
+    //         {
+    //             name: '最低气温',
+    //             type: 'line',
+    //             data: [1, -2, 2, 5, 3, 2, 0],
+    //             markPoint: {
+    //                 data: [
+    //                     {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+    //                 ]
+    //             },
+    //             markLine: {
+    //                 data: [
+    //                     {type: 'average', name: '平均值'}
+    //                 ]
+    //             }
+    //         }
+    //     ]
+    // };
     // test end
-    myChart.setOption(optionObj, true);
+
+    // myChart.setOption(optionObj, true);
     // document.getElementById("legend-list").innerHTML = "";
     // $("#legend-list").html(""); //防止多次查询,重复添加
 
-    console.log("current selected", optionObj.legend.selected)
+    // console.log("current selected", optionObj.legend.selected)
 
     /*让按钮为收起状态*/
     // var optName = $(".unfold-fold-legend");

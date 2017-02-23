@@ -1,5 +1,6 @@
 import React, {Component} from "react"
-import {presentECharts, showTable} from "../utils/showChart";
+// import {presentECharts, showTable} from "../utils/showChart";
+import showChart from "../../utils/chart"
 
 class ChartContent extends Component {
     constructor(props) {
@@ -13,13 +14,16 @@ class ChartContent extends Component {
 
         // 显示报表
         const reportContent = this.state.reportContent;
-
         // 报表类型
         let chartType = reportContent.queryType;
-        console.log(chartType);
+        showChart(chartType, reportContent, "chart-canvas")
+
+
         // chartType = chartType.toUpperCase();
 
-        // 表格
+        // presentECharts("_LINE", reportContent);
+
+        /*// 表格
         if (chartType === "TABULAR") {
 
             // 显示chart-table
@@ -33,17 +37,17 @@ class ChartContent extends Component {
             // 显示chart-panel
 
             // 参数： chartType, data
-            presentECharts(chartType, reportContent);
+            presentECharts("_LINE", reportContent);
 
-            if (chartType.indexOf("_DATA") > 0) {
+            /!*if (chartType.indexOf("_DATA") > 0) {
                 // 显示chart-table
 
                 showTable(reportContent);
             } else {
                 // 隐藏chart-table
 
-            }
-        }
+            }*!/
+        }*/
     }
 
     render() {
@@ -57,9 +61,9 @@ class ChartContent extends Component {
             <div className="chart-canvas"
                  id="chart-canvas"
                  style={{
-                     width: canvasWidth,
-                     height: canvasWidth * 3 / 5,
-                     position: "relative",
+                     width: "800px",
+                     height: "500px",
+                     border: "1px solid green"
                  }}
             />
         )

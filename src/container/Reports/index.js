@@ -1,17 +1,20 @@
 
 import React, {Component, PropTypes} from 'react';
 
-import SearchForm from "../../components/SearchForm"
-import Charts from "../../components/Charts"
+import SearchForm from "../../components/charts/SearchForm"
+import ChartWrapper from "../../components/charts/ChartWrapper"
 
-require("./reports.css");
+
 
 class Reports extends Component {
   render() {
     return (
       <div>
         <SearchForm />
-        <Charts />
+        <ChartWrapper />
+
+        {/*table 牛肉饼*/}
+
       </div>
     )
   }
