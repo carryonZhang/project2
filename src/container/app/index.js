@@ -30,7 +30,7 @@ const mapStateToProps = (state) => {
   switch (state.global.type) {
     case 'loading':
       let loadingHide = message.loading('加载中', 0);
-      setTimeout(loadingHide, 5000); // 5 秒后自动移除
+      setTimeout(loadingHide, 5000); // 5 秒后自动移除  1
       break;
 
     case 'loadingHide':
