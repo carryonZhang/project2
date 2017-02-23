@@ -18,7 +18,7 @@ export const globalMessageError = (message) => ({
 
 export const globalMessageSuccess = (message) => ({
   type: GLOBAL_MESSAGE_SUCCESS,
-  message
+  message: message
 });
 
 export const globalLoading = () => ({

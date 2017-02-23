@@ -5,6 +5,7 @@ import {
   GLOBAL_MESSAGE_SUCCESS
 } from './constants';
 
+
 const rootReducer = (state = {type: '', message: ''}, action) => {
   let type = '';
 

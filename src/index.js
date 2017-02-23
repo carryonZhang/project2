@@ -22,7 +22,7 @@ const rootRoute = {
 nattyFetch.setGlobal({
   mock: true,
   withCredentials: false,
-  mockUrlPrefix: '//mock.2dfire-daily.com/mock-serverapi/mockjsdata/',
+  mockUrlPrefix: '//ata/',
   fit: (res) => {
     return {
       success: !res.errors || res.errors.length === 0,
