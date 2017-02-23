@@ -24,60 +24,41 @@ function presentECharts(chartType, data) {
      console.log(chartType)
      console.log(data)*/
 
-    let optionObj;
-    let myChart;
+
 
     // 数据
     let keys = data.keys;
     let maps = data.maps;
 
-
     // 基于准备好的dom，初始化echarts实例
+    let optionObj;
+    let myChart;
     if (myChart == null) {
         myChart = echarts.init(document.getElementById('chart-canvas'), 'purple-passion');
     }
 
-    console.log("echarts", myChart);
-
-    // echart option legend data
+    // legend option: data, color, selected
     let legendData = [];
-
     let legendColor = [];
-
-    // echart option legend legendSelected
     let legendSelected = {};
 
-    // seriesItem seriesItemType
+    // seriesItem: type
     let seriesItemType = 'line';
+
     let isAscSort = true;
 
     /**线图*/
     if (chartType.indexOf("_LINE") > 0 ||
         chartType.indexOf("_BAR") > 0) {
 
-        console.log("LINE")
-
-        /*// 线图的假数据
-         data.graphEntity.xAxisLabel = "日期";
-         data.graphEntiry.yAxisLabel =
-         "无线订单数;总订单数;外卖订单数;微信订单数;支付宝单数;app订单数;点菜数;无线订单比例;总支付笔数;微信支付笔数;支付宝支付笔数;应收金额;实收金额;微信支付金额;支付宝支付金额;微信下单金额;app下单金额;支付宝下单金额;店铺总数;4.0店铺总数;4.0店铺比例;4.0活跃店铺数;4.0店铺活跃比例;微信下单活跃店铺;支付宝下单活跃店铺;微信支付活跃店铺;支付宝支付活跃店铺;总会员;活跃会员;会员活跃率";
-         */
         if (chartType.indexOf("_BAR") > 0) {
             seriesItemType = 'bar';
             isAscSort = false;
         }
 
-        // todo 隐藏chart tools
 
-        // todo 显示switchBar
-
-        // todo 显示switchLine
-
-
-        // todo 暂时使用一个假数据，应根据表达式获取
-        // x轴， "日期"
+        // xAxisLabel
         let xAxisLabel = data.graphEntity.xAxisLabel;
-
         let INDEX = xAxisLabel; // allkeys.indexOf(xAxisData);
 
         // 按指定字段(INDEX)升序排列maps 排序
@@ -101,15 +82,18 @@ function presentECharts(chartType, data) {
 
         // 所有图例标签
         legendData = (data.graphEntity.yAxisLabel).split(";");
-
+        console.log(legendData);
         // series 这里必须重新设置为空 ?
         series = [];
         legendData.forEach((legendName, indx) => {
 
             // 默认选中第一项
-            if (indx === 0) {
+            /*if (indx === 0) {
                 legendSelected[legendName] = true;
-            }
+            }*/
+            // fixme 选中所有
+            legendSelected[legendName] = true;
+
             // legendSelected[legendName] = (indx === 0);
 
             // series item
@@ -183,16 +167,13 @@ function presentECharts(chartType, data) {
             /*设备背影色为白色, 透明度:0.1*/
             backgroundColor: 'rgba(255,255,255, 0.1)',
             tooltip: {
-                // show: false,
+                show: false,
                 trigger: 'axis'
             },
             toolbox: {
                 show: false
             },
             legend: {
-                show: false,
-                left: 'center',
-                top: 'bottom',
                 /*默认只有第一个显示*/
                 selected: legendSelected,
                 data: legendData
@@ -366,7 +347,7 @@ function presentECharts(chartType, data) {
     };
     // test end
     myChart.setOption(optionObj, true);
-    document.getElementById("legend-list").innerHTML = "";
+    // document.getElementById("legend-list").innerHTML = "";
     // $("#legend-list").html(""); //防止多次查询,重复添加
 
     console.log("current selected", optionObj.legend.selected)
@@ -378,7 +359,7 @@ function presentECharts(chartType, data) {
     // optImg.removeClass("glyphicon-chevron-down");
     // optImg.addClass("glyphicon-chevron-up");
 
-    legendData.forEach(function (item, index) {
+    /*legendData.forEach(function (item, index) {
         var color = "#ffffff";
         if (seriesItemType == 'line' || seriesItemType == 'bar') {
             color = myChart.getModel().getSeriesByIndex(index).getData().getVisual('color');
@@ -386,7 +367,7 @@ function presentECharts(chartType, data) {
             color = legendColor[index];
         }
 
-        /*var labelHtml = '<label class="legend';
+        /!*var labelHtml = '<label class="legend';
          if (index == 0 || seriesItemType == 'pie') {
          labelHtml += '">';
          labelHtml += '<span class="label" style="border: solid 2px #ccc; display: none;"></span>';
@@ -397,7 +378,7 @@ function presentECharts(chartType, data) {
          labelHtml += '<images  class="label-images" style="background-color: ' + color + '; display: none;" src="[[${ctx}]]_resources/images/hook.png" />';
          }
 
-         labelHtml += '<span class="label-name">' + item + '</span></label>';*/
+         labelHtml += '<span class="label-name">' + item + '</span></label>';*!/
 
         const labelHtml = `
       <label class="legend">
@@ -417,21 +398,21 @@ function presentECharts(chartType, data) {
             labelLegend.classList.toggle("disabled");
             isDisabled = labelLegend.classList.contains("disabled");
             legendSelected[item] = !isDisabled;
-            /*if(disable) {
+            /!*if(disable) {
                 labelLegend.querySelector(".label").style.display = "inline";
                 labelLegend.querySelector(".label-images").style.display = "none";
             } else {
                 labelLegend.querySelector(".label").style.display = "none";
                 labelLegend.querySelector(".label-images").style.display = "inline";
-            }*/
+            }*!/
             console.log(legendSelected);
             console.log("selected", optionObj.legend.selected);
-            /*重新设置显示图例*/
+            /!*重新设置显示图例*!/
             optionObj.legend.selected = legendSelected;
             myChart.setOption(optionObj);
         });
 
-        /*var disable;
+        /!*var disable;
         labelLegend.click(function () {
             labelLegend.toggleClass('disabled');
             disable = labelLegend.hasClass('disabled');
@@ -448,14 +429,14 @@ function presentECharts(chartType, data) {
             /!*重新设置显示图例*!/
             optionObj.legend.selected = legendSelected;
             myChart.setOption(optionObj);
-        });*/
+        });*!/
 
 
         document.getElementById("legend-list").appendChild(labelLegend);
     });
 
-    /*保存legend层的高度*/
-    legendDivHeight = document.getElementById("legend-list").style.height;
+    /!*保存legend层的高度*!/
+    legendDivHeight = document.getElementById("legend-list").style.height;*/
 }
 
 function showTable(data) {

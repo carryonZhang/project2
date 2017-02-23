@@ -13,7 +13,7 @@ class Charts extends Component {
                 {/*图表内容*/}
                 <ChartContent />
                 {/*图例*/}
-                <ChartLegend />
+                {/*<ChartLegend />*/}
             </div>
         )
     }
