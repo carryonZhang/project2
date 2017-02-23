@@ -1,4 +1,6 @@
 import React, {Component} from "react"
+import ReactEcharts from "echarts-for-react"
+
 // import {presentECharts, showTable} from "../utils/showChart";
 import showChart from "../../utils/chart"
 
@@ -16,7 +18,7 @@ class ChartContent extends Component {
         const reportContent = this.state.reportContent;
         // 报表类型
         let chartType = reportContent.queryType;
-        showChart(chartType, reportContent, "chart-canvas")
+        showChart(chartType, reportContent, "chart-canvas");
 
 
         // chartType = chartType.toUpperCase();
@@ -54,18 +56,22 @@ class ChartContent extends Component {
         // 设置chart canvas 宽高
         const clientWidth = document.documentElement.clientWidth;
         const clientHeight = document.documentElement.clientHeight;
-        const canvasWidth = clientWidth - 12;
+        const canvasWidth = clientWidth - 100;
 
         return (
-            // todo 动态宽高
-            <div className="chart-canvas"
-                 id="chart-canvas"
-                 style={{
-                     width: "800px",
-                     height: "500px",
-                     border: "1px solid green"
-                 }}
-            />
+            <div>
+                <div className="chart-canvas"
+                     id="chart-canvas"
+                     style={{
+                         width: canvasWidth,
+                         height: "300px" ,
+                     }}
+                />
+                <div className="chart-legend" />
+            </div>
+            /*<ReactEcharts
+                option={this.state.option}
+            />*/
         )
     }
 }

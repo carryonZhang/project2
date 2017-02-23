@@ -10,11 +10,10 @@ class ChartWrapper extends Component {
     render() {
         return (
             <div className={styles.charts}>
-                <h1>Charts</h1>
-                {/*/!*图表内容*!/
+
                 <ChartContent />
-                /!*图例*!/
-                /!*<ChartLegend />*!/*/}
+
+                {/*<ChartLegend />*/}
             </div>
         )
     }
