@@ -6,6 +6,7 @@ import nattyFetch from 'natty-fetch';
 
 import configureStore from './store';
 import createRoutes from './routes';
+
 import App from './container/app';
 
 import './global.css';

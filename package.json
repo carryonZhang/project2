@@ -53,6 +53,7 @@
     "antd": "^2.7.2",
     "babel-plugin-import": "^1.1.1",
     "classnames": "^2.2.5",
+    "echarts": "^3.4.0",
     "natty-fetch": "^2.2.3",
     "natty-storage": "^1.1.2",
     "react": "^15.4.2",
