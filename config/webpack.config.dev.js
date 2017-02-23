@@ -44,6 +44,7 @@ module.exports = {
                 exclude: [
                     /\.html$/,
                     /\.(js|jsx)$/,
+                    /\.less$/,
                     /\.css$/,
                     /\.json$/,
                     /\.svg$/
@@ -59,18 +60,26 @@ module.exports = {
                 include: paths.appSrc,
                 loader: 'babel',
                 query: {
+                    plugins: [
+                        ['import', [{libraryName: "antd", style: true}]]
+                    ],
                     cacheDirectory: true
                 }
             },
             {
-                test: /\.css$/,
-                loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss',
+                test: /global.css$/,
+                exclude: /node_modules/,
+                loader: 'style!css!postcss'
+            },
+            {
+                test: /^((?!global).)*\.css$/,
+                loader: 'style!css?modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]!postcss',
                 exclude: /node_modules/
             },
             // antd 的 require 会与 CSS Module 冲突，因此要额外做 loader
             {
-                test: /\.css$/,
-                loader: 'style!css',
+                test: /\.less$/,
+                loader: 'style!css!postcss!less?{modifyVars:{"@primary-color":"#d52632"}}',
                 include: /node_modules/
             },
             {
