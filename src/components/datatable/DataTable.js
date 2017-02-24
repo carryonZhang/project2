@@ -2,7 +2,6 @@
  * Created by long-mac on 2017/2/24.
  */
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import {Table} from 'antd';
 
 
