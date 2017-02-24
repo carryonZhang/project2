@@ -3,8 +3,7 @@ import React, {Component, PropTypes} from 'react';
 
 import SearchForm from "../../components/charts/SearchForm"
 import ChartWrapper from "../../components/charts/ChartWrapper"
-
-
+import DataTable from '../../components/DataTable.js';
 
 class Reports extends Component {
   render() {
@@ -12,9 +11,7 @@ class Reports extends Component {
       <div>
         <SearchForm />
         <ChartWrapper />
-
-        {/*table 牛肉饼*/}
-
+        <DataTable />
       </div>
     )
   }
