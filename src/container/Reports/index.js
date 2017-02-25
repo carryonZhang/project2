@@ -3,13 +3,14 @@ import React, {Component, PropTypes} from 'react';
 
 import SearchForm from "../../components/charts/SearchForm"
 import ChartWrapper from "../../components/charts/ChartWrapper"
-import DataTable from '../../components/datatable/DataTable.js'
+import DataTable from '../../components/datatable/DataTable'
+import DataForm from '../../components/dataform/DataForm'
 
 class Reports extends Component {
   render() {
     return (
       <div>
-        <SearchForm />
+        <DataForm />
         <ChartWrapper />
         <DataTable />
       </div>

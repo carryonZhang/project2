@@ -9,7 +9,7 @@
 
 .searchForm, .charts{
     margin: 20px 20px 0 20px;
-    /*padding: 20px;*/
+    padding: 45px 0 45px 48px;
     /* todo test*/
     border: 1px solid lightgray;
 }
