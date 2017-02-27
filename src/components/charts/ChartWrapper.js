@@ -13,6 +13,9 @@ class ChartWrapper extends Component {
 
                 <ChartContent />
 
+{/*
+                <ChartRenderComponent　dataSource={this.state.chartDataSource}/>
+                <ChartController labels={[]} onSelected={e => triggerRender}/>*/}
                 {/*<ChartLegend />*/}
             </div>
         )

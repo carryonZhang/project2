@@ -5,7 +5,7 @@ require("echarts/lib/chart/line");
 require("echarts/lib/chart/pie");
 
 import {sortBy, isNull, toDecimal, getRandomColor} from "./common";
-import {hook} from "../images/images";
+import {hook} from "../components/charts/images/images";
 
 
 // 查询条件

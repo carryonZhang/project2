@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import ReactEcharts from "echarts-for-react"
+import ChartLegend from "./ChartLegend"
 
 // import {presentECharts, showTable} from "../utils/showChart";
 import showChart from "../../utils/chart"
@@ -7,88 +8,248 @@ import showChart from "../../utils/chart"
 class ChartContent extends Component {
     constructor(props) {
         super(props);
+        // this.handleResize = this.handleResize.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
         this.state = {
-            reportContent: reportContentJSON,
+            reportDetails: reportDetailsJSON,
+            canvasSize: this.getCanvasSize(),
+            echartOption: {},
         }
     }
 
-    componentDidMount() {
 
-        // 显示报表
-        const reportContent = this.state.reportContent;
-        // 报表类型
-        let chartType = reportContent.queryType;
-        showChart(chartType, reportContent, "chart-canvas");
+    // 设置ECharts option
+    getOption() {
+        // 接口获取的原始数据
+        const details = this.state.reportDetails;
 
+        const chartType = details.reportType;
+        // todo 那个字段
+        const data = details.rows;
+        const xLabel = details.axisXLabel;
+        const xData = data.map((daily) => {
+            return daily[xLabel];
+        });
 
-        // chartType = chartType.toUpperCase();
+        //  legend
+        const yLabel = details.axisYLabel;
+        let legendData = yLabel.split(";");
+        let legendSelected = {};
 
-        // presentECharts("_LINE", reportContent);
+        // series
+        let series = [];
 
-        /*// 表格
-        if (chartType === "TABULAR") {
+        // todo
+        const seriesItemType = "line";
 
-            // 显示chart-table
-
-            // 隐藏chart-panel
-
-            showTable(reportContent);
-        } else {
-            // 图表
-
-            // 显示chart-panel
-
-            // 参数： chartType, data
-            presentECharts("_LINE", reportContent);
-
-            /!*if (chartType.indexOf("_DATA") > 0) {
-                // 显示chart-table
-
-                showTable(reportContent);
+        legendData.forEach((legendName, index) => {
+            // TODO 默认选中第一项
+            if (index === 0) {
+                legendSelected[legendName] = true;
             } else {
-                // 隐藏chart-table
+                legendSelected[legendName] = false;
+            }
 
-            }*!/
-        }*/
+
+            let seriesItem = {};
+            seriesItem.name = legendName;
+            seriesItem.type = seriesItemType;
+            seriesItem.data = data.map((daily) => {
+                return daily[legendName];
+            });
+            series.push(seriesItem);
+        });
+
+        //获取x轴标签间隔多少显示
+        let interval = 0;
+        if (xData.length > 15) {
+            interval = xData.length / 12;
+        } else {
+            interval = -1;
+        }
+        //四舍五入
+        interval = Math.round(interval);
+
+        let option = {
+            grid: {
+                show: false,
+                left: '5%',
+                right: "5%",
+                top: '5%',
+                // bottom: "5%",
+                height: "70%",
+                containLabel: true
+            },
+            // 设备背影色为白色, 透明度:0.1
+            tooltip: {
+                trigger: 'axis'
+            },
+            toolbox: {
+                show: true
+            },
+            legend: {
+                show: false,
+                selected: legendSelected,
+                data: legendData,
+                // left: "5%",
+                // right: "5%",
+                // // top: "0%",
+                // bottom: "0%",
+                // height: "30%"
+            },
+            xAxis: {
+                data: xData,
+                axisLabel: {
+                    interval: interval,
+                    /*45度角倾斜显示*/
+                    rotate: 45
+                }
+            },
+            yAxis: {
+                //min: 'dataMin', /*将数据最小值作为开始值*/
+                axisLabel: {
+                    formatter: function (value) {
+                        return value
+                    }
+                }
+            },
+            series: series
+        };
+
+       return option;
+    }
+
+    // 窗口resize后 reset echart
+    resizeReset() {
+        console.log("resize reset");
+        this.setState({
+            canvasSize: this.getCanvasSize()
+        });
+    }
+
+    // itemInfo: {itemText: isSelected}
+    handleSelect(itemInfo) {
+        console.log("select");
+        console.log("itemInfo", itemInfo);
+
+        const option = this.state.echartOption;
+
+        Object.assign(option.legend.selected, itemInfo);
+        console.log(option);
+        this.setState({
+            echartOption: option
+        });
+    }
+
+   getCanvasSize() {
+        // 设置chart canvas 宽高
+        const clientWidth = document.documentElement.clientWidth;
+        const canvasWidth = clientWidth - 100;
+        const canvasHeight = "300px";
+
+        return {
+            width: canvasWidth,
+            height: canvasHeight
+        };
+    }
+    componentWillMount() {
+        const option = this.getOption();
+        this.setState({
+            echartOption: option
+        });
+    }
+    componentDidMount() {
+        const that = this;
+        // resize
+        window.onresize = function () {
+            console.log("resize");
+            that.resizeReset();
+        };
+
+        // this.setOption();
+
+        /*// 显示报表
+         const reportContent = this.state.reportContent;
+         // 报表类型
+         let chartType = reportContent.queryType;
+         showChart(chartType, reportContent, "chart-canvas");
+
+
+         // chartType = chartType.toUpperCase();
+
+         // presentECharts("_LINE", reportContent);
+
+         /!*!// 表格
+         if (chartType === "TABULAR") {
+
+         // 显示chart-table
+
+         // 隐藏chart-panel
+
+         showTable(reportContent);
+         } else {
+         // 图表
+
+         // 显示chart-panel
+
+         // 参数： chartType, data
+         presentECharts("_LINE", reportContent);
+
+         /!*if (chartType.indexOf("_DATA") > 0) {
+         // 显示chart-table
+
+         showTable(reportContent);
+         } else {
+         // 隐藏chart-table
+
+         }*!/
+         }*!/*/
     }
 
     render() {
-        // 设置chart canvas 宽高
-        const clientWidth = document.documentElement.clientWidth;
-        const clientHeight = document.documentElement.clientHeight;
-        const canvasWidth = clientWidth - 100;
-
+        // 事件
+        const onEvents = {
+            "resize": this.handleResize,
+            "click": this.handleResize
+        };
+        const canvasSize = this.state.canvasSize;
+        const option = this.state.echartOption;
         return (
+            /*            <div>
+             <div className="chart-canvas"
+             id="chart-canvas"
+             style={{
+             width: canvasWidth,
+             height: "300px" ,
+             }}
+             />
+             <div className="chart-legend" />
+             </div>*/
             <div>
-                <div className="chart-canvas"
-                     id="chart-canvas"
-                     style={{
-                         width: canvasWidth,
-                         height: "300px" ,
-                     }}
+                <ReactEcharts
+                    option={option}
+                    style={canvasSize}
+                    className="react_for_echarts"
+                    onEvents={onEvents}
                 />
-                <div className="chart-legend" />
+                <ChartLegend legend={this.state.echartOption.legend} handleSelect={this.handleSelect}/>
             </div>
-            /*<ReactEcharts
-                option={this.state.option}
-            />*/
+
         )
     }
 }
 
 export default ChartContent;
 
-var reportContentJSON =
+var reportDetailsJSON =
     {
+        "axisXLabel": "日期",
+        "axisYLabel": "无线订单数;总订单数;外卖订单数;微信订单数;支付宝单数;app订单数;点菜数;无线订单比例;总支付笔数;微信支付笔数;支付宝支付笔数;应收金额;实收金额;微信支付金额;支付宝支付金额;微信下单金额;app下单金额;支付宝下单金额;店铺总数;4.0店铺总数;4.0店铺比例;4.0活跃店铺数;4.0店铺活跃比例;微信下单活跃店铺;支付宝下单活跃店铺;微信支付活跃店铺;支付宝支付活跃店铺;总会员;活跃会员;会员活跃率",
 
-        "graphEntity": {
-            "xAxisLabel": "日期",
-            "yAxisLabel": "无线订单数;总订单数;外卖订单数;微信订单数;支付宝单数;app订单数;点菜数;无线订单比例;总支付笔数;微信支付笔数;支付宝支付笔数;应收金额;实收金额;微信支付金额;支付宝支付金额;微信下单金额;app下单金额;支付宝下单金额;店铺总数;4.0店铺总数;4.0店铺比例;4.0活跃店铺数;4.0店铺活跃比例;微信下单活跃店铺;支付宝下单活跃店铺;微信支付活跃店铺;支付宝支付活跃店铺;总会员;活跃会员;会员活跃率"
-        },
         // 可能的值： TABULAR vs {_DATA, _LINE, _PIE, _BAR}
-        "queryType": "___LINE",
+        "reportType": "___LINE",
 
-        "keys": [
+        "columns": [
             "日期",
             "无线订单数",
             "总订单数",
@@ -122,7 +283,7 @@ var reportContentJSON =
             "会员活跃率",
             "update_time"
         ],
-        "maps": [
+        "rows": [
             {
                 "支付宝支付活跃店铺": 2785,
                 "4.0店铺活跃比例": 18463,

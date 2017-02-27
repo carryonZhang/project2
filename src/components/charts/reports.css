@@ -25,6 +25,18 @@
 
 }
 
+.chartLegend {
+    border: 1px solid red;
+}
+
+.legendItem {
+    background-color: green;
+}
+
+.legendItemDisabled {
+    background-color: red;
+}
+
 .disabled {
     color: gray;
 }

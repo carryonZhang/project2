@@ -1,18 +1,23 @@
 
 import React, {Component, PropTypes} from 'react';
 
-import SearchForm from "../../components/charts/SearchForm"
-import ChartWrapper from "../../components/charts/ChartWrapper"
+import SearchForm from "./SearchForm"
+import ChartWrapper from "./ChartWrapper"
 
 
 
 class Reports extends Component {
+
+    triggerRender(){
+
+    }
+
+
   render() {
     return (
       <div>
         <SearchForm />
         <ChartWrapper />
-
         {/*table 牛肉饼*/}
 
       </div>

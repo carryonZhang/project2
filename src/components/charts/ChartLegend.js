@@ -1,13 +1,31 @@
 import React, {Component} from "react"
+import LegendItem from "./LegendItem"
+import styles from "./reports.css"
 
 class ChartLegend extends Component {
 
+    constructor(props) {
+        super(props);
+
+        const legendSelected = this.props.legend.selected;
+        const legendData = this.props.legend.data;
+        this.state = {
+            selected: legendSelected,
+            data: legendData
+        }
+    }
+    // handleSelect = this.props.hadnleSelect
+
+    getItems() {
+        return this.state.data.map((item, index) => {
+            const itemSelected = this.state.selected[item];
+            return (<LegendItem itemText={item} itemSelected={itemSelected} handleSelect={this.props.handleSelect} key={`item-${index}`}/>)
+        })
+    }
     render() {
         return (
-            <div id="charr-legend">
-                <h1>chart legend</h1>
-                <span className="legend-head">统计指标</span>
-                <div id="legend-list"></div>
+            <div className={styles.chartLegend} >
+                {this.getItems()}
             </div>
         )
     }

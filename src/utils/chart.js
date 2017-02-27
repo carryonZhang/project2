@@ -21,7 +21,6 @@ export default function showChart(type, data, rootId) {
         return (
             daily[xAxisLabel] //.slice(5)
         )
-
     });
 
 
@@ -29,8 +28,8 @@ export default function showChart(type, data, rootId) {
     // legend and series
     let legendData = (data.graphEntity.yAxisLabel).split(";");
     let legendSelected = [];
-    let series = [];
 
+    let series = [];
     legendData.forEach((legendName, indx) => {
 
         legendSelected[legendName] = true;
@@ -47,6 +46,7 @@ export default function showChart(type, data, rootId) {
     });
 
     console.log("x data", xAxisData)
+
     //获取x轴标签间隔多少显示
     let interval = 0;
     if (xAxisData.length > 15) {
