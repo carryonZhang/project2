@@ -17,7 +17,7 @@ export default function showChart(type, data, rootId) {
     // x 轴
     let xAxisLabel = data.graphEntity.xAxisLabel;
     let xAxisData = maps.map((daily) => {
-        console.log(daily[xAxisLabel])
+        // console.log(daily[xAxisLabel])
         return (
             daily[xAxisLabel] //.slice(5)
         )
