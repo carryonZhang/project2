@@ -1,25 +1,18 @@
 
 import React, {Component, PropTypes} from 'react';
 
-import SearchForm from "./SearchForm"
-import ChartWrapper from "./ChartWrapper"
-
-
+import SearchForm from "../../components/charts/SearchForm"
+import ChartWrapper from "../../components/charts/ChartWrapper"
+import DataTable from '../../components/datatable/DataTable'
+import DataForm from '../../components/dataform/DataForm'
 
 class Reports extends Component {
-
-    triggerRender(){
-
-    }
-
-
   render() {
     return (
       <div>
-        <SearchForm />
+        <DataForm />
         <ChartWrapper />
-        {/*table 牛肉饼*/}
-
+        <DataTable />
       </div>
     )
   }

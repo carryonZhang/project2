@@ -1,0 +1,16 @@
+.ant-form-item-control-wrapper {
+    margin-left: 3.5%;
+}
+
+.dataform {
+    margin: 20px 20px 0 20px;
+    padding: 45px 0 45px 48px;
+    border: 1px solid lightgray;
+}
+.separate {
+    padding: 20px 30px 20px 0;
+    margin-left: 30px;
+    border-left: 1px solid #9e9e9e;
+    font-size: 0;
+    vertical-align: middle;
+}
