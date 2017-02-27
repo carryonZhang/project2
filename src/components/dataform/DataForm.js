@@ -2,10 +2,9 @@
  * Created by long-mac on 2017/2/25.
  */
 import React, {Component} from 'react';
-import {Form, DatePicker, Input, Button, Menu, Col, Row, Select} from 'antd';
+import {Form, DatePicker, Input, Button, Col, Row, Select} from 'antd';
 import styles from './dataform.css';
 
-const layoutProps = {horizontal: true};
 const FormItem  = Form.Item;
 const formItemLayout = {
   labelCol: {span: 4},
@@ -27,13 +26,6 @@ export default class DataForm extends Component {
   }
 
   render(){
-    const menu =  (
-        <Menu onClick={this.handleMenuClick}>
-          <Menu.Item key="1">Menu Item 1</Menu.Item>
-          <Menu.Item key="2">Menu Item 2</Menu.Item>
-          <Menu.Item key="3">Menu Item 3</Menu.Item>
-        </Menu>
-    );
     return  (
         <Form className={styles.dataform}>
           <Row>
@@ -41,7 +33,6 @@ export default class DataForm extends Component {
               <FormItem label="店铺名称"
                   {...formItemLayout}
               >
-
               <Select
                   showSearch
                   style={{ width: 200 }}
@@ -113,7 +104,6 @@ export default class DataForm extends Component {
                 <span className={styles.separate}></span>
                 <Button type="danger">导出Excel</Button>
               </FormItem>
-
             </Col>
           </Row>
         </Form>
