@@ -4,13 +4,13 @@
 import nattyFetch from 'natty-fetch';
 
 const fetchdata = nattyFetch.context({
-  urlPrefix: 'http://mock.2dfire-daily.com/mock-serverapi/mockjsdata/127/report/'
+  urlPrefix: ''
 });
 
 fetchdata.create({
   'getQueryArgs': {
     mock: true,
-    mockUrl: 'queryArgs.json',
+    mockUrl: 'http://mock.2dfire-daily.com/mock-serverapi/mockjsdata/127/report/queryArgs.json',
     data: {
       reportId: ''
     },

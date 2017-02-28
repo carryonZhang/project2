@@ -10,7 +10,6 @@ function ReportWrapper({options, onSearch, onExport, onGridInitial, onLegendChan
         <div>
             <DataForm />
             <ChartWrapper options={options} onLegendChange={onLegendChange}/>
-            <DataTable />
         </div>
     )
 }

@@ -21,9 +21,7 @@ const rootRoute = {
 
 // 全局 API 配置
 nattyFetch.setGlobal({
-  mock: true,
   withCredentials: false,
-  mockUrlPrefix: '//ata/',
   fit: (res) => {
     return {
       success: !res.errors || res.errors.length === 0,
