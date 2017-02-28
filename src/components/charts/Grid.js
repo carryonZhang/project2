@@ -6,42 +6,29 @@ class Grid extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            canvasSize: this.getCanvasSize(),
-            echartOption: this.props.details,
+            canvasSize: {
+                width: document.documentElement.clientWidth - 100,
+                height: "300px"
+            }
         }
     }
 
-
     // 窗口resize后 reset echart
     resizeReset() {
-        console.log("resize reset");
         this.setState({
-            canvasSize: this.getCanvasSize()
+            canvasSize: {
+                width: document.documentElement.clientWidth - 100,
+                height: "300px"
+            }
         });
     }
 
-   getCanvasSize() {
-        // 设置chart canvas 宽高
-        const clientWidth = document.documentElement.clientWidth;
-        const canvasWidth = clientWidth - 100;
-        const canvasHeight = "300px";
-
-        return {
-            width: canvasWidth,
-            height: canvasHeight
-        };
-    }
-
     componentDidMount() {
-        const that = this;
-        // resize
+        const self = this;
         window.onresize = function () {
             console.log("resize");
-            that.resizeReset();
+            self.resizeReset();
         };
-
-        // this.setOption();
-
         /*// 显示报表
          const reportContent = this.state.reportContent;
          // 报表类型
@@ -82,25 +69,13 @@ class Grid extends Component {
 
     render() {
         const canvasSize = this.state.canvasSize;
-        const option = this.state.echartOption;
+        const options = this.props.options;
         return (
-            /*            <div>
-             <div className="chart-canvas"
-             id="chart-canvas"
-             style={{
-             width: canvasWidth,
-             height: "300px" ,
-             }}
-             />
-             <div className="chart-legend" />
-             </div>*/
             <div>
                 <ReactEcharts
-                    option={option}
+                    option={options}
                     style={canvasSize}
-                    className="react_for_echarts"
                 />
-
             </div>
 
         )

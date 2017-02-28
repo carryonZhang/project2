@@ -1,2 +1,3 @@
 
-export const CHART_INIT = "CHART_INIT";
+export const LEGEND_CHANGE = "LEGEND_CHANGE";
+export const GRID_INITIAL = "GRID_INITIAL";

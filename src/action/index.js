@@ -1,9 +1,14 @@
 
-import {CHART_INIT} from "../constants"
+import {LEGEND_CHANGE, GRID_INITIAL} from "../constants"
 
-export const chartInit = (details) => ({
-    type: CHART_INIT,
-    details
+export const legendChange = (itemInfo) => ({
+    type: LEGEND_CHANGE,
+    itemInfo
+});
+
+export const gridInitial = (options) => ({
+    type: GRID_INITIAL,
+    options
 });
 
 /*export const login = (formData) => {

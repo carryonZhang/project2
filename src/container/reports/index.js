@@ -1,16 +1,23 @@
 import {connect} from "react-redux"
 import ReportWrapper from "../../components/reports"
-import * as action from "../../action"
+import {legendChange, gridInitial} from "../../action"
+import {LEGEND_CHANGE, GRID_INITIAL} from "../../constants"
 
 const mapStateToProps = (state) => ({
-    details: state,
-    legends: state,
+    options: state.reports,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onLegendChange: () => {
-        dispatch(action.chartInit)
-    }
+    onLegendChange: (type, itemInfo) => {
+        if(type === LEGEND_CHANGE) {
+            dispatch(legendChange(itemInfo))
+        }
+    },
+    /*onGridInitial: (type, options) =>{
+        if(type === GRID_INITIAL) {
+            dispatch(gridInitial())
+        }
+    }*/
 });
 /*
  App.propsType = {

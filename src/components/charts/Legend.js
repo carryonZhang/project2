@@ -1,34 +1,28 @@
 import React, {Component} from "react"
-import LegendItem from "./LegendItem"
+import Label from "./Label"
 import styles from "./style.css"
 
-class Legend extends Component {
+function Legend({legendSelected, onLegendChange}) {
 
-    constructor(props) {
-        super(props);
-
-        const legendSelected = this.props.legend.selected;
-        const legendData = this.props.legend.data;
-        this.state = {
-            selected: legendSelected,
-            data: legendData
+    const labels = [];
+    for (let item in legendSelected) {
+        if (legendSelected.hasOwnProperty(item)) {
+            const selected = legendSelected[item];
+            labels.push(
+                (<Label text={item}
+                       selected={selected}
+                       onLegendChange={onLegendChange}
+                       key={item}
+                />)
+            );
         }
     }
-    // handleSelect = this.props.hadnleSelect
-
-    getItems() {
-        return this.state.data.map((item, index) => {
-            const itemSelected = this.state.selected[item];
-            return (<LegendItem itemText={item} itemSelected={itemSelected} handleSelect={this.props.onSelected} key={`item-${index}`}/>)
-        })
-    }
-    render() {
-        return (
-            <div className={styles.chartLegend} >
-                {this.getItems()}
-            </div>
-        )
-    }
+    return (
+        <div className={styles.chartLegend}>
+            {labels}
+        </div>
+    )
 }
+
 
 export default Legend;
