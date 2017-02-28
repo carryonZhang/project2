@@ -125,6 +125,9 @@ module.exports = {
         ];
     },
     plugins: [
+        new webpack.DefinePlugin(Object.assign({}, env.stringified, {
+            '__CDN_JS__': `"${CDN_JS}"`
+        })),
         new webpack.optimize.CommonsChunkPlugin({
             name: chunkFilename,
             filename: 'static/js/' + chunkFilename
@@ -147,7 +150,6 @@ module.exports = {
                 minifyURLs: true
             }
         }),
-        new webpack.DefinePlugin(env.stringified),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
         // Minify the code.
