@@ -11,7 +11,7 @@ class ChartWrapper extends Component {
         this.triggerRender = this.triggerRender.bind(this);
         this.state = {
             // todo
-            reportDetails: this.props.details,
+            details: this.props.details,
             echartOption: {}
 
         }

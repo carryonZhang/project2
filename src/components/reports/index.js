@@ -1,17 +1,14 @@
-import React, {Component, PropTypes} from 'react';
 
+import React, {Component, PropTypes} from 'react';
 import ChartWrapper from "../charts"
 import DataForm from "../dataform"
 import DataTable from "../datatable"
 
-function ReportWrapper({details, legends, searchConditions, onSearch, onExport, onLegendChange}) {
+function ReportWrapper({details, legends, onSearch, onExport, onLegendChange}) {
     return (
         <div>
             <DataForm />
-
-            <button onClick={e => onSearch(searchConditions)}>click me</button>
-
-            <ChartWrapper />
+            <ChartWrapper details={details} legends={legends} onLegendChange={onLegendChange}/>
             <DataTable />
         </div>
     )
@@ -26,7 +23,7 @@ function ReportWrapper({details, legends, searchConditions, onSearch, onExport, 
 
 export default ReportWrapper;
 
-var Details =
+var Details=
     {
         "axisXLabel": "日期",
         "axisYLabel": "无线订单数;总订单数;外卖订单数;微信订单数;支付宝单数;app订单数;点菜数;无线订单比例;总支付笔数;微信支付笔数;支付宝支付笔数;应收金额;实收金额;微信支付金额;支付宝支付金额;微信下单金额;app下单金额;支付宝下单金额;店铺总数;4.0店铺总数;4.0店铺比例;4.0活跃店铺数;4.0店铺活跃比例;微信下单活跃店铺;支付宝下单活跃店铺;微信支付活跃店铺;支付宝支付活跃店铺;总会员;活跃会员;会员活跃率",
