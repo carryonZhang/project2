@@ -7,10 +7,13 @@ var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeMod
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
 
-
 var publicPath = '/';
 var publicUrl = '';
 var env = getClientEnvironment(publicUrl);
+
+var CDN_JS = process.env.CDN_JS_URL || '';
+var CDN_CSS = process.env.CDN_CSS_URL || '';
+var CDN_IMG = process.env.CDN_IMG_URL || '';
 
 module.exports = {
     devtool: 'cheap-module-source-map',
@@ -76,7 +79,6 @@ module.exports = {
                 loader: 'style!css?modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]!postcss',
                 exclude: /node_modules/
             },
-            // antd 的 require 会与 CSS Module 冲突，因此要额外做 loader
             {
                 test: /\.less$/,
                 loader: 'style!css!postcss!less?{modifyVars:{"@primary-color":"#d52632"}}',
@@ -94,6 +96,11 @@ module.exports = {
                 }
             }
         ]
+    },
+
+    externals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM'
     },
 
     // We use PostCSS for autoprefixing only.
@@ -116,8 +123,9 @@ module.exports = {
         // In development, this will be an empty string.
         new InterpolateHtmlPlugin(env.raw),
         new HtmlWebpackPlugin({
-            inject: true,
+            inject: false,
             template: paths.appHtml,
+            prefix: {CDN_JS, CDN_CSS},
         }),
         new webpack.DefinePlugin(env.stringified),
         new webpack.HotModuleReplacementPlugin(),

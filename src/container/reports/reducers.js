@@ -1,7 +1,7 @@
 import {CHART_INIT} from "../../constants"
 
 
-const legendChange = (state = {}, action) => {
+export const legendChange = (state = {}, action) => {
     switch (action.type) {
         case CHART_INIT:
             return action.details;
@@ -9,5 +9,3 @@ const legendChange = (state = {}, action) => {
             return state;
     }
 };
-
-export default chartInitialReducer;
