@@ -1,0 +1,6 @@
+app_language=html5
+app_container=nginx
+app_packagetype=nodejs
+app_needpublishbuild=true
+
+

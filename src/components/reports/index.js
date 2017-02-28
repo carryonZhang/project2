@@ -5,11 +5,6 @@ import DataForm from "../dataform"
 import DataTable from "../datatable"
 
 function ReportWrapper({details, legends, onSearch, onExport, onLegendChange}) {
-
-    /*onChartInit() {
-        // this.props.OnChartInit();
-        console.log("chart init");
-    }*/
     return (
         <div>
             <DataForm />
