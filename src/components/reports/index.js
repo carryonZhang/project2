@@ -1,6 +1,5 @@
 
 import React, {Component, PropTypes} from 'react';
-
 import ChartWrapper from "../charts"
 import DataForm from "../dataform"
 import DataTable from "../datatable"
@@ -14,12 +13,7 @@ function ReportWrapper({details, legends, onSearch, onExport, onLegendChange}) {
     return (
         <div>
             <DataForm />
-
-            <button onClick={
-                onChartInit(Details)
-            }>click me</button>
-
-            <ChartWrapper />
+            <ChartWrapper details={details} legends={legends} onLegendChange={onLegendChange}/>
             <DataTable />
         </div>
     )

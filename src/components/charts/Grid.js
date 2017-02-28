@@ -7,7 +7,7 @@ class Grid extends Component {
         super(props);
         this.state = {
             canvasSize: this.getCanvasSize(),
-            echartOption: this.props.option,
+            echartOption: this.props.details,
         }
     }
 
