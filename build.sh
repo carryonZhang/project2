@@ -26,6 +26,12 @@ case "$1" in
               CDN_CSS_URL=//csscdn.2dfire.com/${REMOTE_PATH}/ \
               CDN_IMG_URL=https://imgcdn.2dfire.com/${REMOTE_PATH}/"
         ;;
+
+    *)
+        args="CDN_JS_URL=./ \
+              CDN_CSS_URL=./ \
+              CDN_IMG_URL=../../"
+        ;;
 esac
 
 npm i --registry=https://r.cnpmjs.org/

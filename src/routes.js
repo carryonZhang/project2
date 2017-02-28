@@ -1,3 +1,6 @@
+/* eslint-disable */
+__webpack_public_path__ = __CDN_JS__;
+
 import {injectAsyncReducer} from './utils/asyncInjector';
 
 export default function createRoutes(store) {
@@ -36,10 +39,3 @@ export default function createRoutes(store) {
     },
   ]
 }
-
-// 1. Reducers 别名何处定义
-// 4. 何处注册进 createStore
-
-
-// 2. 何处 import 的reducer
-// 3. 何处render component
