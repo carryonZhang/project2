@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {Table} from 'antd';
-// import {styles} from 'datatable.css';
+// import {styles} from './style.css';
 export default class DataTable extends Component {
   constructor(props){
     super(props);

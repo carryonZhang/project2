@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {Form, DatePicker, Input, Button, Col, Row, Select} from 'antd';
-import styles from './dataform.css';
+import styles from './style.css';
 
 const FormItem  = Form.Item;
 const formItemLayout = {

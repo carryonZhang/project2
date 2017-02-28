@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import styles from "./reports.css"
+import styles from "./style.css"
 import {hook} from "./images/images"
 
 export default class LegendItem extends Component {

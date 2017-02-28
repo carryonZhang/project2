@@ -1,8 +1,8 @@
 import React, {Component} from "react"
 import LegendItem from "./LegendItem"
-import styles from "./reports.css"
+import styles from "./style.css"
 
-class ChartLegend extends Component {
+class Legend extends Component {
 
     constructor(props) {
         super(props);
@@ -19,7 +19,7 @@ class ChartLegend extends Component {
     getItems() {
         return this.state.data.map((item, index) => {
             const itemSelected = this.state.selected[item];
-            return (<LegendItem itemText={item} itemSelected={itemSelected} handleSelect={this.props.handleSelect} key={`item-${index}`}/>)
+            return (<LegendItem itemText={item} itemSelected={itemSelected} handleSelect={this.props.onSelected} key={`item-${index}`}/>)
         })
     }
     render() {
@@ -31,4 +31,4 @@ class ChartLegend extends Component {
     }
 }
 
-export default ChartLegend;
+export default Legend;
