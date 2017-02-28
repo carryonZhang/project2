@@ -1,84 +1,37 @@
-import React, {Component} from "react"
-import {presentECharts, showTable} from "../utils/showChart";
 
-class ChartContent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            reportContent: reportContentJSON,
-        }
-    }
+import React, {Component, PropTypes} from 'react';
+import ChartWrapper from "../charts"
+import DataForm from "../dataform"
+import DataTable from "../datatable"
 
-    componentDidMount() {
-
-        // 显示报表
-        const reportContent = this.state.reportContent;
-
-        // 报表类型
-        let chartType = reportContent.queryType;
-        console.log(chartType);
-        // chartType = chartType.toUpperCase();
-
-        // 表格
-        if (chartType === "TABULAR") {
-
-            // 显示chart-table
-
-            // 隐藏chart-panel
-
-            showTable(reportContent);
-        } else {
-            // 图表
-
-            // 显示chart-panel
-
-            // 参数： chartType, data
-            presentECharts(chartType, reportContent);
-
-            if (chartType.indexOf("_DATA") > 0) {
-                // 显示chart-table
-
-                showTable(reportContent);
-            } else {
-                // 隐藏chart-table
-
-            }
-        }
-    }
-
-    render() {
-        // 设置chart canvas 宽高
-        const clientWidth = document.documentElement.clientWidth;
-        const clientHeight = document.documentElement.clientHeight;
-        const canvasWidth = clientWidth - 12;
-
-        return (
-            // todo 动态宽高
-            <div className="chart-canvas"
-                 id="chart-canvas"
-                 style={{
-                     width: canvasWidth,
-                     height: canvasWidth * 3 / 5,
-                     position: "relative",
-                 }}
-            />
-        )
-    }
+function ReportWrapper({details, legends, onSearch, onExport, onLegendChange}) {
+    return (
+        <div>
+            <DataForm />
+            <ChartWrapper details={details} legends={legends} onLegendChange={onLegendChange}/>
+            <DataTable />
+        </div>
+    )
 }
 
-export default ChartContent;
+/*
+ App.propsType = {
+ current: PropTypes.string.isRequired,
+ onClickCounter: PropTypes.func
+ };
+ */
 
-var reportContentJSON =
+export default ReportWrapper;
+
+var Details=
     {
+        "axisXLabel": "日期",
+        "axisYLabel": "无线订单数;总订单数;外卖订单数;微信订单数;支付宝单数;app订单数;点菜数;无线订单比例;总支付笔数;微信支付笔数;支付宝支付笔数;应收金额;实收金额;微信支付金额;支付宝支付金额;微信下单金额;app下单金额;支付宝下单金额;店铺总数;4.0店铺总数;4.0店铺比例;4.0活跃店铺数;4.0店铺活跃比例;微信下单活跃店铺;支付宝下单活跃店铺;微信支付活跃店铺;支付宝支付活跃店铺;总会员;活跃会员;会员活跃率",
 
-        "graphEntity": {
-            "xAxisLabel": "日期",
-            "yAxisLabel": "无线订单数;总订单数;外卖订单数;微信订单数;支付宝单数;app订单数;点菜数;无线订单比例;总支付笔数;微信支付笔数;支付宝支付笔数;应收金额;实收金额;微信支付金额;支付宝支付金额;微信下单金额;app下单金额;支付宝下单金额;店铺总数;4.0店铺总数;4.0店铺比例;4.0活跃店铺数;4.0店铺活跃比例;微信下单活跃店铺;支付宝下单活跃店铺;微信支付活跃店铺;支付宝支付活跃店铺;总会员;活跃会员;会员活跃率"
-        },
         // 可能的值： TABULAR vs {_DATA, _LINE, _PIE, _BAR}
-        "queryType": "___LINE",
+        "reportType": "___LINE",
 
-        "keys": [
+        "columns": [
             "日期",
             "无线订单数",
             "总订单数",
@@ -112,7 +65,7 @@ var reportContentJSON =
             "会员活跃率",
             "update_time"
         ],
-        "maps": [
+        "rows": [
             {
                 "支付宝支付活跃店铺": 2785,
                 "4.0店铺活跃比例": 18463,
@@ -5759,5 +5712,4 @@ var reportContentJSON =
             }
         ]
     };
-
 
