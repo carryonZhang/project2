@@ -9,6 +9,8 @@ import createRoutes from './routes';
 
 import App from './container/app';
 
+import { formInit } from './action';
+
 import './global.css';
 
 const initialState = {};
@@ -21,15 +23,18 @@ const rootRoute = {
 
 // 全局 API 配置
 nattyFetch.setGlobal({
-  withCredentials: false,
+  withCredentials: true,
   fit: (res) => {
+    debugger
     return {
-      success: !res.errors || res.errors.length === 0,
-      content: res.content,
-      error: res.errors && res.errors[0]
+      success: res.code && res.code == 1,
+      content: res.data,
+      error: {message: res.message}
     }
   }
 });
+
+store.dispatch(formInit())
 
 render(
   <Provider store={store}>
