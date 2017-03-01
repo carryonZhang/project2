@@ -26,8 +26,6 @@ export const formInit = (querys) => {
             console.log(err);
         });
     }
-
-
 };
 /*export const login = (formData) => {
     return (dispatch) => {
