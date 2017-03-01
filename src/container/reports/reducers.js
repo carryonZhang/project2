@@ -5711,7 +5711,7 @@ function getOption(details) {
     let series = [];
 
     // todo
-    const seriesItemType = "line";
+    const seriesItemType = "bar";
 
     legendData.forEach((legendName, index) => {
         // TODO 默认选中第一项
@@ -5741,14 +5741,15 @@ function getOption(details) {
     //四舍五入
     interval = Math.round(interval);
 
-    let option = {
+    return {
         grid: {
             show: false,
-            left: '5%',
+            left: '1%',
             right: "5%",
-            top: '5%',
-            // bottom: "5%",
-            height: "70%",
+            top: '2%',
+            bottom: "2%",
+            // width: "80%",
+            height: "80%",
             containLabel: true
         },
         // 设备背影色为白色, 透明度:0.1
@@ -5762,11 +5763,6 @@ function getOption(details) {
             show: false,
             selected: legendSelected,
             data: legendData,
-            // left: "5%",
-            // right: "5%",
-            // // top: "0%",
-            // bottom: "0%",
-            // height: "30%"
         },
         xAxis: {
             data: xData,
@@ -5784,10 +5780,11 @@ function getOption(details) {
                 }
             }
         },
-        series: series
+        series: series,
+        color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3']
     };
 
-    return option;
+
 }
 const initialState = getOption(Details);
 
@@ -5797,10 +5794,8 @@ const chartRender= (state = initialState, action) => {
             // todo
             const newOption = Object.assign({}, state);
             Object.assign(newOption.legend.selected, action.itemInfo);
-            console.log("temp", newOption);
             return newOption;
-            /*console.log(state)
-            return state;*/
+
         default:
             return state
     }

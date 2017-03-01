@@ -13,11 +13,6 @@ const mapDispatchToProps = (dispatch) => ({
             dispatch(legendChange(itemInfo))
         }
     },
-    /*onGridInitial: (type, options) =>{
-        if(type === GRID_INITIAL) {
-            dispatch(gridInitial())
-        }
-    }*/
 });
 /*
  App.propsType = {

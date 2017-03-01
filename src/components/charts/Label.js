@@ -30,15 +30,23 @@ class Label extends Component {
 
     render() {
         const selected = this.state.selected;
+        const currColor = this.props.color;
         return (
-            <span className="legendItem">
+            <span
+                className={styles.label}
+                onClick={this.handleClick}
+            >
                 <span
-                    className={selected ? styles.legendItem : styles.legendItemDisabled}
-                    style={{border: "2px solid #ccc"}} onClick={this.handleClick}
+                    className={selected ? styles.labelIcon : styles.deselected}
+                    style={selected ? {backgroundColor: currColor} : {backgroundColor: "transparent"}}
+
+                />
+                <span
+                    className={styles.labelText}
                 >
                     {this.props.text}
                 </span>
-                <img src={hook} alt="" className="itemImg"/>
+
             </span>
         )
     }

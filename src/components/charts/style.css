@@ -26,15 +26,68 @@
 }
 
 .chartLegend {
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
-.legendItem {
-    background-color: green;
+.label{
+    /*display: inline-block;*/
+    width: 11px;
+    height: 12px;
+    padding: 2px;
+    margin: 2px 4px;
+    font-size: 12px;
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+    /*white-space: nowrap;*/
+    cursor: pointer;
 }
 
-.legendItemDisabled {
+.labelText {
+    margin-left: 1px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 1;
+    /*border: 2px solid #ccc;*/
+}
+.labelIcon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    padding: 1px;
+    /*font-size: 75%;*/
+    /*font-weight: bold;*/
+    line-height: 1;
+    /*text-align: center;*/
+
+    vertical-align: middle;
+    border-radius: .25em;
+
+
     background-color: red;
+}
+
+.labelIcon::before {
+    content: url("./images/hook.png");
+    position: relative;
+    top: -10%;
+    left: 10%;
+}
+
+
+.deselected {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    padding: 1px;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: .25em;
+    border: 2px solid #ccc;
 }
 
 .disabled {
