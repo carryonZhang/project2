@@ -1,16 +1,18 @@
+import nattyFetch from "natty-fetch";
 
-import nattyFetch from "natty-fetch"
 
-const apiContext = nattyFetch.context({
-    urlPrefix: "/test/",
+const reportsApi = nattyFetch.context({
+  mock: true,
+  urlPrefix: "/test/",
+  mockUrlPrefix: 'http://mock.2dfire-daily.com/mock-serverapi/mockjsdata/'
 });
 
-apiContext.create({
-    "login": {
-        url: "login",
-        mockUrl: "133/always",
-        method: "post"
-    }
+reportsApi.create({
+  'getQueryArgs': {
+    url: "login",
+    mockUrl: "127/report/queryArgs.json",
+    method: "post"
+  }
 });
 
-export default apiContext.api;
+export default reportsApi.api;

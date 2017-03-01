@@ -3,8 +3,10 @@ import ReportWrapper from "../../components/reports"
 import {legendChange, gridInitial} from "../../action"
 import {LEGEND_CHANGE, GRID_INITIAL} from "../../constants"
 
+
 const mapStateToProps = (state) => ({
     options: state.reports,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
