@@ -1,5 +1,5 @@
 
-import {LEGEND_CHANGE, GRID_INITIAL} from "../constants"
+import {LEGEND_CHANGE, GRID_INITIAL, FORM_INIT} from "../constants"
 
 import reportsApi from "../api"
 
@@ -14,12 +14,12 @@ export const gridInitial = (options) => ({
     options
 });
 
-export const formInit = (querys) => {
+export const formInit = (reportId) => {
     return (dispatch) => {
-        reportsApi.getQueryArgs({}).then((res) => {
+        reportsApi.getQueryArgs({a:''}).then((res) => {
             console.log(res);
             dispatch({
-              type: FORM_QUERY_ARGS,
+              type: FORM_INIT,
               payload: res
             })
         }, (err) => {

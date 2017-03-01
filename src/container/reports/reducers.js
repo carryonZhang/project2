@@ -5788,6 +5788,8 @@ function getOption(details) {
 }
 const initialState = getOption(Details);
 
+
+
 const chartRender= (state = initialState, action) => {
     switch (action.type) {
         case LEGEND_CHANGE:
