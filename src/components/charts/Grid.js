@@ -26,7 +26,6 @@ class Grid extends Component {
     componentDidMount() {
         const self = this;
         window.onresize = function () {
-            console.log("resize");
             self.resizeReset();
         };
         /*// 显示报表
@@ -69,11 +68,11 @@ class Grid extends Component {
 
     render() {
         const canvasSize = this.state.canvasSize;
-        const options = this.props.options;
+        console.log(this.props.options);
         return (
             <div>
                 <ReactEcharts
-                    option={options}
+                    option={this.props.options}
                     style={canvasSize}
                 />
             </div>
