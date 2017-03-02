@@ -1,7 +1,8 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import ChartWrapper from "../charts"
 import DataForm from "../dataform"
 import DataTable from "../datatable"
+import * as action from '../../action';
 
 // 报表详情接口：
 const DETAILS = {
@@ -35,7 +36,7 @@ legendData.forEach((legendName, index) => {
 });
 
 /*// legendData, legendSelected, title, seriesItemType 进行初始化
-/!*const detailsOption = {
+ /!*const detailsOption = {
  title: DETAILS.data.name,
  legend: {
  data: legendData,
@@ -44,7 +45,7 @@ legendData.forEach((legendName, index) => {
  series: series
  };*!/
 
-/!*const initialOption = this.state.options;
+ /!*const initialOption = this.state.options;
 
 
  this.setState(Object.assgin({}, initialOption, detailsOption));*!/*/
@@ -90,6 +91,10 @@ class ReportWrapper extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.dispatch(action.formInit());
+    }
+
     render() {
 
         // data 进来之后 以及 legendChange 应在此合并
@@ -100,7 +105,7 @@ class ReportWrapper extends Component {
         console.log("component option", options);
         return (
             <div>
-                {/*<DataForm />*/}
+                <DataForm />
                 <ChartWrapper options={options}/>
                 {/*onLegendChange={onLegendChange}*/}
                 {/*<DataTable />*/}
