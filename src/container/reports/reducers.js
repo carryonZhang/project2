@@ -1,5 +1,4 @@
-import {LEGEND_CHANGE, GRID_INITIAL} from "../../constants"
-import {combineReducers} from "redux";
+import {LEGEND_CHANGE} from "../../constants";
 
 // 报表数据接口
 const DATA=

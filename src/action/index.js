@@ -1,7 +1,10 @@
+import {
+    LEGEND_CHANGE,
+    GRID_INITIAL,
+    FORM_INIT
+} from '../constants';
 
-import {LEGEND_CHANGE, GRID_INITIAL, FORM_INIT} from "../constants"
-
-import reportsApi from "../api"
+import reportsApi from '../api';
 
 
 export const legendChange = (itemInfo) => ({
@@ -16,31 +19,17 @@ export const gridInitial = (options) => ({
 
 export const formInit = (reportId) => {
     return (dispatch) => {
-        reportsApi.getQueryArgs({a:''}).then((res) => {
+        reportsApi.getQueryArgs({reportId: 1}).then((res) => {
+
+            debugger
             console.log(res);
             dispatch({
-              type: FORM_INIT,
-              payload: res
+                type: FORM_INIT,
+                payload: res
             })
         }, (err) => {
             console.log(err);
+            debugger
         });
     }
 };
-/*export const login = (formData) => {
-    return (dispatch) => {
-        const {username, passward, remember} = formData;
-
-        api.login({
-            username: username,
-            passward,
-            remember
-        }).then(res => {
-        //    resolve
-        }, err => {
-        //    reject
-        })
-    }
-}*/
-
-
