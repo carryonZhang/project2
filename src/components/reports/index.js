@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import ChartWrapper from "../charts"
 import DataForm from "../dataform"
 import DataTable from "../datatable"
-import * as action from '../../action';
 
+import * as action from '../../action';
 // 报表详情接口：
 const DETAILS = {
     data: {
@@ -54,42 +54,44 @@ class ReportWrapper extends Component {
     constructor(props) {
         super(props);
         // option state 中应该是适用于所有图表类型的配置
-        this.state = {
-            options: {
-                // title: DETAILS.data.name,
-                grid: {
-                    show: false,
-                    left: '1%',
-                    right: "5%",
-                    top: '2%',
-                    bottom: "2%",
-                    // width: "80%",
-                    height: "80%",
-                    containLabel: true
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                toolbox: {
-                    show: true
-                },
-                xAxis: {
-                    type: "category",
-                },
-                yAxis: {
-                    type: "value"
-                },
-                legend: {
-                    show: false,
-                    selected: legendSelected,
-                    data: legendData,
-                },
-                series: series,
-                color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3']
+        const detailsOption = {
+            // title: DETAILS.data.name,
+            grid: {
+                show: false,
+                left: '1%',
+                right: "5%",
+                top: '2%',
+                bottom: "2%",
+                // width: "80%",
+                height: "80%",
+                containLabel: true
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            toolbox: {
+                show: true
+            },
+            xAxis: {
+                type: "category",
+            },
+            yAxis: {
+                type: "value"
+            },
+            legend: {
+                show: false,
+                selected: legendSelected,
+                data: legendData,
+            },
+            series: series,
+            color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3']
 
-            }
+        };
+        this.state = {
+            option: detailsOption
         }
     }
+
 
     componentDidMount() {
         this.props.dispatch(action.formInit());
@@ -98,15 +100,20 @@ class ReportWrapper extends Component {
     render() {
 
         // data 进来之后 以及 legendChange 应在此合并
-        const options = this.state.options;
+        const dataOption = this.props.option;
+        console.log("dataOption", dataOption)
+        const option = Object.assign({}, dataOption, this.state.option);
+        console.log("component option", option);
+
         const onLegendChange = this.props.options;
         const onSearch = this.props.onSearch;
         const onExport = this.props.onExport;
-        console.log("component option", options);
+
         return (
             <div>
+
                 <DataForm />
-                <ChartWrapper options={options}/>
+                <ChartWrapper options={option}/>
                 {/*onLegendChange={onLegendChange}*/}
                 {/*<DataTable />*/}
             </div>

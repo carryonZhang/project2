@@ -5,7 +5,7 @@ import {LEGEND_CHANGE, GRID_INITIAL} from "../../constants"
 
 
 const mapStateToProps = (state) => ({
-    options: state.reports,
+    option: state.reports
 });
 
 const mapDispatchToProps = (dispatch) => ({

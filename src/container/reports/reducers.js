@@ -3,12 +3,6 @@ import {LEGEND_CHANGE} from "../../constants";
 // 报表数据接口
 const DATA=
     {
-        // "axisXLabel": "日期",
-        // "axisYLabel": "无线订单数;总订单数;外卖订单数;微信订单数;支付宝单数;app订单数;点菜数;无线订单比例;总支付笔数;微信支付笔数;支付宝支付笔数;应收金额;实收金额;微信支付金额;支付宝支付金额;微信下单金额;app下单金额;支付宝下单金额;店铺总数;4.0店铺总数;4.0店铺比例;4.0活跃店铺数;4.0店铺活跃比例;微信下单活跃店铺;支付宝下单活跃店铺;微信支付活跃店铺;支付宝支付活跃店铺;总会员;活跃会员;会员活跃率",
-
-        // 可能的值： TABULAR vs {_DATA, _LINE, _PIE, _BAR}
-        // "reportType": "___LINE",
-
         data: {
             "columns": [
                 "日期",
@@ -5733,44 +5727,20 @@ function getOption(details) {
     interval = Math.round(interval);
 
     return {
-        /*grid: {
-            show: false,
-            left: '1%',
-            right: "5%",
-            top: '2%',
-            bottom: "2%",
-            // width: "80%",
-            height: "80%",
-            containLabel: true
-        },*/
-        // 设备背影色为白色, 透明度:0.1
-        // tooltip: {
-        //     trigger: 'axis'
-        // },
-        // toolbox: {
-        //     show: true
-        // },
-        legend: {
-            // show: false,
-            // selected: legendSelected,
-            // data: legendData,
-        },
         xAxis: {
             data: xData,
             axisLabel: {
                 interval: interval,
-                /*45度角倾斜显示*/
                 rotate: 45
             }
         },
-        yAxis: {
-            //min: 'dataMin', /*将数据最小值作为开始值*/
+       /* yAxis: {
             axisLabel: {
                 formatter: function (value) {
                     return value
                 }
             }
-        },
+        },*/
         series: series,
     };
 
@@ -5783,7 +5753,6 @@ const initialState = getOption(DATA);
 const chartRender= (state = initialState, action) => {
     switch (action.type) {
         case LEGEND_CHANGE:
-            // todo
             const newOption = Object.assign({}, state);
             Object.assign(newOption.legend.selected, action.itemInfo);
             return newOption;
