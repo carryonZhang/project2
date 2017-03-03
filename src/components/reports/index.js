@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import ChartWrapper from "../charts"
+import Grid from "../charts/Grid"
+import Legend from '../charts/Legend'
 import DataForm from "../dataform"
 import DataTable from "../datatable"
 
@@ -16,24 +18,6 @@ const DETAILS = {
     record: 66
 };
 
-//  legend
-const labels = DETAILS.data.axisYLabel;
-let legendData = labels.split(";");
-let legendSelected = {};
-
-// series
-let series = [];
-const seriesItemType = DETAILS.data.reportType;
-
-legendData.forEach((legendName, index) => {
-    // 默认选中第一项
-    legendSelected[legendName] = index === 0;
-
-    let seriesItem = {};
-    seriesItem.name = legendName;
-    seriesItem.type = seriesItemType;
-    series.push(seriesItem);
-});
 
 /*// legendData, legendSelected, title, seriesItemType 进行初始化
  /!*const detailsOption = {
@@ -53,69 +37,38 @@ legendData.forEach((legendName, index) => {
 class ReportWrapper extends Component {
     constructor(props) {
         super(props);
-        // option state 中应该是适用于所有图表类型的配置
-        const detailsOption = {
-            // title: DETAILS.data.name,
-            grid: {
-                show: false,
-                left: '1%',
-                right: "5%",
-                top: '2%',
-                bottom: "2%",
-                // width: "80%",
-                height: "80%",
-                containLabel: true
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            toolbox: {
-                show: true
-            },
-            xAxis: {
-                type: "category",
-            },
-            yAxis: {
-                type: "value"
-            },
-            legend: {
-                show: false,
-                selected: legendSelected,
-                data: legendData,
-            },
-            series: series,
-            color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3']
-
-        };
+        // console.log(this.props.option.chartInit)
         this.state = {
-            option: detailsOption
+            option: this.props.option.chartInit
         }
     }
-
-
     componentDidMount() {
-        this.props.dispatch(action.formInit());
-    }
+        // this.props.dispatch(action.formInit());
+        this.props.dispatch(action.fetchChartDetails());
 
-    render() {
-
-        // data 进来之后 以及 legendChange 应在此合并
-        const dataOption = this.props.option;
-        console.log("dataOption", dataOption)
-        const option = Object.assign({}, dataOption, this.state.option);
-        console.log("component option", option);
+        // const option = Object.assign({}, dataOption, this.state.option);
+        // console.log("component option", option);
 
         const onLegendChange = this.props.options;
         const onSearch = this.props.onSearch;
         const onExport = this.props.onExport;
+    }
 
+    render() {
+        // console.log(this.props.option.chartInit)
+        const option = Object.assign({}, this.state.option, this.props.option.chartInit);
+        // console.log(option);
         return (
             <div>
-
                 <DataForm />
-                <ChartWrapper options={option}/>
-                {/*onLegendChange={onLegendChange}*/}
-                {/*<DataTable />*/}
+                <Grid option={option}/>
+                {
+                    option.legend ?
+                        <Legend legendSelected={option.legend.selected}/> :
+                        ""
+                }
+                onLegendChange={onLegendChange}
+                <DataTable />
             </div>
         )
     }

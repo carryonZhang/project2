@@ -1,6 +1,6 @@
 import {
     LEGEND_CHANGE,
-    GRID_INITIAL,
+    CHART_INIT,
     FORM_INIT
 } from '../constants';
 
@@ -12,16 +12,11 @@ export const legendChange = (itemInfo) => ({
     itemInfo
 });
 
-export const gridInitial = (options) => ({
-    type: GRID_INITIAL,
-    options
-});
 
 export const formInit = (reportId) => {
     return (dispatch) => {
         reportsApi.getQueryArgs({reportId: 1}).then((res) => {
 
-            debugger
             console.log(res);
             dispatch({
                 type: FORM_INIT,
@@ -33,3 +28,23 @@ export const formInit = (reportId) => {
         });
     }
 };
+
+export const fetchChartDetails = (reportId) => {
+    return (dispatch) => {
+        reportsApi.getChartDetails({reportId: 1}).then(
+            (res) => {
+                // console.log(res);
+                dispatch({
+                    type: CHART_INIT,
+                    payload: res
+                })
+            },
+            (err) => {
+                // console.log(err);
+                debugger;
+            }
+        );
+    }
+};
+
+

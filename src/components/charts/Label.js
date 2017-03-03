@@ -25,7 +25,7 @@ class Label extends Component {
         const itemInfo = {};
         itemInfo[item] = selected;
         console.log("itemInfo", itemInfo)
-        this.props.onLegendChange(LEGEND_CHANGE, itemInfo);
+        // this.props.onLegendChange(LEGEND_CHANGE, itemInfo);
     }
 
     render() {

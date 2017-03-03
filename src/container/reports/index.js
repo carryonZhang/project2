@@ -4,9 +4,15 @@ import {legendChange} from "../../action"
 import {LEGEND_CHANGE, GRID_INITIAL} from "../../constants"
 
 
-const mapStateToProps = (state) => ({
-    option: state.reports
-});
+const mapStateToProps = (state) => {
+    // debugger;
+    return {
+        option: state.reports
+    };
+}
+
+
+
 
 const mapDispatchToProps = (dispatch) => ({
     dispatch,

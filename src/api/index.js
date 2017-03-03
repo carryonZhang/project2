@@ -20,6 +20,12 @@ apiContext.create({
         url: 'queryArgs.json',
         mockUrl: '127/report/queryArgs.json',
         method: 'post'
+    },
+    'getChartDetails': {
+        mock: true,
+        url: 'details',
+        mockUrl: '127/report/details.json',
+        method: 'post'
     }
 });
 

@@ -1,7 +1,90 @@
-import {LEGEND_CHANGE} from "../../constants";
+import {LEGEND_CHANGE, CHART_INIT} from "../../constants";
+import {combineReducers} from "redux";
+
+const staticOpt = {
+    color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
+    grid: {
+        show: false,
+        left: '1%',
+        right: "5%",
+        top: '2%',
+        bottom: "2%",
+        // width: "80%",
+        height: "80%",
+        containLabel: true
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    toolbox: {
+        show: true
+    },
+    xAxis: {
+        type: "category",
+    },
+    yAxis: {
+        type: "value"
+    },
+};
+
+const legendChange = (state = staticOpt, action) => {
+    switch (action.type) {
+
+        case LEGEND_CHANGE:
+            const newOption = Object.assign({}, state);
+            Object.assign(newOption.legend.selected, action.itemInfo);
+            return newOption;
+        default:
+            return state
+    }
+};
+
+const chartInit = ( staticOption = staticOpt, action) => {
+    switch (action.type) {
+        case CHART_INIT:
+            const DETAILS = action.payload;
+            // console.log(action.payload);
+            //  legend
+            const labels = DETAILS.axisYLabel; //data
+            let legendData = labels.split(";");
+            let legendSelected = {};
+            // series
+            let series = [];
+            const seriesItemType = DETAILS.reportType.toLowerCase(); //data
+            console.log("type", seriesItemType);
+
+            legendData.forEach((legendName, index) => {
+                // 默认选中第一项
+                legendSelected[legendName] = index === 0;
+                let seriesItem = {};
+                seriesItem.name = legendName;
+                seriesItem.type = seriesItemType;
+                series.push(seriesItem);
+            });
+
+            const detailsOption = {
+                legend: {
+                    data: legendData,
+                    selected: legendSelected
+                },
+                series: series
+            };
+            // console.log( Object.assign({}, staticOption, detailsOption));
+            return Object.assign({}, staticOption, detailsOption);
+
+        default:
+            return staticOption;
+    }
+};
+
+const reportApp = combineReducers({
+    legendChange,
+    chartInit,
+});
+export default reportApp;
 
 // 报表数据接口
-const DATA=
+const DATA =
     {
         data: {
             "columns": [
@@ -5699,14 +5782,14 @@ function getOption(details) {
     // 动态legendSelected， 灌入seriesItemData,
     legendData.forEach((legendName, index) => {
         /*// TODO 默认选中第一项
-        if (index === 0) {
-            legendSelected[legendName] = true;
-        } else {
-            legendSelected[legendName] = false;
-        }*/
+         if (index === 0) {
+         legendSelected[legendName] = true;
+         } else {
+         legendSelected[legendName] = false;
+         }*/
         let seriesItem = {};
         /*seriesItem.name = legendName;
-        seriesItem.type = seriesItemType;*/
+         seriesItem.type = seriesItemType;*/
         seriesItem.data = dailyData.map((daily) => {
             return daily[legendName];
         });
@@ -5734,33 +5817,16 @@ function getOption(details) {
                 rotate: 45
             }
         },
-       /* yAxis: {
-            axisLabel: {
-                formatter: function (value) {
-                    return value
-                }
-            }
-        },*/
+        /* yAxis: {
+         axisLabel: {
+         formatter: function (value) {
+         return value
+         }
+         }
+         },*/
         series: series,
     };
 
 
 }
 const initialState = getOption(DATA);
-
-
-
-const chartRender= (state = initialState, action) => {
-    switch (action.type) {
-        case LEGEND_CHANGE:
-            const newOption = Object.assign({}, state);
-            Object.assign(newOption.legend.selected, action.itemInfo);
-            return newOption;
-
-        default:
-            return state
-    }
-};
-
-
-export default chartRender;
