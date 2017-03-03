@@ -20,8 +20,6 @@ export const gridInitial = (options) => ({
 export const formInit = (reportId) => {
     return (dispatch) => {
         reportsApi.getQueryArgs({reportId: 1}).then((res) => {
-
-            debugger
             console.log(res);
             dispatch({
                 type: FORM_INIT,
@@ -29,7 +27,6 @@ export const formInit = (reportId) => {
             })
         }, (err) => {
             console.log(err);
-            debugger
         });
     }
 };
