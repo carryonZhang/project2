@@ -20,6 +20,22 @@ export default function createRoutes(store) {
           render(null, container);
         });
       }
+    },
+    {
+      path: '/updown',
+      name: 'updown',
+      getComponent: (location, render) => {
+        require.ensure([
+          './container/updown/reducers',
+          './container/updown'
+        ], (require) => {
+          const container = require('./container/updown').default;
+          const reducer = require('./container/updown/reducers').default;
+
+          injectAsyncReducer(store, 'updown', reducer);
+          render(null, container);
+        });
+      }
     }
   ]
 }
