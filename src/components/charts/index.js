@@ -4,7 +4,7 @@ import Grid from "./Grid"
 import Legend from "./Legend"
 
 function ChartWrapper({options, onLegendChange}) {
-    console.log("options", options);
+    // console.log("options", options);
     return (
         <div className={styles.charts}>
             <Grid options={options}/>

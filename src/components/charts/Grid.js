@@ -68,7 +68,7 @@ class Grid extends Component {
 
     render() {
         const canvasSize = this.state.canvasSize;
-        console.log(this.props.options);
+        // console.log(this.props.options);
         return (
             <div>
                 <ReactEcharts

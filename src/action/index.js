@@ -1,7 +1,8 @@
 import {
     LEGEND_CHANGE,
     GRID_INITIAL,
-    FORM_INIT
+    FORM_INIT,
+    GET_REPORT
 } from '../constants';
 
 import reportsApi from '../api';
@@ -20,7 +21,7 @@ export const gridInitial = (options) => ({
 export const formInit = (reportId) => {
     return (dispatch) => {
         reportsApi.getQueryArgs({reportId: 1}).then((res) => {
-            console.log(res);
+            // console.log(res);
             dispatch({
                 type: FORM_INIT,
                 payload: res
@@ -30,3 +31,17 @@ export const formInit = (reportId) => {
         });
     }
 };
+
+export const getReport = (id, data) => {
+    return (dispatch) => {
+        reportsApi.getReport({reportId: id, Map: data}).then((res)=> {
+            console.log('报表查询请求返回的数据', res);
+            dispatch({
+                type: GET_REPORT,
+                report: res
+            })
+        }, (err) => {
+           console.log(err); 
+        });
+    }
+}

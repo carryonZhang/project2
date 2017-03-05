@@ -1,21 +1,21 @@
 import {connect} from "react-redux"
 import ReportWrapper from "../../components/reports"
-import {legendChange} from "../../action"
-import {LEGEND_CHANGE, GRID_INITIAL} from "../../constants"
+import * as action from '../../action'
+const mapStateToProps = (state) => {
+  // console.log('container中的state', state);
+  return {
+    conditions: state.reports.form.querys,
+    reportId: state.reports.reportId
+  }
+}
 
-
-const mapStateToProps = (state) => ({
-    option: state.reports
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    dispatch,
-    onLegendChange: (type, itemInfo) => {
-        if (type === LEGEND_CHANGE) {
-            dispatch(legendChange(itemInfo))
-        }
-    },
-});
-
+const mapDispatchToProps = (dispatch) => {
+   return {
+     dispatch,
+     onSubmit:  (id, data) => {
+       dispatch(action.getReport(id, data));
+     }
+   }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReportWrapper);
