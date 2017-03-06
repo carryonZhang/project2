@@ -1,24 +1,56 @@
 import React ,{Component} from 'react';
 import styles from './style.css';
-import { Upload, message, Button, Icon } from 'antd';
+import { message } from 'antd';
 
+import FileUpload from 'react-fileupload';
 
-const props = {
-  name: 'file',
-  action: '/upload.do',
-  headers: {
-    authorization: 'authorization-text',
-  },
-  // onChange(info) {
-  //   if (info.file.status !== 'uploading') {
-  //     console.log(info.file, info.fileList);
-  //   }
-  //   if (info.file.status === 'done') {
-  //     message.success(`${info.file.name} file uploaded successfully`);
-  //   } else if (info.file.status === 'error') {
-  //     message.error(`${info.file.name} file upload failed.`);
-  //   }
-  // },
+const options = {
+    baseUrl : 'http://localhost:3001',
+    param : {
+        category: '1',
+        // _: Date().getTime()
+    },
+    dataType : 'json',
+    wrapperDisplay : 'inline-block',
+    multiple: true,
+    numberLimit: 9,
+    accept: 'image/*',
+    chooseAndUpload : false,
+    paramAddToField : {purpose: 'save'},
+    //fileFieldName : 'file',
+    fileFieldName(file){ return file.name },
+    withCredentials: false,
+    requestHeaders: {'User-Agent': 'So Aanyip'},
+  //   beforeChoose : ()=>{
+		// return user.isAllowUpload
+  //   },
+  
+    chooseFile : function(files){
+        console.log('you choose',typeof files == 'string' ? files : files[0])
+    },
+    // beforeUpload : function(files,mill){
+    //     if(typeof files == string) return true
+    //     if(files[0].size<1024*1024*20){
+    //         files[0].mill = mill
+    //         return true
+    //     }
+    //     return false
+    // },
+    doUpload : function(files,mill){
+        console.log('you just uploaded',typeof files == 'string' ? files : files[0].name)
+    },
+    uploading : function(progress){
+        console.log('loading...',progress.loaded/progress.total+'%')
+    },
+    uploadSuccess : function(resp){
+        console.log('upload success..!')
+    },
+    uploadError : function(err){
+        console.log("错误",err.message);
+    },
+    uploadFail : function(resp){
+        console.log("失败",resp);
+    }
 };
 
 class Main extends Component {
@@ -52,22 +84,42 @@ class Main extends Component {
 		// 		</div>
 		// 		<div className={styles.export_part}></div>
 		// 	</div>
-		// )			
-		return (
+		// )
+		
+		// const form = this.props.form;			
+		// return (
 
-			<div className={styles.main_wrapper}>
-				<div className={styles.import_part}>
-					<Upload {...props}>
-						<Button>Click to Upload</Button>
-					</Upload>					
-				</div>
-				<div className={styles.export_part}></div>
-			</div>
+		// 	<div className={styles.main_wrapper}>
+		// 		<div className={styles.import_part}>
+		// 			<Form onSubmit={e => {
+		// 				e.preventDefault();
+		// 				console.log(form.getFieldsValue());
+		// 			}}>
+		// 				<FormItem>
+		// 					<input type="file" />
+		// 				</FormItem>
+		// 				<FormItem>
+		// 					<Button type="primary" htmlType="submit" className="login-form-button">
+		// 			        	Click to Upload
+		// 			        </Button>	
+		// 				</FormItem>
+		// 			</Form>			
+		// 		</div>
+		// 		<div className={styles.export_part}></div>
+		// 	</div>
+		// )
+		// 
+		return (
+			<FileUpload options={options}>
+	            <button ref="chooseBtn">choose</button>
+	            <button ref="uploadBtn">upload</button>
+	        </FileUpload>
 		)
 	}
 }
 
 export default Main;
+
 
 
 
