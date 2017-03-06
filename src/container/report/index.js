@@ -30,6 +30,10 @@ class ReportContainer extends Component {
         } = this.props;
 
         const tableData = combinedOptions.tableData;
+
+        console.log(combinedOptions.hasChart)
+        console.log(combinedOptions)
+
         return (
             <div>
                 {conditions && <WrapForm conditions={conditions} reportId={reportId} onSubmit={onSubmit}/>}

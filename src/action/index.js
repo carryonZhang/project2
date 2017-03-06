@@ -44,8 +44,11 @@ export const fetchChartsConfig = ({reportId}) => async(dispatch) => {
     try {
         let details = await api.getChartDetails({reportId});
         let data = await api.getChartData({reportId});
-        let chartsConfig = formatOptions(details, data);
 
+        console.log(details, data);
+
+        let chartsConfig = formatOptions(details, data);
+        console.log(chartsConfig)
         await dispatch(receiveChartsOptions(chartsConfig));
         await dispatch(receiveChartsLegend(chartsConfig.legend));
     } catch (error) {

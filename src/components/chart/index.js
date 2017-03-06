@@ -3,6 +3,9 @@ import Grid from "./Grid"
 import Legend from "./Legend"
 
 export default function Chart({option, onLegendChange}) {
+
+    console.log(option)
+
     return (
         <div>
             <Grid option={option}/>
