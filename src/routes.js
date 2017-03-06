@@ -10,11 +10,11 @@ export default function createRoutes(store) {
       name: 'reports',
       getComponent: (location, render) => {
         require.ensure([
-          './container/reports/reducers',
-          './container/reports'
+          './container/report/reducers',
+          './container/report'
         ], (require) => {
-          const container = require('./container/reports').default;
-          const reducer = require('./container/reports/reducers').default;
+          const container = require('./container/report').default;
+          const reducer = require('./container/report/reducers').default;
 
           injectAsyncReducer(store, 'reports', reducer);
           render(null, container);

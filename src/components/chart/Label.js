@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import styles from "./style.css"
 import {hook} from "./images/images"
-import {LEGEND_CHANGE} from "../../constants"
+
 
 
 class Label extends Component {
@@ -24,8 +24,7 @@ class Label extends Component {
         const selected = !this.state.selected;
         const itemInfo = {};
         itemInfo[item] = selected;
-        console.log("itemInfo", itemInfo)
-        // this.props.onLegendChange(LEGEND_CHANGE, itemInfo);
+        this.props.onLabelChange(itemInfo);
     }
 
     render() {

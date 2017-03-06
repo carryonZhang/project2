@@ -26,6 +26,12 @@ apiContext.create({
         url: 'details',
         mockUrl: '127/report/details.json',
         method: 'post'
+    },
+    'getChartData': {
+        mock: true,
+        url: 'chartdata',
+        mockUrl: '127/report/data.json',
+        method: "post"
     }
 });
 

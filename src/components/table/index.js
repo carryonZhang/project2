@@ -3,8 +3,8 @@
  */
 import React, {Component} from 'react';
 import {Table} from 'antd';
-// import {styles} from './style.css';
-export default class DataTable extends Component {
+
+export default class Tables extends Component {
   constructor(props){
     super(props);
     this.state =  {
@@ -45,9 +45,12 @@ export default class DataTable extends Component {
         address: `London Park no. ${i}`
       })
     }
-    return <Table columns={columns} dataSource={data} scroll={{x: 1500, y: 300}} />
+    return (
+        <Table
+            columns={columns}
+            dataSource={data}
+            scroll={{x: 1500, y: 300}}
+        />
+    )
   }
 }
-
-
-// ReactDOM.render(<Table columns="columns" dataSource={data} scroll={{x: 1500, y: 300}}></Table>, )
