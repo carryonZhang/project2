@@ -3,6 +3,7 @@
  *
  * 位于 `/src/container/App` 下的 action 是相对于全局使用，集成错误提示、弹窗等。
  */
+import api from '../api';
 
 import {
     GLOBAL_MESSAGE_ERROR,
@@ -24,6 +25,7 @@ export const globalMessageSuccess = (message) => ({
 export const globalLoading = () => ({
     type: GLOBAL_LOADING
 });
+
 export const globalLoadingHide = () => ({
     type: GLOBAL_LOADING_HIDE
 });
@@ -33,10 +35,8 @@ import {
     RECEIVE_CHARTS_OPTIONS,
     RECEIVE_CHARTS_LEGEND,
     RECEIVE_LEGEND_CHANGE
-
 } from '../constants';
 
-import api from '../api';
 import formatOptions from '../container/report/formatOptions';
 
 // fetch charts details and data
@@ -45,7 +45,7 @@ export const fetchChartsConfig = ({reportId}) => async(dispatch) => {
         let details = await api.getChartDetails({reportId});
         let data = await api.getChartData({reportId});
         let chartsConfig = formatOptions(details, data);
-        console.log(chartsConfig);
+
         await dispatch(receiveChartsOptions(chartsConfig));
         await dispatch(receiveChartsLegend(chartsConfig.legend));
     } catch (error) {
@@ -71,70 +71,36 @@ export const receiveLegendChange = (newLegendSelected) => ({
 });
 
 
-
-// export const fetchChartsInitial = (reportId) => {
-//     return (dispatch) => {
-
-// TODO async queue
-// fetch details
+import {
+    FORM_INIT,
+    GET_REPORT
+} from '../constants';
 
 
-//
-//
-//         try {
-//             const details = yield reportsApi.getChartDetails({});
-//             const data = yield reportsApi.getChartData({reportId: 1});
-//         } catch (e) {
-//
-//         }
-//
-//
-//         reportsApi.getChartDetails({reportId: 1}).then(
-//             (details) => {
-//
-//                 // fetch datt
-//                 reportsApi.getChartData({reportId: 1}).then(
-//                     (data) => {
-//
-//
-//
-//                         dispatch({
-//                             type: CHART_LOAD,
-//                             details,
-//                             data
-//                         });
-//                     },
-//                     (err) => {
-//                         debugger;
-//                     }
-//                 );
-// /*
-//                 dispatch({
-//                     type: CHART_INIT,
-//                     details
-//                 })*/
-//             },
-//             (err) => {
-//                 debugger;
-//             }
-//         );
-//     }
-// };
+export const formInit = ({reportId}) => {
+    return (dispatch) => {
+        api.getQueryArgs({reportId: reportId}).then((res) => {
+            // console.log(res);
+            dispatch({
+                type: FORM_INIT,
+                payload: res
+            })
+        }, (err) => {
+            console.log(err);
+        });
+    }
+};
 
-/*export const fetchData = (reportId) => {
- return (dispatch) => {
- reportsApi.getChartData({reportId: 1}).then(
- (res) => {
- dispatch({
- type: CHART_LOAD,
- payload: res
- });
- },
- (err) => {
- debugger;
- }
- );
- }
- };*/
-//
-
+export const getReport = (id, data) => {
+    return (dispatch) => {
+        api.getReport({reportId: id, Map: data}).then((res)=> {
+            console.log('报表查询请求返回的数据', res);
+            dispatch({
+                type: GET_REPORT,
+                report: res
+            })
+        }, (err) => {
+            console.log(err);
+        });
+    }
+};
