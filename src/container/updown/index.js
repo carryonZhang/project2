@@ -9,15 +9,15 @@ import styles from './style.css';
 import * as action from '../../action';
 
 
-const UpdownContainer = ({}) => (
+const UpdownContainer = (state) => (
 	<div className={styles.wrapper}>
-		<UpdownComponent />
+		<UpdownComponent title={state.title}/>
 	</div>
 );
 
-// const mapStateToProps = (state) => ({
-//   errorMessage: ''
-// });
+const mapStateToProps = (state) => ({
+  title: '商品导入导出'
+});
 
 // const mapDispatchToProps = (dispatch) => ({
 //   onSubmit: (formData) => {
@@ -25,4 +25,4 @@ const UpdownContainer = ({}) => (
 //   }
 // });
 
-export default connect(null,null)(UpdownContainer)
+export default connect(mapStateToProps,null)(UpdownContainer)

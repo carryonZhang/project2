@@ -1,4 +1,63 @@
 body {
-  margin: 0;
+    margin: 0;
 }
 
+h1, h2, h3, h4, h5 {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+    line-height: 1;
+}
+
+a,
+a:link,
+a:hover,
+a:visited,
+a:active {
+    text-decoration: none;
+}
+
+a {
+    cursor: pointer;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+a:focus,
+input[type="button"]:focus {
+    outline: none;
+    border: none;
+}
+
+:focus {
+    outline: 0;
+}
+
+ul, ol, li {
+    margin-bottom: 0;
+    list-style: none;
+}
+
+em, strong, i, b {
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    clear: both;
+    *zoom: 1;
+}
