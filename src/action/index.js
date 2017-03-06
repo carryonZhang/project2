@@ -40,12 +40,15 @@ import {
 import formatOptions from '../container/report/formatOptions';
 
 // fetch charts details and data
-export const fetchChartsConfig = ({reportId}) => async(dispatch) => {
+export const fetchChartsConfig = ({reportId, mapData}) => async(dispatch) => {
     try {
         let details = await api.getChartDetails({reportId});
         let data = await api.getChartData({reportId});
-        let chartsConfig = formatOptions(details, data);
 
+        console.log(details, data);
+
+        let chartsConfig = formatOptions(details, data);
+        console.log(chartsConfig)
         await dispatch(receiveChartsOptions(chartsConfig));
         await dispatch(receiveChartsLegend(chartsConfig.legend));
     } catch (error) {
@@ -77,28 +80,27 @@ export const receiveLegendChange = (newLegendSelected) => ({
 import {
     FORM_INIT,
     GET_REPORT,
-    RECEIVE_SEARCH_FORM_CONFIG
+    RECEIVE_SEARCH_ARGS
 } from '../constants';
 
-export const fetchFormInitialConfig = ({reportId}) => {
+export const fetchSearchArgs = ({reportId}) => {
     return (dispatch) => {
         api.getSearchFormArgs({reportId}).then(
-            e => dispatch(receiveSearchFormConfig(e)),
+            e => dispatch(receiveSearchArgs(e)),
             err => dispatch(globalMessageError('搜索框条件拉取失败'))
         );
     }
 };
 
-export const receiveSearchFormConfig = config => ({
-    type: RECEIVE_SEARCH_FORM_CONFIG,
-    config
+export const receiveSearchArgs = args => ({
+    type: RECEIVE_SEARCH_ARGS,
+    args
 });
 
 
-export const getReport = (id, data) => {
+export const getReport = ({reportId, mapData}) => {
     return (dispatch) => {
-        api.getReport({reportId: id, Map: data}).then((res) => {
-            console.log('报表查询请求返回的数据', res);
+        api.getReport({reportId, Map: mapData}).then((res) => {
             dispatch({
                 type: GET_REPORT,
                 report: res
@@ -108,3 +110,4 @@ export const getReport = (id, data) => {
         });
     }
 };
+

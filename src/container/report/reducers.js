@@ -11,7 +11,7 @@ import {
 import {
     RECEIVE_CHARTS_OPTIONS,
     RECEIVE_CHARTS_LEGEND,
-    RECEIVE_SEARCH_FORM_CONFIG
+    RECEIVE_SEARCH_ARGS
 } from '../../constants'
 
 const initialOption = {
@@ -62,12 +62,21 @@ const legendReducer = (state = {}, action) => {
     }
 };
 
-const searchFormReducer = (state = {}, action) => {
+// 根据传回的表单查询列表排序后返回给container
+// 根据生成的控件的数量决定有几行,每行放3个控件, 3个Col
+const queryHandle = (querys) => {
+    querys.sort(function (a, b) {
+        return a.fieldPos - b.fieldPos;
+    });
+    return querys;
+};
+
+const searchFormReducer = (state = [], action) => {
 
     switch (action.type) {
 
-        case RECEIVE_SEARCH_FORM_CONFIG:
-            return action.config;
+        case RECEIVE_SEARCH_ARGS:
+            return queryHandle(action.args);
 
         default:
             return state;
@@ -77,5 +86,5 @@ const searchFormReducer = (state = {}, action) => {
 export default combineReducers({
     option: optionsReducer,
     legend: legendReducer,
-    searchForm: searchFormReducer
+    searchArgs: searchFormReducer
 });

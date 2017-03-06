@@ -11,7 +11,7 @@ import {LEGEND_CHANGE} from "../../constants"
 class ReportContainer extends Component {
 
     componentDidMount() {
-        this.props.dispatch(action.fetchFormInitialConfig({reportId: 1}));
+        this.props.dispatch(action.fetchSearchArgs({reportId: 1}));
     }
 
     onSubmitSearch_TEMP() {
@@ -22,7 +22,7 @@ class ReportContainer extends Component {
         const self = this;
         const {
             reportId,
-            conditions,
+            searchArgs,
             onSubmit,
 
             combinedOptions,
@@ -30,9 +30,13 @@ class ReportContainer extends Component {
         } = this.props;
 
         const tableData = combinedOptions.tableData;
+
+        console.log(combinedOptions.hasChart)
+        console.log(combinedOptions)
+
         return (
             <div>
-                {conditions && <WrapForm conditions={conditions} reportId={reportId} onSubmit={onSubmit}/>}
+                {searchArgs && <WrapForm conditions={searchArgs} reportId={reportId} onSubmit={onSubmit}/>}
 
                 <button onClick={self.onSubmitSearch_TEMP.bind(self)}> fetch data</button>
 
@@ -59,12 +63,16 @@ const combineOptions = (options, legend) => {
 
 const mapStateToProps = (state) => {
     return {
+        searchArgs: state.reports.searchArgs,
         combinedOptions: combineOptions(state.reports.option, state.reports.legend)
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
     dispatch,
+    onSubmitSearch: (id, data) => {
+        dispatch(action.fetchChartsConfig({id, data}));
+    },
     onLegendChange: (type, itemInfo) => {
         if (type === LEGEND_CHANGE) {
             dispatch(action.receiveLegendChange(itemInfo))

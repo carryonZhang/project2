@@ -18,4 +18,4 @@ export const RECEIVE_LEGEND_CHANGE = 'platform/Reports/RECEIVE_LEGEND_CHANGE';
 
 export const FORM_INIT = 'platform/Reports/FORM_INIT'; //获取查询参数列表
 export const GET_REPORT = 'platform/Reports/GET_REPORT'; //点击查询,获取图表数据
-export const RECEIVE_SEARCH_FORM_CONFIG = 'platform/Reports/RECEIVE_SEARCH_FORM_CONFIG'; //点击查询,获取图表数据
+export const RECEIVE_SEARCH_ARGS = 'platform/Reports/RECEIVE_SEARCH_ARGS'; //点击查询,获取图表数据
