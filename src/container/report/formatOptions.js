@@ -162,7 +162,7 @@ function formatOptions(details, data) {
         }
     }
 
-    // fake pie data
+/*    // fake pie data
     columns = "白天; 晚上";
     let pieRows = [{
         "支付宝": "30",
@@ -174,7 +174,7 @@ function formatOptions(details, data) {
             "微信": "50",
             "现金": "40"
         }
-    ];
+    ];*/
 
     const staticOption = {
         // option
@@ -222,9 +222,6 @@ function formatOptions(details, data) {
             tableData,
 
         })
-}
-function getChartOption() {
-
 }
 
 function getTableData(xLabel, rows, columnsData) {
