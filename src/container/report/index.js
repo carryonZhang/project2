@@ -1,14 +1,17 @@
-import React, {Component} from "react"
-import {connect} from "react-redux"
-import Chart from "../../components/chart"
-import {Table} from "antd"
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {Table} from "antd";
+
+import Chart from "../../components/chart";
+import WrapForm from '../../components/dataform';
+
 import * as action from "../../action"
 import {LEGEND_CHANGE} from "../../constants"
 
-
 class ReportContainer extends Component {
-    constructor(props) {
-        super(props);
+
+    componentDidMount() {
+        this.props.dispatch(action.fetchFormInitialConfig({reportId: 1}));
     }
 
     onSubmitSearch_TEMP() {
@@ -17,27 +20,33 @@ class ReportContainer extends Component {
 
     render() {
         const self = this;
-        const {combinedOptions, onLegendChange} = this.props;
-        console.log(combinedOptions)
+        const {
+            reportId,
+            conditions,
+            onSubmit,
+
+            combinedOptions,
+            onLegendChange
+        } = this.props;
+
         const tableData = combinedOptions.tableData;
-        console.log(combinedOptions);
-        console.log(combinedOptions.hasChart)
         return (
             <div>
+                {conditions && <WrapForm conditions={conditions} reportId={reportId} onSubmit={onSubmit}/>}
+
                 <button onClick={self.onSubmitSearch_TEMP.bind(self)}> fetch data</button>
+
                 {
-                    combinedOptions.hasChart ?
-                        <Chart option={combinedOptions} onLegendChange={onLegendChange}/> :
-                        ""
+                    combinedOptions.hasChart && <Chart option={combinedOptions} onLegendChange={onLegendChange}/>
                 }
+
                 {
-                    combinedOptions.hasTable ?
-                        <Table
-                            dataSource={tableData.dataSource}
-                            columns={tableData.columns}
-                            scroll={{x: 1500, y: 300}}
-                        /> :
-                        ""
+                    combinedOptions.hasTable &&
+                    <Table
+                        dataSource={tableData.dataSource}
+                        columns={tableData.columns}
+                        scroll={{x: 1500, y: 300}}
+                    />
                 }
             </div>
         )

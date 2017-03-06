@@ -49,7 +49,7 @@ export const fetchChartsConfig = ({reportId}) => async(dispatch) => {
         await dispatch(receiveChartsOptions(chartsConfig));
         await dispatch(receiveChartsLegend(chartsConfig.legend));
     } catch (error) {
-        dispatch(globalMessageError('图表数据拉取失败 '));
+        dispatch(globalMessageError('图表数据拉取失败'));
     }
 };
 
@@ -70,30 +70,34 @@ export const receiveLegendChange = (newLegendSelected) => ({
     newLegendSelected
 });
 
+/******************************************************
+ * 报表搜索框
+ */
 
 import {
     FORM_INIT,
-    GET_REPORT
+    GET_REPORT,
+    RECEIVE_SEARCH_FORM_CONFIG
 } from '../constants';
 
-
-export const formInit = ({reportId}) => {
+export const fetchFormInitialConfig = ({reportId}) => {
     return (dispatch) => {
-        api.getQueryArgs({reportId: reportId}).then((res) => {
-            // console.log(res);
-            dispatch({
-                type: FORM_INIT,
-                payload: res
-            })
-        }, (err) => {
-            console.log(err);
-        });
+        api.getSearchFormArgs({reportId}).then(
+            e => dispatch(receiveSearchFormConfig(e)),
+            err => dispatch(globalMessageError('搜索框条件拉取失败'))
+        );
     }
 };
 
+export const receiveSearchFormConfig = config => ({
+    type: RECEIVE_SEARCH_FORM_CONFIG,
+    config
+});
+
+
 export const getReport = (id, data) => {
     return (dispatch) => {
-        api.getReport({reportId: id, Map: data}).then((res)=> {
+        api.getReport({reportId: id, Map: data}).then((res) => {
             console.log('报表查询请求返回的数据', res);
             dispatch({
                 type: GET_REPORT,

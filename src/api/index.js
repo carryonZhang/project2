@@ -15,7 +15,7 @@ const apiContext = nattyFetch.context({
 });
 
 apiContext.create({
-    'getQueryArgs': {
+    'getSearchFormArgs': {
         mock: true,
         url: 'queryArgs.json',
         mockUrl: '127/report/queryArgs.json',
