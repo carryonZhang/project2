@@ -31,5 +31,4 @@ function Legend({legendSelected, onLegendChange}) {
     )
 }
 
-
 export default Legend;
