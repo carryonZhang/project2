@@ -60,10 +60,6 @@
     left: 10%;
 }
 
-.iconDeselected {
-    composes: labelIcon
-}
-
 .disabled {
     color: gray;
 }
