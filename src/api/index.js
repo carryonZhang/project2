@@ -32,6 +32,12 @@ apiContext.create({
         url: 'chartdata',
         mockUrl: '127/report/data.json',
         method: "post"
+    },
+    'getExcel': {
+        mock: true,
+        url: 'data.json',
+        mockUrl: '127/report/exportXls.do',
+        method: 'post'
     }
 });
 
