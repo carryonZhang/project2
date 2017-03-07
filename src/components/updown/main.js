@@ -14,19 +14,19 @@ const options = {
     wrapperDisplay : 'inline-block',
     multiple: true,
     numberLimit: 9,
-    accept: 'image/*',
+    accept: '*',
     chooseAndUpload : false,
     paramAddToField : {purpose: 'save'},
     //fileFieldName : 'file',
     fileFieldName(file){ return file.name },
     withCredentials: false,
-    requestHeaders: {'User-Agent': 'So Aanyip'},
+    // requestHeaders: {'User-Agent': 'So Aanyip'},
   //   beforeChoose : ()=>{
 		// return user.isAllowUpload
   //   },
   
     chooseFile : function(files){
-        console.log('you choose',typeof files == 'string' ? files : files[0])
+        console.log('you choose',typeof files == 'string' ? files : files[0].name)
     },
     // beforeUpload : function(files,mill){
     //     if(typeof files == string) return true
@@ -86,34 +86,31 @@ class Main extends Component {
 		// 	</div>
 		// )
 		
-		// const form = this.props.form;			
-		// return (
-
-		// 	<div className={styles.main_wrapper}>
-		// 		<div className={styles.import_part}>
-		// 			<Form onSubmit={e => {
-		// 				e.preventDefault();
-		// 				console.log(form.getFieldsValue());
-		// 			}}>
-		// 				<FormItem>
-		// 					<input type="file" />
-		// 				</FormItem>
-		// 				<FormItem>
-		// 					<Button type="primary" htmlType="submit" className="login-form-button">
-		// 			        	Click to Upload
-		// 			        </Button>	
-		// 				</FormItem>
-		// 			</Form>			
-		// 		</div>
-		// 		<div className={styles.export_part}></div>
-		// 	</div>
-		// )
-		// 
+		
 		return (
-			<FileUpload options={options}>
-	            <button ref="chooseBtn">choose</button>
-	            <button ref="uploadBtn">upload</button>
-	        </FileUpload>
+
+			<div className={styles.main_wrapper}>
+				<div className={styles.import_part}>
+					<FileUpload options={options}>
+						<div className={styles.chose_area} ref="chooseBtn" >
+							<p className={styles.chose_text}>选择文件</p>
+							<div className={styles.chose_btn}>
+								<div className={styles.chose_vertical}></div>
+								<div className={styles.chose_horizontal}></div>
+							</div>
+						</div>
+						<div className={styles.view_area}>
+							<p className={styles.view_text}>asdfasdfsdfadsfsdfadfsasdfadsfasdfadsf</p>
+							<div className={styles.delete_btn}>
+								<div className={styles.delete_vertical}></div>
+								<div className={styles.delete_horizontal}></div>
+							</div>
+						</div>
+			            <div ref="uploadBtn" className={styles.submit_btn}>导入</div>
+			        </FileUpload>
+				</div>
+				<div className={styles.export_part}></div>
+			</div>
 		)
 	}
 }
