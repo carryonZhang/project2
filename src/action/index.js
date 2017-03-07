@@ -5,6 +5,10 @@
  */
 import api from '../api';
 
+/******************************************************
+ * 全局
+ */
+
 import {
     GLOBAL_MESSAGE_ERROR,
     GLOBAL_MESSAGE_SUCCESS,
@@ -31,35 +35,28 @@ export const globalLoadingHide = () => ({
 });
 
 
+/******************************************************
+ * 报表
+ */
+
 import {
-    RECEIVE_CHARTS_OPTIONS,
     RECEIVE_CHARTS_LEGEND,
-    RECEIVE_LEGEND_CHANGE
+    RECEIVE_CHARTS_CONSTRUCT,
+    RECEIVE_CHARTS_DATA,
+    SET_LEGEND_CHANGE,
+    SET_CHARTS_LEGEND
 } from '../constants';
 
 import formatOptions from '../container/report/formatOptions';
 
-// fetch charts details and data
-export const fetchChartsConfig = ({reportId, mapData}) => async(dispatch) => {
-    try {
-        let details = await api.getChartDetails({reportId});
-        let data = await api.getChartData({reportId});
+export const setChartLegend = (legend) => ({
+    type: SET_CHARTS_LEGEND,
+    legend
+});
 
-        console.log(details, data);
-
-        let chartsConfig = formatOptions(details, data);
-        console.log(chartsConfig)
-        await dispatch(receiveChartsOptions(chartsConfig));
-        await dispatch(receiveChartsLegend(chartsConfig.legend));
-    } catch (error) {
-        dispatch(globalMessageError('图表数据拉取失败'));
-    }
-};
-
-//  return formatted options to reducer
-const receiveChartsOptions = option => ({
-    type: RECEIVE_CHARTS_OPTIONS,
-    option
+export const setLegendChange = (legendSelected) => ({
+    type: SET_LEGEND_CHANGE,
+    legendSelected
 });
 
 //  return whole legend to reducer
@@ -68,10 +65,45 @@ const receiveChartsLegend = legend => ({
     legend
 });
 
-export const receiveLegendChange = (newLegendSelected) => ({
-    type: RECEIVE_LEGEND_CHANGE,
-    newLegendSelected
+/**
+ * 1.进入页面直接拉取原始结构，并存储到 reducer
+ * 2.当报表数据拉取时，从 reducer 读取原始结构，并渲染
+ */
+
+// 1.获取报表初始化结构
+export const fetchChartConstruct = ({reportId}) => (dispatch) => {
+    api.getChartDetails({reportId}).then(
+        e => dispatch(receiveChartConstruct(e)),
+        err => dispatch(globalMessageError('图表初始化失败，请刷新重试'))
+    )
+};
+
+export const receiveChartConstruct = construct => ({
+    type: RECEIVE_CHARTS_CONSTRUCT,
+    construct
 });
+
+// 2.获取报表详细数据
+export const fetchChartData = ({reportId, params}) => (dispatch, getState) => {
+
+    const {reports} = getState(); // 从之前初始化保存的 state 中取出结构数据
+
+    api.getChartData({reportId, ...params}).then(
+        e => {
+            const chartsConfig = formatOptions(reports.construct, e); // formatOptions(结构, 数据) 返回完整报表
+
+            dispatch(receiveChartData(chartsConfig));
+            dispatch(setChartLegend(chartsConfig.legend));
+        },
+        err => dispatch(globalMessageError('图表数据获取失败，请刷新重试'))
+    )
+};
+
+export const receiveChartData = data => ({
+    type: RECEIVE_CHARTS_DATA,
+    data
+});
+
 
 /******************************************************
  * 报表搜索框

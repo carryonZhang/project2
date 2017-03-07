@@ -1,11 +1,13 @@
-import {LINE, BAR, PIE, RADAR, TABLE} from "../../constants/index"
+const TABLE = "table";
+const LINE = "line";
+const BAR = "bar";
+const PIE = "pie";
+const RADAR = "radar";
 
 function formatOptions(details, data) {
 
     const DETAILS = details;
     const DATA = data;
-
-    console.log(details, data)
 
     const xLabel = DETAILS.axisXLabel;
     const yLabels = DETAILS.axisYLabel.split(";").map(label => label.trim());
@@ -23,7 +25,7 @@ function formatOptions(details, data) {
     let tableData = null;
     if (types.includes(TABLE)) {
         hasTable = true;
-        tableData = getTableData(xLabel, rows, columnsData)
+        tableData = getTableData(xLabel, rows, columnsData);
         types.splice(types.indexOf(TABLE), 1);
     }
     // table end
@@ -162,19 +164,19 @@ function formatOptions(details, data) {
         }
     }
 
-/*    // fake pie data
-    columns = "白天; 晚上";
-    let pieRows = [{
-        "支付宝": "30",
-        "微信": "30",
-        "现金": "40",
-        },
-        {
-            "支付宝": "10",
-            "微信": "50",
-            "现金": "40"
-        }
-    ];*/
+    /*    // fake pie data
+     columns = "白天; 晚上";
+     let pieRows = [{
+     "支付宝": "30",
+     "微信": "30",
+     "现金": "40",
+     },
+     {
+     "支付宝": "10",
+     "微信": "50",
+     "现金": "40"
+     }
+     ];*/
 
     const staticOption = {
         // option

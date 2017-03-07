@@ -3,18 +3,14 @@ export const GLOBAL_MESSAGE_ERROR = 'platform/App/GLOBAL_MESSAGE_ERROR';
 export const GLOBAL_LOADING = 'platform/App/GLOBAL_LOADING';
 export const GLOBAL_LOADING_HIDE = 'platform/App/GLOBAL_LOADING_HIDE';
 
-
-export const TABLE = "table";
-export const LINE = "line";
-export const BAR = "bar";
-export const PIE = "pie";
-export const RADAR = "radar";
-
-
-// initial charts constructor & data
-export const RECEIVE_CHARTS_OPTIONS = 'platform/Reports/RECEIVE_CHARTS_OPTIONS';
+// Chart Legend 发生修改
+export const SET_LEGEND_CHANGE = 'platform/Reports/SET_LEGEND_CHANGE';
 export const RECEIVE_CHARTS_LEGEND = 'platform/Reports/RECEIVE_CHARTS_LEGEND';
-export const RECEIVE_LEGEND_CHANGE = 'platform/Reports/RECEIVE_LEGEND_CHANGE';
+export const SET_CHARTS_LEGEND = 'platform/Reports/SET_CHARTS_LEGEND';
+
+// 初始化图标数据与拉取数据
+export const RECEIVE_CHARTS_CONSTRUCT = 'platform/Reports/RECEIVE_CHARTS_CONSTRUCT';
+export const RECEIVE_CHARTS_DATA = 'platform/Reports/RECEIVE_CHARTS_DATA';
 
 export const FORM_INIT = 'platform/Reports/FORM_INIT'; //获取查询参数列表
 export const GET_REPORT = 'platform/Reports/GET_REPORT'; //点击查询,获取图表数据

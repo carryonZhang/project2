@@ -1,17 +1,13 @@
 import {combineReducers} from "redux";
-import {
-    RECEIVE_LEGEND_CHANGE,
-    TABLE,
-    LINE,
-    BAR,
-    PIE,
-    RADAR
-} from "../../constants";
 
 import {
-    RECEIVE_CHARTS_OPTIONS,
     RECEIVE_CHARTS_LEGEND,
-    RECEIVE_SEARCH_ARGS
+    RECEIVE_SEARCH_ARGS,
+
+    RECEIVE_CHARTS_CONSTRUCT,
+    RECEIVE_CHARTS_DATA,
+    SET_LEGEND_CHANGE,
+    SET_CHARTS_LEGEND
 } from '../../constants'
 
 const initialOption = {
@@ -35,32 +31,45 @@ const initialOption = {
     },
 };
 
-const optionsReducer = (state = initialOption, action) => {
-    switch (action.type) {
-
-        case RECEIVE_CHARTS_OPTIONS:
-            return action.option;
-
-        default:
-            return state;
-    }
-};
-
-const legendReducer = (state = {}, action) => {
+const chartLegend = (state = {}, action) => {
 
     switch (action.type) {
 
-        case RECEIVE_CHARTS_LEGEND:
+        case SET_CHARTS_LEGEND:
             return action.legend;
 
-        case RECEIVE_LEGEND_CHANGE:
-            const newLegendSelected = action.newLegendSelected;
-            return Object.assign({}, state, {newLegendSelected});
+        case SET_LEGEND_CHANGE:
+            const {legendSelected} = action;
+            return Object.assign({}, state, {legendSelected});
 
         default:
             return state;
     }
 };
+
+// 报表结构
+const chartConstruct = (state = {}, action) => {
+    switch (action.type) {
+
+        case RECEIVE_CHARTS_CONSTRUCT:
+            return action.construct;
+
+        default:
+            return state;
+    }
+};
+
+// 报表数据
+const chartData = (state = {}, action) => {
+    switch (action.type) {
+        case RECEIVE_CHARTS_DATA:
+            return action.data;
+
+        default:
+            return state;
+    }
+};
+
 
 // 根据传回的表单查询列表排序后返回给container
 // 根据生成的控件的数量决定有几行,每行放3个控件, 3个Col
@@ -84,7 +93,8 @@ const searchFormReducer = (state = [], action) => {
 };
 
 export default combineReducers({
-    option: optionsReducer,
-    legend: legendReducer,
+    legend: chartLegend,
+    construct: chartConstruct,
+    data: chartData,
     searchArgs: searchFormReducer
 });
