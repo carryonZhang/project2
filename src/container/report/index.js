@@ -25,7 +25,6 @@ class ReportContainer extends Component {
             searchArgs,
             onSubmitSearch,
             getExcel,
-            combinedOptions,
             onLegendChange
         } = this.props;
 
@@ -33,9 +32,9 @@ class ReportContainer extends Component {
 
         return (
             <div>
-                {searchArgs && <WrapForm conditions={searchArgs} reportId={reportId} onSubmit={onSubmitSearch} getExcel={getExcel} />}
-
-                <button onClick={self.onSubmitSearch_TEMP.bind(self)}> fetch data</button>
+                {
+                    searchArgs && <WrapForm conditions={searchArgs} reportId={reportId} onSubmit={onSubmitSearch} getExcel={getExcel} />
+                }
 
                 {
                     data.hasChart && <Chart option={data} onLegendChange={onLegendChange}/>
