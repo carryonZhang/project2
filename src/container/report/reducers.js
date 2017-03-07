@@ -14,17 +14,15 @@ import {
     RECEIVE_SEARCH_ARGS
 } from '../../constants'
 
-const initialOption = {
+/*const initialOption = {
     color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
     grid: {
-        show: false,
-        left: '1%',
-        right: "5%",
-        top: '2%',
-        bottom: "2%",
-        // width: "80%",
-        height: "80%",
-        containLabel: true
+        // show: false,
+        // left: '1%',
+        // right: "5%",
+        // top: '2%',
+        // bottom: "20%",
+        // height: "80%",
     },
     tooltip: {
         show: false,
@@ -33,9 +31,9 @@ const initialOption = {
     toolbox: {
         show: false
     },
-};
+};*/
 
-const optionsReducer = (state = initialOption, action) => {
+const optionsReducer = (state = {}, action) => {
     switch (action.type) {
 
         case RECEIVE_CHARTS_OPTIONS:

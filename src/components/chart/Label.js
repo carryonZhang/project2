@@ -37,7 +37,7 @@ class Label extends Component {
                 onClick={this.handleClick}
             >
                 <span
-                    className={selected ? styles.labelIcon : styles.deselected}
+                    className={selected ? styles.iconSelected : styles.iconDeselected}
                     style={selected ? {backgroundColor: currColor} : {backgroundColor: "transparent"}}
 
                 />
