@@ -234,7 +234,7 @@ function getTableData(xLabel, rows, columnsData) {
         col.title = ele;
         col.dataIndex = ele;
         col.key = ele;
-        col.width = 100;
+        col.width = 150;
         if (ele === xLabel) {
             col.fixed = 'left';
         }

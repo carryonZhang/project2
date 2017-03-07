@@ -3,8 +3,23 @@
  */
 import React, {Component} from 'react';
 import {Table} from 'antd';
+import styles from "./style.css"
 
-export default class Tables extends Component {
+export default function DataTable({dataSource, columns}) {
+    return (
+        <div className={styles.dataTable}>
+            <Table
+                dataSource={dataSource}
+                columns={columns}
+                scroll={{x: 1500, y: 300}}
+                bordered
+            />
+        </div>
+
+    )
+}
+
+/*class Tables extends Component {
   constructor(props){
     super(props);
     this.state =  {
@@ -53,4 +68,5 @@ export default class Tables extends Component {
         />
     )
   }
-}
+}*/
+

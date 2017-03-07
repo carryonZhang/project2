@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import ReactEcharts from "echarts-for-react"
+import styles from "./style.css"
 
 
 class Grid extends Component {
@@ -69,7 +70,7 @@ class Grid extends Component {
     render() {
         const canvasSize = this.state.canvasSize;
         return (
-            <div>
+            <div className={styles.grid}>
                 <ReactEcharts
                     option={this.props.option}
                     style={canvasSize}

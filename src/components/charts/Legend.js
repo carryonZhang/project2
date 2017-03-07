@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import Label from "./Label"
-import styles from "./style.css"
+import styles from "."
 
 function Legend({legendSelected, onLegendChange}) {
     // console.log("legendSelected", legendSelected)
@@ -25,7 +25,7 @@ function Legend({legendSelected, onLegendChange}) {
         }
     }
     return (
-        <div className={styles.chartLegend}>
+        <div className={styles.legend}>
             {labels}
         </div>
     )

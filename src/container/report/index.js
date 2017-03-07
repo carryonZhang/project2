@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Table} from "antd";
-
-import Chart from "../../components/chart";
 import WrapForm from '../../components/dataform';
+import Chart from "../../components/chart";
+import DataTable from "../../components/datatable"
 
 import * as action from "../../action"
 import {LEGEND_CHANGE} from "../../constants"
@@ -31,9 +30,6 @@ class ReportContainer extends Component {
 
         const tableData = combinedOptions.tableData;
 
-        console.log(combinedOptions.hasChart)
-        console.log(combinedOptions)
-
         return (
             <div>
                 {searchArgs && <WrapForm conditions={searchArgs} reportId={reportId} onSubmit={onSubmit}/>}
@@ -46,10 +42,9 @@ class ReportContainer extends Component {
 
                 {
                     combinedOptions.hasTable &&
-                    <Table
+                    <DataTable
                         dataSource={tableData.dataSource}
                         columns={tableData.columns}
-                        scroll={{x: 1500, y: 300}}
                     />
                 }
             </div>

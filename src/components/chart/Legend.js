@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import Label from "./Label"
 import styles from "./style.css"
 import LEGEND_CHANGE from "../../constants/index"
+import {Row, Col} from "antd"
 
 class Legend extends Component {
     constructor(props) {
@@ -36,10 +37,18 @@ class Legend extends Component {
                 );
             }
         }
+        const rows = [];
+        for(let index = 0; index < labels.length; index = index + 12) {
+            rows.push(
+                <Row>
+                    {labels.slice(index, index + 12)}
+                </Row>
+            )
+        }
 
         return (
-            <div className={styles.chartLegend}>
-                {labels}
+            <div className={styles.legend}>
+                {rows}
             </div>
         )
 

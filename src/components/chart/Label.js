@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import styles from "./style.css"
 import {hook} from "./images/images"
-
+import {Row, Col} from "antd"
 
 
 class Label extends Component {
@@ -31,7 +31,8 @@ class Label extends Component {
         const selected = this.state.selected;
         const currColor = this.props.color;
         return (
-            <span
+            <Col
+                span={2}
                 className={styles.label}
                 onClick={this.handleClick}
             >
@@ -46,7 +47,7 @@ class Label extends Component {
                     {this.props.text}
                 </span>
 
-            </span>
+            </Col>
         )
     }
 }
