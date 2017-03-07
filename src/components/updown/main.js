@@ -10,6 +10,7 @@ console.log('action', action);
 
 function renderOptions() {
     return (disaptch) => {
+        disaptch(action.globalMessageSuccess('Dispatch 进来了呀'));
         return {
             baseUrl: 'http://localhost:3001',
             param: {
