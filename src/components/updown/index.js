@@ -8,13 +8,13 @@ class UpdownComponent extends Component {
 
     render () {
         
-        const title = this.props.title;
+        const { title, state } = this.props;
 
         return (
 
             <div className={styles.wrapper}>
                 <Header title={title}/>
-                <Main />
+                <Main state={state}/>
             </div>
         )
 

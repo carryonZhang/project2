@@ -143,3 +143,53 @@ export const getReport = ({reportId, mapData}) => {
     }
 };
 
+/**
+ * ****************************************************
+ * 导入导出模块
+ */
+
+import { INPUT_YEXT } from '../constants';
+
+export const setInputText = (txt) => ({
+    type: INPUT_YEXT,
+    txt
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
