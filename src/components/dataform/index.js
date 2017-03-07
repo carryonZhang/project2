@@ -159,6 +159,7 @@ class DataForm extends Component {
                           console.log('报表id', reportId);
                           console.log('发送的表单值', values);
                           if (!err) {
+                              debugger
                               onSubmit(reportId, values);
                           }
                       });
