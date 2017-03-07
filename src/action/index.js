@@ -142,6 +142,14 @@ export const getReport = ({reportId, mapData}) => {
         });
     }
 };
+//导出excel
+export const getExcel = (id ,data) => {
+    api.getExcel({reportId: id, Map: data}).then((res) => {
+        console.log(res);
+    }, (err) => {
+        console.log(err);
+    });
+}
 
 /**
  * ****************************************************
@@ -154,39 +162,6 @@ export const setInputText = (txt) => ({
     type: INPUT_YEXT,
     txt
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
