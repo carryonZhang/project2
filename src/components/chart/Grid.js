@@ -9,7 +9,7 @@ class Grid extends Component {
         this.state = {
             canvasSize: {
                 width: document.documentElement.clientWidth - 100,
-                height: "300px"
+                height: "400px"
             }
         }
     }
@@ -19,7 +19,7 @@ class Grid extends Component {
         this.setState({
             canvasSize: {
                 width: document.documentElement.clientWidth - 100,
-                height: "300px"
+                height: "400px"
             }
         });
     }

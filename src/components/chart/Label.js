@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import styles from "./style.css"
+
 import {Col} from "antd"
 
 const Label = ({text, selected, color, onLabelChange}) => (

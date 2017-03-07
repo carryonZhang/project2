@@ -6,6 +6,8 @@ import * as action from '../../action';
 
 import FileUpload from 'react-fileupload';
 
+console.log('action',action);
+
 const options = {
     baseUrl : 'http://localhost:3001',
     param : {
@@ -31,6 +33,9 @@ const options = {
     	if(!files) return false;
         console.log('you choose',typeof files == 'string' ? files : files[0].name);
 		// Main.changeText (files);//todo
+		let txt = typeof files == 'string' ? files : files[0].name;
+		// dispatch(setInputText(txt));
+		action.setInputText(txt);
     },
     // beforeUpload : function(files,mill){
     //     if(typeof files == string) return true
@@ -71,6 +76,8 @@ class Main extends Component {
 	}
 
 	render (){
+
+		const  { txt } = this.props.state;
 			
 		return (
 
@@ -85,7 +92,7 @@ class Main extends Component {
 							</div>
 						</div>
 						<div className={styles.view_area}>
-							<p className={styles.view_text}>{this.state.files}</p>
+							<p className={styles.view_text}>{txt}</p>
 							<div className={styles.delete_btn}>
 								<div className={styles.delete_vertical}></div>
 								<div className={styles.delete_horizontal}></div>

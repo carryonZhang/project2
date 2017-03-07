@@ -7,8 +7,8 @@
 
 
 .grid {
+    height: 400px;
     margin: 34px;
-    padding: 25px;
     border: 2px solid #eff3f3;
 }
 
@@ -44,32 +44,24 @@
     height: 13px;
     margin: 2px 10px 2px 0;
     line-height: 1;
+    text-align: center;
     vertical-align: middle;
-    border: 1px solid #e1e8e8;
+    border: 2px solid #e1e8e8;
     border-radius: 4px;
 }
 
-.labelIcon::before {
+.iconSelected {
+   composes: labelIcon
+}
+.iconSelected::before {
     content: url("./images/hook.png");
     position: relative;
     top: -20%;
     left: 10%;
 }
 
-
-.deselected {
-    display: inline-block;
-    width: 13px;
-    height: 13px;
-    margin: 2px 11px 2px 0;
-    /*font-size: 75%;*/
-    /*font-weight: bold;*/
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    border-radius: 4px;
-    border: 2px solid #e1e8e8;
+.iconDeselected {
+    composes: labelIcon
 }
 
 .disabled {
