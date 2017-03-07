@@ -10,7 +10,6 @@ console.log('action', action);
 
 function renderOptions() {
     return (disaptch) => {
-        debugger
         return {
             baseUrl: 'http://localhost:3001',
             param: {
