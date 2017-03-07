@@ -15,5 +15,7 @@ export const RECEIVE_CHARTS_DATA = 'platform/Reports/RECEIVE_CHARTS_DATA';
 export const FORM_INIT = 'platform/Reports/FORM_INIT'; //获取查询参数列表
 export const GET_REPORT = 'platform/Reports/GET_REPORT'; //点击查询,获取图表数据
 export const RECEIVE_SEARCH_ARGS = 'platform/Reports/RECEIVE_SEARCH_ARGS'; //点击查询,获取图表数据
+export const RECEIVE_UNION_SELECT = 'platform/Reports/RECEIVE_UNION_SELECT'; //点击查询,获取图表数据
+export const SET_SEARCH_BUTTON_STATE = 'platform/Reports/SET_SEARCH_BUTTON_STATE'; //点击查询,获取图表数据
 
 export const INPUT_YEXT = 'inside-boss/updown/INPUT_YEXT';

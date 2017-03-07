@@ -12,30 +12,35 @@ App.propTypes = {
     children: PropTypes.node
 };
 
+let loadingHide = null;
 
 const mapStateToProps = (state) => {
 
     switch (state.global.type) {
         case 'loading':
-            let loadingHide = message.loading('加载中', 0);
-            setTimeout(loadingHide, 5000); // 5 秒后自动移除  1
+            if (loadingHide) {
+                return;
+            }
+            loadingHide = message.loading('加载中', 0);
+            setTimeout(() => {
+                loadingHide();
+                loadingHide = null;
+            }, 5000); // 5 秒后自动移除
             break;
 
         case 'loadingHide':
-            message.destroy();
-            break;
+            loadingHide = null;
+            return message.destroy();
 
         case 'error':
         case 'success':
-            message[state.global.type](state.global.message);
-            break;
+            return message[state.global.type](state.global.message);
 
         default:
-            break;
+            return state;
     }
 
     return {}
 };
-
 
 export default connect(mapStateToProps)(App)

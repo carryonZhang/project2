@@ -23,9 +23,12 @@ class ReportContainer extends Component {
             reportId,
             data,
             searchArgs,
-            onSubmitSearch,
-            getExcel,
-            onLegendChange
+            buttonState,
+
+            onSubmitSearch, // 搜索框提交
+            onExportExcel, // 导出 excel
+            onFetchUnionSelect, // 联动搜索框触发
+            onLegendChange // legend 修改
         } = this.props;
 
         const tableData = data.tableData;
@@ -33,14 +36,20 @@ class ReportContainer extends Component {
         return (
             <div>
                 {
-                    searchArgs && <WrapForm conditions={searchArgs} reportId={reportId} onSubmit={onSubmitSearch} getExcel={getExcel} />
+                    searchArgs && <WrapForm buttonState={buttonState}
+                                            conditions={searchArgs}
+                                            reportId={reportId}
+                                            onSubmit={onSubmitSearch}
+                                            getExcel={onExportExcel}
+                                            onFetchUnionSelect={onFetchUnionSelect}/>
                 }
                 {
                     data.hasChart && <Chart option={data} onLegendChange={onLegendChange}/>
                 }
 
                 {
-                    data.hasTable && <DataTable dataSource={tableData.dataSource} columns={tableData.columns}/>
+                    data.hasTable && <DataTable dataSource={tableData.dataSource}
+                                                columns={tableData.columns}/>
                 }
             </div>
         )
@@ -53,6 +62,7 @@ const combineOptions = (options, legend) => {
 
 const mapStateToProps = (state) => {
     return {
+        buttonState: state.reports.buttonState,
         data: combineOptions(state.reports.data, state.reports.legend),
         searchArgs: state.reports.searchArgs
     };
@@ -66,8 +76,15 @@ const mapDispatchToProps = (dispatch) => ({
     onLegendChange: (itemInfo) => {
         dispatch(action.setLegendChange(itemInfo))
     },
-    getExcel: (id, data) => {
-        action.getExcel(id, data);
+    onExportExcel: (id, data) => {
+        dispatch(action.getExcel(id, data));
+    },
+    onFetchUnionSelect: (id, value) => {
+        dispatch(action.fetchUnionSelect({
+            parentValue: value,
+            parentId: id,
+            reportId: '1'
+        }))
     }
 });
 

@@ -7,30 +7,12 @@ import {
     RECEIVE_CHARTS_CONSTRUCT,
     RECEIVE_CHARTS_DATA,
     SET_LEGEND_CHANGE,
-    SET_CHARTS_LEGEND
+    SET_CHARTS_LEGEND,
+    RECEIVE_UNION_SELECT,
+    SET_SEARCH_BUTTON_STATE
 } from '../../constants'
 
-/*const initialOption = {
-    color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
-    grid: {
-        // show: false,
-        // left: '1%',
-        // right: "5%",
-        // top: '2%',
-        // bottom: "20%",
-        // height: "80%",
-    },
-    tooltip: {
-        show: false,
-        trigger: 'axis'
-    },
-    toolbox: {
-        show: false
-    },
-};*/
-
 const chartLegend = (state = {}, action) => {
-
     switch (action.type) {
 
         case SET_CHARTS_LEGEND:
@@ -77,21 +59,45 @@ const queryHandle = (querys) => {
     return querys;
 };
 
+// 搜索条件
 const searchFormReducer = (state = [], action) => {
 
     switch (action.type) {
 
         case RECEIVE_SEARCH_ARGS:
             return queryHandle(action.args);
+
+        case RECEIVE_UNION_SELECT:
+            return state.map(e => {
+
+                //  ...接口定义 @yama
+                if (e.lovEntity.lovQueryId == action.child.lovQueryId) {
+                    return Object.assign({}, e, {lovEntity: action.child})
+                } else {
+                    return e;
+                }
+
+            });
+
         default:
             return state;
     }
 };
 
+const buttonState = (state = {submit: false, export: false}, action) => {
+    switch (action.type) {
+        case SET_SEARCH_BUTTON_STATE:
+            return Object.assign({}, state, action.status);
+
+        default:
+            return state;
+    }
+};
 
 export default combineReducers({
     legend: chartLegend,
     construct: chartConstruct,
     data: chartData,
-    searchArgs: searchFormReducer
+    searchArgs: searchFormReducer,
+    buttonState: buttonState
 });
