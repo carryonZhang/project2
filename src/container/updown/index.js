@@ -11,12 +11,13 @@ import * as action from '../../action';
 
 const UpdownContainer = (state) => (
 	<div className={styles.wrapper}>
-		<UpdownComponent title={state.title}/>
+		<UpdownComponent title={state.title} state={state}/>
 	</div>
 );
 
 const mapStateToProps = (state) => ({
-  title: '商品导入导出'
+  title: '商品导入导出',
+  txt: '未选择任何文件'
 });
 
 // const mapDispatchToProps = (dispatch) => ({

@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 import Label from "./Label"
 import styles from "./style.css"
-import LEGEND_CHANGE from "../../constants/index"
 import {Row, Col} from "antd"
 
 class Legend extends Component {
@@ -13,15 +12,15 @@ class Legend extends Component {
     onLabelChange(item) {
         const {legendSelected, onLegendChange} = this.props;
         const newLegendSelected = Object.assign(legendSelected, item); //(item);
-        onLegendChange(LEGEND_CHANGE, newLegendSelected);
+        onLegendChange(newLegendSelected);
     }
 
     render() {
         const {legendSelected, onLegendChange} = this.props;
-        const colors = ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'];
+        const colors = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'];
         const labels = [];
         const keys = Object.keys(legendSelected);
-        for (let index =0; index < keys.length; index++) {
+        for (let index = 0; index < keys.length; index++) {
             const item = keys[index];
             const color = colors[index % colors.length];
             if (legendSelected.hasOwnProperty(item)) {
@@ -38,7 +37,7 @@ class Legend extends Component {
             }
         }
         const rows = [];
-        for(let index = 0; index < labels.length; index = index + 12) {
+        for (let index = 0; index < labels.length; index = index + 12) {
             rows.push(
                 <Row>
                     {labels.slice(index, index + 12)}
@@ -55,11 +54,4 @@ class Legend extends Component {
     }
 }
 
-function Legend({legendSelected, onLabelChange}) {
-
-
-
-
-
-}
 export default Legend;
