@@ -2,6 +2,8 @@ import React ,{Component} from 'react';
 import styles from './style.css';
 import { message } from 'antd';
 
+import * as action from '../../action';
+
 import FileUpload from 'react-fileupload';
 
 const options = {
@@ -20,13 +22,15 @@ const options = {
     //fileFieldName : 'file',
     fileFieldName(file){ return file.name },
     withCredentials: false,
-    // requestHeaders: {'User-Agent': 'So Aanyip'},
+  //   requestHeaders: {'User-Agent': 'So Aanyip'},
   //   beforeChoose : ()=>{
 		// return user.isAllowUpload
   //   },
   
-    chooseFile : function(files){
-        console.log('you choose',typeof files == 'string' ? files : files[0].name)
+    chooseFile : (files) => {
+    	if(!files) return false;
+        console.log('you choose',typeof files == 'string' ? files : files[0].name);
+		// Main.changeText (files);//todo
     },
     // beforeUpload : function(files,mill){
     //     if(typeof files == string) return true
@@ -47,51 +51,32 @@ const options = {
     },
     uploadError : function(err){
         console.log("错误",err.message);
+     	message.info(err.message)
     },
     uploadFail : function(resp){
         console.log("失败",resp);
-    }
+        message.info("上传失败");
+    },
+    style: {'height':62}
 };
 
 class Main extends Component {
 
-	render (){
+	constructor(props){
+		super(props)
 
-		// return (
-		// 	<div className={styles.main_wrapper}>
-		// 		<div className={styles.import_part}>
-		// 			<form action="" className={styles.from_area}>
-		// 				<input type="file" className={styles.input_area}/>
-		// 				<div className={styles.chose_area}>
-		// 					<p className={styles.chose_text}>选择文件</p>
-		// 					<div className={styles.chose_btn}>
-		// 						<div className={styles.chose_vertical}></div>
-		// 						<div className={styles.chose_horizontal}></div>
-		// 					</div>
-		// 				</div>
-		// 				<div className={styles.view_area}>
-		// 					<p className={styles.view_text}>asdfasdfsdfadsfsdfadfsasdfadsfasdfadsf</p>
-		// 					<div className={styles.delete_btn}>
-		// 						<div className={styles.delete_vertical}></div>
-		// 						<div className={styles.delete_horizontal}></div>
-		// 					</div>
-		// 				</div>
-		// 				<div className={styles.submit_btn}>
-		// 					导入
-		// 					<button></button>
-		// 				</div>
-		// 			</form>
-		// 		</div>
-		// 		<div className={styles.export_part}></div>
-		// 	</div>
-		// )
-		
-		
+		this.state = {
+			files: ''
+		}
+	}
+
+	render (){
+			
 		return (
 
 			<div className={styles.main_wrapper}>
 				<div className={styles.import_part}>
-					<FileUpload options={options}>
+					<FileUpload options={options} style={options.style}>
 						<div className={styles.chose_area} ref="chooseBtn" >
 							<p className={styles.chose_text}>选择文件</p>
 							<div className={styles.chose_btn}>
@@ -100,13 +85,15 @@ class Main extends Component {
 							</div>
 						</div>
 						<div className={styles.view_area}>
-							<p className={styles.view_text}>asdfasdfsdfadsfsdfadfsasdfadsfasdfadsf</p>
+							<p className={styles.view_text}>{this.state.files}</p>
 							<div className={styles.delete_btn}>
 								<div className={styles.delete_vertical}></div>
 								<div className={styles.delete_horizontal}></div>
 							</div>
 						</div>
-			            <div ref="uploadBtn" className={styles.submit_btn}>导入</div>
+						<div className={styles.submit_btn_wrapper} ref="uploadBtn">
+							<div className={styles.submit_btn}>导入</div>
+						</div>
 			        </FileUpload>
 				</div>
 				<div className={styles.export_part}></div>
