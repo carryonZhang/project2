@@ -143,20 +143,20 @@ export const getReport = ({reportId, mapData}) => {
     }
 };
 //导出excel
-export const getExcel = (id ,data) => {
+export const getExcel = (id, data) => {
     api.getExcel({reportId: id, Map: data}).then((res) => {
         console.log(res);
     }, (err) => {
         console.log(err);
     });
-}
+};
 
 /**
  * ****************************************************
  * 导入导出模块
  */
 
-import { INPUT_YEXT } from '../constants';
+import {INPUT_YEXT} from '../constants';
 
 export const setInputText = (txt) => ({
     type: INPUT_YEXT,

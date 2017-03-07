@@ -128,10 +128,6 @@ module.exports = {
         new webpack.DefinePlugin(Object.assign({}, env.stringified, {
             '__CDN_JS__': `"${CDN_JS}"`
         })),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: chunkFilename,
-            filename: 'static/js/' + chunkFilename
-        }),
         new InterpolateHtmlPlugin(env.raw),
         new HtmlWebpackPlugin({
             inject: false,

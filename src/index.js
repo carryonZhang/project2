@@ -2,15 +2,11 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, hashHistory} from 'react-router';
-import nattyFetch from 'natty-fetch';
 
 import configureStore from './store';
 import createRoutes from './routes';
 
 import App from './container/app';
-
-import {formInit} from './action';
-
 import './global.css';
 
 const initialState = {};
