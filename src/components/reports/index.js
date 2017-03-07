@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ChartWrapper from "../charts"
 import Grid from "../charts/Grid"
 import Legend from '../charts/Legend'
-import DataForm from "../dataform"
+import WrapForm from "../dataform"
 import DataTable from "../datatable"
 
 import * as action from '../../action';
@@ -45,7 +45,7 @@ class ReportWrapper extends Component {
     componentDidMount() {
         // this.props.dispatch(action.formInit());
         this.props.dispatch(action.fetchChartDetails());
-
+        
         // const option = Object.assign({}, dataOption, this.state.option);
         // console.log("component option", option);
 
@@ -58,9 +58,14 @@ class ReportWrapper extends Component {
         // console.log(this.props.option.chartInit)
         const option = Object.assign({}, this.state.option, this.props.option.chartInit);
         // console.log(option);
+        console.log('components中接收到的属性', this.props)
         return (
             <div>
-                <DataForm />
+                <WrapForm conditions={this.props.conditions}
+                          reportId={this.props.reportId}
+                          onSubmit={this.props.onSubmit}
+                          getExcel={this.props.getExcel}
+                />
                 <Grid option={option}/>
                 {
                     option.legend ?

@@ -70,7 +70,6 @@ const chartData = (state = {}, action) => {
 
 
 // 根据传回的表单查询列表排序后返回给container
-// 根据生成的控件的数量决定有几行,每行放3个控件, 3个Col
 const queryHandle = (querys) => {
     querys.sort(function (a, b) {
         return a.fieldPos - b.fieldPos;
@@ -84,11 +83,11 @@ const searchFormReducer = (state = [], action) => {
 
         case RECEIVE_SEARCH_ARGS:
             return queryHandle(action.args);
-
         default:
             return state;
     }
 };
+
 
 export default combineReducers({
     legend: chartLegend,

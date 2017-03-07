@@ -17,18 +17,15 @@ class ReportContainer extends Component {
         this.props.dispatch(action.fetchChartConstruct({reportId: 1}));
     }
 
-    onSubmitSearch_TEMP() {
-        this.props.dispatch(action.fetchChartData({reportId: 1, arg1: '1', arg2: '2'}));
-    }
-
     render() {
         const self = this;
         const {
             reportId,
-            searchArgs,
-            onSubmit,
-
             data,
+            searchArgs,
+            onSubmitSearch,
+            getExcel,
+            combinedOptions,
             onLegendChange
         } = this.props;
 
@@ -36,7 +33,7 @@ class ReportContainer extends Component {
 
         return (
             <div>
-                {searchArgs && <WrapForm conditions={searchArgs} reportId={reportId} onSubmit={onSubmit}/>}
+                {searchArgs && <WrapForm conditions={searchArgs} reportId={reportId} onSubmit={onSubmitSearch} getExcel={getExcel} />}
 
                 <button onClick={self.onSubmitSearch_TEMP.bind(self)}> fetch data</button>
 
@@ -45,11 +42,7 @@ class ReportContainer extends Component {
                 }
 
                 {
-                    data.hasTable &&
-                    <DataTable
-                        dataSource={tableData.dataSource}
-                        columns={tableData.columns}
-                    />
+                    data.hasTable && <DataTable dataSource={tableData.dataSource} columns={tableData.columns}/>
                 }
             </div>
         )
@@ -70,11 +63,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     dispatch,
     onSubmitSearch: (id, data) => {
-        dispatch(action.fetchChartData({id, data}));
+        dispatch(action.fetchChartData({reportId: 1, arg1: '1', arg2: '2'}));
     },
     onLegendChange: (itemInfo) => {
         dispatch(action.setLegendChange(itemInfo))
     },
+    getExcel: (id, data) => {
+        action.getExcel(id, data);
+    }
 });
 
 
