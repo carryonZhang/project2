@@ -10,18 +10,18 @@ import styles from './style.css';
 import * as action from '../../action';
 
 
-const UpdownContainer = (props) => (
+const UpdownContainer = (state) => (
     <div className={styles.wrapper}>
         <div className={styles.wrapper}>
-            <Header title={props.title}/>
-            <Main state={props}/>
+            <Header title={state.title}/>
+            <Main state={state} />
         </div>
     </div>
 );
 
 const mapStateToProps = (state) => ({
-    title: '商品导入导出',
-    txt: '未选择任何文件'
+    title: state.updown.title || '商品导入导出',
+    txt: state.updown.txt || '未选择任何文件'
 });
 
 const mapDispatchToProps = (dispatch) => ({
