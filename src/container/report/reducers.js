@@ -30,7 +30,7 @@ import {
 };*/
 
 const chartLegend = (state = {}, action) => {
-    
+
     switch (action.type) {
 
         case SET_CHARTS_LEGEND:
