@@ -98,7 +98,7 @@ export const fetchChartData = ({reportId, _params}) => (dispatch, getState) => {
             dispatch(receiveChartData(chartsConfig));
             dispatch(setChartLegend(chartsConfig.legend));
         },
-        err => dispatch(globalMessageError('图表数据获取失败，请刷新重试'))
+        err => dispatch(globalMessageError(err.message))
     ).then(e => dispatch(setChartButtonState({submit: false})));
 };
 
@@ -159,7 +159,7 @@ export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch 
         reportId: reportId,
     }).then(
         res => dispatch(receiveUnionSelect(res)),
-        err => dispatch(globalMessageError('下拉数据拉取失败，请刷新重试'))
+        err => dispatch(globalMessageError(err.message))
     ).then(e => dispatch(globalLoadingHide()));
 };
 

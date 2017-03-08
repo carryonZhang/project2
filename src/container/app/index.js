@@ -13,6 +13,7 @@ App.propTypes = {
 };
 
 let loadingHide = null;
+let globalMessage = null;
 
 const mapStateToProps = (state) => {
 
@@ -30,7 +31,14 @@ const mapStateToProps = (state) => {
 
         case 'error':
         case 'success':
-            return message[state.global.type](state.global.message);
+            if (!globalMessage) {
+                globalMessage = message[state.global.type](state.global.message, 0);
+                setTimeout(() => {
+                    globalMessage();
+                    globalMessage = null;
+                }, 1000); // 1 秒后自动移除
+            }
+            return;
 
         default:
             return state;

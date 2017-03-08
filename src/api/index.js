@@ -1,8 +1,8 @@
-import nattyFetch from "natty-fetch";
+import nattyFetch from 'natty-fetch';
 
 const apiContext = nattyFetch.context({
     mock: false,
-    urlPrefix: 'http://10.1.135.242:8080/',
+    urlPrefix: 'http://10.1.7.61:8080/athena-api/',
     mockUrlPrefix: 'http://mock.2dfire-daily.com/mock-serverapi/mockjsdata/',
     withCredentials: false,
     postDataFormat: 'JSON',

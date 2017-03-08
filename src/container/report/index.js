@@ -15,7 +15,7 @@ class ReportContainer extends Component {
 
         const {query} = this.props.location;
 
-        this.REPORT_ID = query.reportId || null;
+        this.REPORT_ID = query.reportId || '9fbc53fe14df458aa3a756c05dd4c816';
     }
 
     componentDidMount() {
