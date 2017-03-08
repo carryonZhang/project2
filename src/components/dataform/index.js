@@ -72,7 +72,7 @@ class DataForm extends Component {
                                         notFoundContent="没有数据"
                                         showSearch
                                         onSelect={_this.fetchUnionSelect.bind(_this, query.chainedPosValue)}
-                                        style={{width: 200}}
+                                        style={{width: '100%'}}
                                         optionFilterProp="children"
                                         placeholder={query.showDescription ? query.shortDescription : ''}
                                         initialValue={query.defaultValue}
@@ -103,7 +103,7 @@ class DataForm extends Component {
                                         {required: true, type: 'object', message: '请选择日期'}
                                     ]
                                 })(
-                                    <DatePicker placeholder="选择日期"/>
+                                    <DatePicker placeholder="选择日期" style={{width: '100%'}}/>
                                 )
                             }
 
@@ -122,7 +122,7 @@ class DataForm extends Component {
                                         {required: true, type: 'object', message: '请选择月份'}
                                     ]
                                 })(
-                                    <MonthPicker format="YYYY-MM" placeholder="选择月份"/>
+                                    <MonthPicker format="YYYY-MM" placeholder="选择月份" style={{width: '100%'}}/>
                                 )
                             }
                         </FormItem>
@@ -142,6 +142,7 @@ class DataForm extends Component {
                                     ]
                                 })(
                                     <Input initialValue={query.defaultValue}
+                                           style={{width: '100%'}}
                                            placeholder={query.shortDescription || ''}/>
                                 )
                             }
@@ -153,19 +154,18 @@ class DataForm extends Component {
         controls.push(
             <Col span={8} offset={16}>
                 <FormItem {...buttonItemLayout}>
-                    <Button type="danger"
-                            htmlType="submit"
-                            loading={buttonState.submit}
-                            className={styles.shadowButton}>查询</Button>
-                    <span className={styles.separate}/>
-                    <Button type="danger"
-                            className={styles.shadowButton}
-                            loading={buttonState.export}
-                            onClick={e => {
-                                this.getXls(antd_form, reportId, getExcel)
-                            }}>
-                        导出Excel
-                    </Button>
+                    <div className={styles.pullRight}>
+                        <Button type="primary"
+                                htmlType="submit"
+                                loading={buttonState.submit}
+                                className={styles.shadowButton}>查询</Button>
+                        <span className={styles.separate}/>
+                        <Button loading={buttonState.export} onClick={e => {
+                            this.getXls(antd_form, reportId, getExcel)
+                        }}>
+                            导出Excel
+                        </Button>
+                    </div>
                 </FormItem>
             </Col>
         );
