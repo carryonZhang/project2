@@ -116,7 +116,7 @@ class Main extends Component {
                     </FileUpload>
                 </div>
                 <div className={styles.export_part}>
-					<div className={styles.download_btn}>下载空白模版</div>
+					<div className={styles.download_btn}><a href="http://server.2dfire.com/rerp4/template/excelImportMenu.xls "></a>下载空白模版</div>
 					<div className={styles.export_btn}>导出商品信息</div>
                 </div>
             </div>
