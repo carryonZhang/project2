@@ -9,18 +9,30 @@ import {LEGEND_CHANGE} from "../../constants"
 
 class ReportContainer extends Component {
 
-    componentDidMount() {
-        // 初始化搜索条件
-        this.props.dispatch(action.fetchSearchArgs({reportId: 1}));
+    constructor(props) {
+        super(props);
 
-        // 初始化图标结构
-        this.props.dispatch(action.fetchChartConstruct({reportId: 1}));
+
+        const {query} = this.props.location;
+
+        this.REPORT_ID = query.reportId || null;
+    }
+
+    componentDidMount() {
+        const {dispatch} = this.props;
+
+        if (this.REPORT_ID) {
+            // 初始化搜索条件
+            dispatch(action.fetchSearchArgs({reportId: this.REPORT_ID}));
+
+            // 初始化图标结构
+            dispatch(action.fetchChartConstruct({reportId: this.REPORT_ID}));
+        }
     }
 
     render() {
         const self = this;
         const {
-            reportId,
             data,
             searchArgs,
             buttonState,
@@ -38,7 +50,7 @@ class ReportContainer extends Component {
                 {
                     searchArgs && <WrapForm buttonState={buttonState}
                                             conditions={searchArgs}
-                                            reportId={reportId}
+                                            reportId={this.REPORT_ID}
                                             onSubmit={onSubmitSearch}
                                             getExcel={onExportExcel}
                                             onFetchUnionSelect={onFetchUnionSelect}/>
@@ -79,11 +91,11 @@ const mapDispatchToProps = (dispatch) => ({
     onExportExcel: (id, data) => {
         dispatch(action.getExcel(id, data));
     },
-    onFetchUnionSelect: (id, value) => {
+    onFetchUnionSelect: (id, value, reportId) => {
         dispatch(action.fetchUnionSelect({
             parentValue: value,
             parentId: id,
-            reportId: '1'
+            reportId: reportId
         }))
     }
 });

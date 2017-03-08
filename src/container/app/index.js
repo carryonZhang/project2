@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
             break;
 
         case 'loadingHide':
-            return message.destroy();
+            return loadingHide();
 
         case 'error':
         case 'success':

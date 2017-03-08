@@ -1,7 +1,8 @@
 import nattyFetch from "natty-fetch";
 
 const apiContext = nattyFetch.context({
-    urlPrefix: '',
+    mock: false,
+    urlPrefix: 'http://10.1.135.242:8080/',
     mockUrlPrefix: 'http://mock.2dfire-daily.com/mock-serverapi/mockjsdata/',
     withCredentials: false,
     postDataFormat: 'JSON',
@@ -15,33 +16,38 @@ const apiContext = nattyFetch.context({
 });
 
 apiContext.create({
+
+    // 搜索条件
     'getSearchFormArgs': {
-        mock: true,
-        url: 'http://10.1.6.42:8080/athena-api/report/queryArgs.json?reportId=9fbc53fe14df458aa3a756c05dd4c816',
+        url: 'report/queryArgs.json',
         mockUrl: '127/report/queryArgs.json',
         method: 'POST'
     },
+
+    // 报表 chart 结构
     'getChartDetails': {
-        mock: true,
-        url: 'details',
+        url: 'report/details.json',
         mockUrl: '127/report/details.json',
         method: 'POST'
     },
+
+    // 报表 chart 数据
     'getChartData': {
-        mock: true,
-        url: 'chartdata',
+        url: 'report/data.json',
         mockUrl: '127/report/data.json',
-        method: "POST"
+        method: 'POST'
     },
+
+    // "导出 Excel "
     'getExcel': {
-        mock: true,
-        url: 'data.json',
+        url: 'report/exportXls.do',
         mockUrl: '127/report/exportXls.do',
         method: 'POST'
     },
+
+    // 联动下拉框时，异步取数据
     'getUnionSelect': {
-        mock: true,
-        url: 'http://10.1.135.242:8080/',
+        url: 'report/lovValues.json',
         mockUrl: '127/report/lovValues.json',
         method: 'POST'
     }

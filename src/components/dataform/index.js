@@ -9,7 +9,7 @@ import * as action from '../../action';
 const FormItem = Form.Item;
 const formItemLayout = {
     labelCol: {span: 6},
-    wrapperCol: {span: 10}
+    wrapperCol: {span: 18}
 };
 const buttonItemLayout = {
     wrapperCol: {offset: 1}
@@ -41,14 +41,12 @@ class DataForm extends Component {
         })
     }
 
-    fetchUnionSelect(targetId, value) {
-
+    fetchUnionSelect(targetId, reportId, value) {
         const find = this.props.conditions.filter(i => i.chainedFieldPos == targetId);
 
         for (let i = 0; i <= find.length - 1; i++) {
-            debugger
             if (find[i].hasOwnProperty('lovEntity')) {
-                this.props.onFetchUnionSelect(find[i].lovEntity.lovQueryId, value);
+                this.props.onFetchUnionSelect(find[i].lovEntity.lovQueryId, value, reportId);
             }
         }
     }
@@ -71,7 +69,7 @@ class DataForm extends Component {
                                     <Select
                                         notFoundContent="没有数据"
                                         showSearch
-                                        onSelect={_this.fetchUnionSelect.bind(_this, query.chainedPosValue)}
+                                        onSelect={_this.fetchUnionSelect.bind(_this, query.chainedPosValue, reportId)}
                                         style={{width: '100%'}}
                                         optionFilterProp="children"
                                         placeholder={query.showDescription ? query.shortDescription : ''}
@@ -179,7 +177,7 @@ class DataForm extends Component {
         const conditions = this.props.conditions;
         const getExcel = this.props.getExcel;
         const buttonState = this.props.buttonState;
-        console.log('dataform组件中接收到的属性', this.props);
+
         return (
             <Form className={styles.dataform} onSubmit={(e) => {
                 e.preventDefault();

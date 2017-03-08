@@ -95,7 +95,6 @@ export const fetchChartData = ({reportId, _params}) => (dispatch, getState) => {
     api.getChartData({reportId, ..._params}).then(
         res => {
             const chartsConfig = formatOptions(reports.construct, res); // formatOptions(结构, 数据) 返回完整报表
-
             dispatch(receiveChartData(chartsConfig));
             dispatch(setChartLegend(chartsConfig.legend));
         },
@@ -153,6 +152,7 @@ export const getExcel = (id, data) => {
 // 下拉框联动请求
 export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch => {
     dispatch(globalLoading());
+
     api.getUnionSelect({
         chainedParamValue: parentValue,
         lovQueryId: parentId,
