@@ -15,11 +15,8 @@ function formatOptions(details, data) {
     const rows = DATA.rows;
     const columnsData = DATA.columns;
 
-    // debugger;
-
     let hasChart = false;
     let hasTable = false;
-
 
     // table start
     let tableData = null;
@@ -182,19 +179,17 @@ function formatOptions(details, data) {
         // option
         color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
         grid: {
-            show: false,
-            bottom: "20%",
-            height: "80%",
-            containLabel: true
+            top: "5%",
+            height: "75%",
         },
-        /*tooltip: {
-            show: false,
+        tooltip: {
+            show: true,
             trigger: 'axis'
         },
-        toolbox: {
-            show: false
+       toolbox: {
+            show: true
         },
-        legend: {
+        /*legend: {
          data: legendData,
          selected: legendSelected,
          show: false
@@ -224,6 +219,7 @@ function formatOptions(details, data) {
 
 function getTableData(xLabel, rows, columnsData) {
     const dataSource = rows.map((daily, index) => {
+        console.log(daily)
         daily.key = index;
         return daily;
     });
@@ -232,12 +228,14 @@ function getTableData(xLabel, rows, columnsData) {
         col.title = ele;
         col.dataIndex = ele;
         col.key = ele;
-        col.width = 150;
+        col.width = 200;
         if (ele === xLabel) {
             col.fixed = 'left';
         }
         return col;
     });
+    console.log(columns)
+    console.log(dataSource);
     return {
         dataSource,
         columns

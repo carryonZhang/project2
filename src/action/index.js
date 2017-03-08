@@ -88,6 +88,7 @@ export const fetchChartData = ({reportId, params}) => (dispatch, getState) => {
 
     const {reports} = getState(); // 从之前初始化保存的 state 中取出结构数据
 
+    dispatch(globalLoading());
     api.getChartData({reportId, ...params}).then(
         e => {
             const chartsConfig = formatOptions(reports.construct, e); // formatOptions(结构, 数据) 返回完整报表
@@ -96,7 +97,9 @@ export const fetchChartData = ({reportId, params}) => (dispatch, getState) => {
             dispatch(setChartLegend(chartsConfig.legend));
         },
         err => dispatch(globalMessageError('图表数据获取失败，请刷新重试'))
-    )
+    );
+    dispatch(globalLoadingHide());
+
 };
 
 export const receiveChartData = data => ({

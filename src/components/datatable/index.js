@@ -11,10 +11,10 @@ export default function DataTable({dataSource, columns}) {
             <Table
                 dataSource={dataSource}
                 columns={columns}
-                scroll={{x: 1500, y: 300}}
+                scroll={{x: 10000, y: 500}}
+                pagination={{defaultPageSize: 10, }}
                 bordered
             />
         </div>
-
     )
 }

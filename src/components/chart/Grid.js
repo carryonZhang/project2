@@ -29,7 +29,7 @@ class Grid extends Component {
         const canvasSize = this.state.canvasSize;
         return (
             <div className={styles.grid}>
-                <ReactEcharts option={this.props.option} style={canvasSize}/>
+                <ReactEcharts option={this.props.option} style={canvasSize} />
             </div>
 
         )
