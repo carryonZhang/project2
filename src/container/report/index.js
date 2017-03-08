@@ -70,8 +70,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     dispatch,
-    onSubmitSearch: (id, data) => {
-        dispatch(action.fetchChartData({reportId: 1, arg1: '1', arg2: '2'}));
+    onSubmitSearch: (args) => {
+        dispatch(action.fetchChartData({reportId: 1, _params: {...args}}));
     },
     onLegendChange: (itemInfo) => {
         dispatch(action.setLegendChange(itemInfo))

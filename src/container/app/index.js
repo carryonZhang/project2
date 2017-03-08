@@ -22,14 +22,10 @@ const mapStateToProps = (state) => {
                 return;
             }
             loadingHide = message.loading('加载中', 0);
-            setTimeout(() => {
-                loadingHide();
-                loadingHide = null;
-            }, 5000); // 5 秒后自动移除
+            setTimeout(loadingHide, 5000); // 5 秒后自动移除
             break;
 
         case 'loadingHide':
-            loadingHide = null;
             return message.destroy();
 
         case 'error':
