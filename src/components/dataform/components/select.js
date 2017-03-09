@@ -19,7 +19,7 @@ const SelectComponent = ({form, data, layout, onFetchUnionSelect}) => {
     };
 
     const options = {
-        initialValue: data.defaultValue || (data.lovEntity && data.lovEntity.values.length > 0 ? data.lovEntity.values[0].right : ''),
+        initialValue: data.defaultValue, // || (data.lovEntity && data.lovEntity.values.length > 0 ? data.lovEntity.values[0].right : ''),
         rules: [
             {
                 required: false,
@@ -30,9 +30,9 @@ const SelectComponent = ({form, data, layout, onFetchUnionSelect}) => {
 
     value = options.initialValue;
 
-    if(data.new){
-        form.resetFields([[data.fieldLabel]])
-    }
+    // if(data.new){
+    //     form.resetFields([[data.fieldLabel]])
+    // }
 
     // form.setFieldsValue({
     //     [data.fieldLabel]: options.initialValue

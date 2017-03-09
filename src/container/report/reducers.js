@@ -70,7 +70,7 @@ const searchFormReducer = (state = [], action) => {
                     const value = action.child.values;
                     return Object.assign({}, e, {
                         new: true,
-                        // defaultValue: value.length > 0 && value[0].right,
+                        defaultValue: '',
                         lovEntity: action.child
                     })
                 } else {
