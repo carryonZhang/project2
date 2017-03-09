@@ -18,18 +18,19 @@ const Legend = ({legendSelected, onLegendChange}) => {
                 );
         });
 
-        const rows = [];
+        // 不要删
+        /*const rows = [];
         for (let index = 0; index < labels.length; index = index + 8) {
             rows.push(
                 <Row>
                     {labels.slice(index, index + 8)}
                 </Row>
             )
-        }
+        }*/
 
         return (
             <div className={styles.legend}>
-                {rows}
+                {labels}
             </div>
         )
 };
