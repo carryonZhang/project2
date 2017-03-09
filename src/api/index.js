@@ -1,7 +1,7 @@
 import nattyFetch from 'natty-fetch';
 
 const envUrlPrefix = {
-    'DEV': 'http://10.1.7.61:8080/', // 项目环境
+    'DEV': 'http://10.1.7.61:8080/athena-api/', // 项目环境
 
     'DAILY': 'http://athena-api.2dfire-daily.com/',
     'PRE': 'http://athena-api.2dfire-pre.com/',
