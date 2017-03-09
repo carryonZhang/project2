@@ -1,6 +1,4 @@
-/**
- * Created by long-mac on 2017/2/25.
- */
+/* eslint-disable */
 import React, {Component} from 'react';
 import {Form, DatePicker, Input, Button, Col, Row, Select} from 'antd';
 import styles from './style.css';

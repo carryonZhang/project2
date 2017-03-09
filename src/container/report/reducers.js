@@ -1,9 +1,7 @@
 import {combineReducers} from "redux";
 
 import {
-    RECEIVE_CHARTS_LEGEND,
     RECEIVE_SEARCH_ARGS,
-
     RECEIVE_CHARTS_CONSTRUCT,
     RECEIVE_CHARTS_DATA,
     SET_LEGEND_CHANGE,
@@ -30,10 +28,8 @@ const chartLegend = (state = {}, action) => {
 // 报表结构
 const chartConstruct = (state = {}, action) => {
     switch (action.type) {
-
         case RECEIVE_CHARTS_CONSTRUCT:
             return action.construct;
-
         default:
             return state;
     }
@@ -71,7 +67,7 @@ const searchFormReducer = (state = [], action) => {
             return state.map(e => {
 
                 //  ...接口定义 @yama
-                if (e.lovEntity && (e.lovEntity.lovQueryId == action.child.lovQueryId)) {
+                if (e.lovEntity && (e.lovEntity.lovQueryId === action.child.lovQueryId)) {
                     return Object.assign({}, e, {lovEntity: action.child})
                 } else {
                     return e;
