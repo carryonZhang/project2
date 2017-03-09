@@ -50,7 +50,7 @@ class ReportContainer extends Component {
                                             conditions={searchArgs}
                                             reportId={this.REPORT_ID}
                                             onSubmit={onSubmitSearch}
-                                            getExcel={onExportExcel}
+                                            onExportExcel={onExportExcel}
                                             onFetchUnionSelect={onFetchUnionSelect}/>
                 }
                 {

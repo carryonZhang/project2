@@ -1,21 +1,28 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
+import moment from 'moment';
 import {Form, DatePicker} from 'antd';
 
-const formRule = [
-    {
-        required: false,
-        type: 'object',
-        message: '请选择日期'
-    }
-];
+const DateComponent = ({form, data, layout}) => {
 
-const DateComponent = ({form, data, layout}) => (
-    <Form.Item label={data.fieldShowName} {...layout}>
-        {form.getFieldDecorator(data.fieldLabel, {rules: formRule})(
-            <DatePicker placeholder="请选择日期" style={{width: '100%'}}/>
-        )}
-    </Form.Item>
-);
+    const options = {
+        initialValue: moment(data.defaultValue, 'YYYY-MM-DD'),
+        rules: [
+            {
+                required: false,
+                type: 'object',
+                message: '请选择日期'
+            }
+        ]
+    };
+
+    return (
+        <Form.Item label={data.fieldShowName} {...layout}>
+            {form.getFieldDecorator(data.fieldLabel, options)(
+                <DatePicker placeholder="请选择日期" format="YYYY-MM-DD" style={{width: '100%'}}/>
+            )}
+        </Form.Item>
+    )
+};
 
 DateComponent.propTypes = {
     form: PropTypes.object.isRequired,

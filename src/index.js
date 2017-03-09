@@ -17,14 +17,6 @@ const rootRoute = {
     childRoutes: createRoutes(store)
 };
 
-// function handleGlobalMessage() {
-//     const {global} = store.getState();
-//
-//     debugger
-// }
-//
-// store.subscribe(handleGlobalMessage);
-
 render(
     <Provider store={store}>
         <Router history={hashHistory} routes={rootRoute}/>

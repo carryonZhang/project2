@@ -65,10 +65,14 @@ const searchFormReducer = (state = [], action) => {
 
         case RECEIVE_UNION_SELECT:
             return state.map(e => {
-
                 //  ...接口定义 @yama
                 if (e.lovEntity && (e.lovEntity.lovQueryId === action.child.lovQueryId)) {
-                    return Object.assign({}, e, {lovEntity: action.child})
+                    const value = action.child.values;
+                    return Object.assign({}, e, {
+                        new: true,
+                        // defaultValue: value.length > 0 && value[0].right,
+                        lovEntity: action.child
+                    })
                 } else {
                     return e;
                 }

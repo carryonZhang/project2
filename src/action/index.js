@@ -116,8 +116,6 @@ export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
 
 
 
-
-
 /******************************************************
  * 报表搜索框
  */
@@ -132,6 +130,7 @@ export const receiveSearchArgs = args => ({
     type: RECEIVE_SEARCH_ARGS,
     args
 });
+
 export const fetchSearchArgs = ({reportId}) => {
     return (dispatch) => {
         dispatch(globalLoading());
@@ -141,8 +140,6 @@ export const fetchSearchArgs = ({reportId}) => {
         ).then(e => dispatch(globalLoadingHide()));
     }
 };
-
-
 
 // 导出excel
 export const getExcel = (id, data) => {
