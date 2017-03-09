@@ -19,10 +19,10 @@ const Legend = ({legendSelected, onLegendChange}) => {
         });
 
         const rows = [];
-        for (let index = 0; index < labels.length; index = index + 12) {
+        for (let index = 0; index < labels.length; index = index + 8) {
             rows.push(
                 <Row>
-                    {labels.slice(index, index + 12)}
+                    {labels.slice(index, index + 8)}
                 </Row>
             )
         }
