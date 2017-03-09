@@ -1,10 +1,12 @@
-/**
- * Created by long-mac on 2017/2/25.
- */
 import React, {Component} from 'react';
 import {Form, DatePicker, Input, Button, Col, Row, Select} from 'antd';
 import styles from './style.css';
-import * as action from '../../action';
+
+
+import DateComponent from './components/date';
+import MonthComponent from './components/month';
+import StringComponent from './components/string';
+
 
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -91,60 +93,20 @@ class DataForm extends Component {
             } else if (query.fieldDataType === 'DATE') {
                 controls.push(
                     <Col span={8}>
-                        <FormItem label={query.fieldShowName}
-                                  {...formItemLayout}
-                        >
-                            {
-
-                                getFieldDecorator(query.fieldLabel, {
-                                    rules: [
-                                        {required: true, type: 'object', message: '请选择日期'}
-                                    ]
-                                })(
-                                    <DatePicker placeholder="选择日期" style={{width: '100%'}}/>
-                                )
-                            }
-
-                        </FormItem>
+                        <DateComponent form={antd_form} data={query} layout={formItemLayout}/>
                     </Col>
                 )
             } else if (query.fieldDataType === 'MONTH') {
                 controls.push(
                     <Col span={8}>
-                        <FormItem label={query.fieldShowName}
-                                  {...formItemLayout}
-                        >
-                            {
-                                getFieldDecorator(query.fieldLabel, {
-                                    rules: [
-                                        {required: true, type: 'object', message: '请选择月份'}
-                                    ]
-                                })(
-                                    <MonthPicker format="YYYY-MM" placeholder="选择月份" style={{width: '100%'}}/>
-                                )
-                            }
-                        </FormItem>
+                        <MonthComponent form={antd_form} data={query} layout={formItemLayout}/>
                     </Col>
                 )
 
             } else if (query.fieldDataType === 'STRING') {
                 controls.push(
                     <Col span={8}>
-                        <FormItem label={query.fieldShowName}
-                                  {...formItemLayout}
-                        >
-                            {
-                                getFieldDecorator(query.fieldLabel, {
-                                    rules: [
-                                        {required: false}
-                                    ]
-                                })(
-                                    <Input initialValue={query.defaultValue}
-                                           style={{width: '100%'}}
-                                           placeholder={query.shortDescription || ''}/>
-                                )
-                            }
-                        </FormItem>
+                        <StringComponent form={antd_form} data={query} layout={formItemLayout}/>
                     </Col>
                 )
             }
