@@ -2,7 +2,6 @@ import {combineReducers} from "redux";
 
 import {
     RECEIVE_SEARCH_ARGS,
-
     RECEIVE_CHARTS_CONSTRUCT,
     RECEIVE_CHARTS_DATA,
     SET_LEGEND_CHANGE,
@@ -29,10 +28,8 @@ const chartLegend = (state = {}, action) => {
 // 报表结构
 const chartConstruct = (state = {}, action) => {
     switch (action.type) {
-
         case RECEIVE_CHARTS_CONSTRUCT:
             return action.construct;
-
         default:
             return state;
     }

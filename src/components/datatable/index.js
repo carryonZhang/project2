@@ -1,7 +1,7 @@
 /**
  * Created by long-mac on 2017/2/24.
  */
-import React, {Component} from 'react';
+import React from 'react';
 import {Table} from 'antd';
 import styles from "./style.css"
 

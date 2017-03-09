@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
+/* eslint-disable */
+import React, {Component}from 'react';
 import {Form, DatePicker, Input, Button, Col, Row, Select} from 'antd';
 import styles from './style.css';
-
 
 import DateComponent from './components/date';
 import MonthComponent from './components/month';
 import StringComponent from './components/string';
-
 
 const FormItem = Form.Item;
 const formItemLayout = {

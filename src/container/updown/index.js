@@ -1,14 +1,10 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
 import {connect} from 'react-redux';
 
 import Header from '../../components/header';
 import Main from '../../components/updown/main';
 
-
 import styles from './style.css';
-
-import * as action from '../../action';
-
 
 const UpdownContainer = (state) => (
     <div className={styles.wrapper}>

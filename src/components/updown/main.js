@@ -33,12 +33,12 @@ function renderOptions() {
 
             chooseFile: (files) => {
                 if (!files) return false;
-                console.log('you choose', typeof files == 'string' ? files : files[0].name);
-                let txt = typeof files == 'string' ? files : files[0].name;
+                console.log('you choose', typeof files === 'string' ? files : files[0].name);
+                let txt = typeof files === 'string' ? files : files[0].name;
                 dispatch(action.setInputText(txt));
             },
             beforeUpload : function(files,mill){
-                if(typeof files == String) return true
+                if(typeof files === String) return true
                 if(files[0]&&files[0].size<1024*1024*20){
                     files[0].mill = mill
                     return true
@@ -46,7 +46,7 @@ function renderOptions() {
                 return false
             },
             doUpload: function (files, mill) {
-                console.log('you just uploaded', typeof files == 'string' ? files : files[0].name)
+                console.log('you just uploaded', typeof files === 'string' ? files : files[0].name)
             },
             uploading: function (progress) {
                 console.log('loading...', progress.loaded / progress.total + '%')
@@ -81,7 +81,7 @@ class Main extends Component {
 			console.log('11',oInput.value);
 			dispatch(action.setInputText('未选择任何文件'));
 		}
-	
+
 	}
 
     render() {

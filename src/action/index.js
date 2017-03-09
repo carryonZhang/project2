@@ -40,7 +40,6 @@ export const globalLoadingHide = () => ({
  */
 
 import {
-    RECEIVE_CHARTS_LEGEND,
     RECEIVE_CHARTS_CONSTRUCT,
     RECEIVE_CHARTS_DATA,
     SET_LEGEND_CHANGE,
@@ -61,10 +60,12 @@ export const setLegendChange = (legendSelected) => ({
 });
 
 //  return whole legend to reducer
+/*
 const receiveChartsLegend = legend => ({
     type: RECEIVE_CHARTS_LEGEND,
     legend
 });
+*/
 
 /**
  * 1.进入页面直接拉取原始结构，并存储到 reducer
@@ -72,6 +73,11 @@ const receiveChartsLegend = legend => ({
  */
 
 // 1.获取报表初始化结构
+export const receiveChartConstruct = construct => ({
+    type: RECEIVE_CHARTS_CONSTRUCT,
+    construct
+});
+
 export const fetchChartConstruct = ({reportId}) => (dispatch) => {
     dispatch(globalLoading());
 
@@ -81,12 +87,18 @@ export const fetchChartConstruct = ({reportId}) => (dispatch) => {
     ).then(e => dispatch(globalLoadingHide()));
 };
 
-export const receiveChartConstruct = construct => ({
-    type: RECEIVE_CHARTS_CONSTRUCT,
-    construct
-});
+
 
 // 2.获取报表详细数据
+export const setChartButtonState = status => ({
+type: SET_SEARCH_BUTTON_STATE,
+    status
+});
+export const receiveChartData = data => ({
+    type: RECEIVE_CHARTS_DATA,
+    data
+});
+
 export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
     const {reports} = getState(); // 从之前初始化保存的 state 中取出结构数据
 
@@ -102,15 +114,8 @@ export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
     ).then(e => dispatch(setChartButtonState({submit: false})));
 };
 
-export const setChartButtonState = status => ({
-    type: SET_SEARCH_BUTTON_STATE,
-    status
-});
 
-export const receiveChartData = data => ({
-    type: RECEIVE_CHARTS_DATA,
-    data
-});
+
 
 
 /******************************************************
@@ -118,13 +123,15 @@ export const receiveChartData = data => ({
  */
 
 import {
-    FORM_INIT,
-    GET_REPORT,
     RECEIVE_SEARCH_ARGS,
     RECEIVE_UNION_SELECT
 } from '../constants';
 
 // 获取初始化参数
+export const receiveSearchArgs = args => ({
+    type: RECEIVE_SEARCH_ARGS,
+    args
+});
 export const fetchSearchArgs = ({reportId}) => {
     return (dispatch) => {
         dispatch(globalLoading());
@@ -135,10 +142,7 @@ export const fetchSearchArgs = ({reportId}) => {
     }
 };
 
-export const receiveSearchArgs = args => ({
-    type: RECEIVE_SEARCH_ARGS,
-    args
-});
+
 
 // 导出excel
 export const getExcel = (id, data) => {
@@ -150,6 +154,11 @@ export const getExcel = (id, data) => {
 };
 
 // 下拉框联动请求
+export const receiveUnionSelect = child => ({
+    type: RECEIVE_UNION_SELECT,
+    child
+});
+
 export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch => {
     dispatch(globalLoading());
 
@@ -163,10 +172,6 @@ export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch 
     ).then(e => dispatch(globalLoadingHide()));
 };
 
-export const receiveUnionSelect = child => ({
-    type: RECEIVE_UNION_SELECT,
-    child
-});
 
 /**
  * ****************************************************

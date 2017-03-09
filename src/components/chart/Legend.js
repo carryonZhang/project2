@@ -1,7 +1,7 @@
-import React, {Component} from "react"
+import React from "react"
 import Label from "./Label"
 import styles from "./style.css"
-import {Row, Col} from "antd"
+import {Row} from "antd"
 
 const Legend = ({legendSelected, onLegendChange}) => {
 
@@ -19,18 +19,18 @@ const Legend = ({legendSelected, onLegendChange}) => {
         });
 
         // 不要删
-        /*const rows = [];
-        for (let index = 0; index < labels.length; index = index + 8) {
+        const rows = [];
+        for (let index = 0; index < labels.length; index += 8) {
             rows.push(
                 <Row>
                     {labels.slice(index, index + 8)}
                 </Row>
             )
-        }*/
+        }
 
         return (
             <div className={styles.legend}>
-                {labels}
+                {rows}
             </div>
         )
 };

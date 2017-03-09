@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import Grid from "./Grid"
 import Legend from "./Legend"
 
