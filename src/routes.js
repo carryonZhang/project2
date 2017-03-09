@@ -1,5 +1,4 @@
-/* eslint-disable */
-__webpack_public_path__ = __CDN_JS__;
+__webpack_public_path__ = __CDN_JS__; // eslint-disable-line
 
 import {injectAsyncReducer} from './utils/asyncInjector';
 
