@@ -71,7 +71,7 @@ const searchFormReducer = (state = [], action) => {
             return state.map(e => {
 
                 //  ...接口定义 @yama
-                if (e.lovEntity.lovQueryId == action.child.lovQueryId) {
+                if (e.lovEntity && (e.lovEntity.lovQueryId == action.child.lovQueryId)) {
                     return Object.assign({}, e, {lovEntity: action.child})
                 } else {
                     return e;
