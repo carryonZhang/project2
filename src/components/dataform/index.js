@@ -196,7 +196,7 @@ class DataForm extends Component {
                         }
                     }
 
-                    onSubmit(values);
+                    onSubmit(reportId, values);
                 });
             }}
             >

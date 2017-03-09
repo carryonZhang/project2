@@ -87,12 +87,12 @@ export const receiveChartConstruct = construct => ({
 });
 
 // 2.获取报表详细数据
-export const fetchChartData = ({reportId, _params}) => (dispatch, getState) => {
+export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
     const {reports} = getState(); // 从之前初始化保存的 state 中取出结构数据
 
     dispatch(setChartButtonState({submit: true}));
 
-    api.getChartData({reportId, ..._params}).then(
+    api.getChartData({reportId, ...args}).then(
         res => {
             const chartsConfig = formatOptions(reports.construct, res); // formatOptions(结构, 数据) 返回完整报表
             dispatch(receiveChartData(chartsConfig));
