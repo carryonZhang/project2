@@ -5,7 +5,6 @@ import Chart from "../../components/chart";
 import DataTable from "../../components/datatable"
 
 import * as action from "../../action"
-import {LEGEND_CHANGE} from "../../constants"
 
 class ReportContainer extends Component {
 
@@ -31,7 +30,6 @@ class ReportContainer extends Component {
     }
 
     render() {
-        const self = this;
         const {
             data,
             searchArgs,

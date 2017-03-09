@@ -1,8 +1,7 @@
 /* eslint-disable */
-import React, {Component} from 'react';
+import React, {Component}from 'react';
 import {Form, DatePicker, Input, Button, Col, Row, Select} from 'antd';
 import styles from './style.css';
-import * as action from '../../action';
 
 const FormItem = Form.Item;
 const formItemLayout = {
