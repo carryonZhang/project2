@@ -36,6 +36,18 @@ export default function createRoutes(store) {
                     render(null, container);
                 }, 'updown');
             }
+        },
+        {
+            path: '/welcome',
+            name: 'welcome',
+            getComponent: (location, render) => {
+                require.ensure([
+                    './container/welcome'
+                ], (require) => {
+                    const container = require('./container/welcome').default;
+                    render(null, container);
+                }, 'welcome');
+            }
         }
     ]
 }

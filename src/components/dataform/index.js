@@ -4,17 +4,20 @@
 import React, {Component} from 'react';
 import {Form, DatePicker, Input, Button, Col, Row, Select} from 'antd';
 import styles from './style.css';
+import * as action from '../../action';
 
 const FormItem = Form.Item;
 const formItemLayout = {
-    labelCol: {span: 4},
-    wrapperCol: {span: 10}
+    labelCol: {span: 6},
+    wrapperCol: {span: 18}
 };
 const buttonItemLayout = {
     wrapperCol: {offset: 1}
 };
 const Option = Select.Option;
 const MonthPicker = DatePicker.MonthPicker;
+
+
 class DataForm extends Component {
     constructor(props) {
         super(props);
@@ -29,26 +32,32 @@ class DataForm extends Component {
         }
         return ops;
     }
+
     getXls(antd_form, reportId, getExcel) {
-        antd_form.validateFields((err, values) =>  {
-            if(!err) {
-                console.log('导出查询条件时的表单条件', values)
-                getExcel(reportId,  values)
+        antd_form.validateFields((err, values) => {
+            if (!err) {
+                getExcel(reportId, values)
             }
         })
     }
 
-// {
-//     _this.genOptions(query.lovEntity.values)
-// }
+    fetchUnionSelect(targetId, reportId, value) {
+        const find = this.props.conditions.filter(i => i.chainedFieldPos == targetId);
 
-    queryType(antd_form,  querys,  reportId,  getExcel) {
+        for (let i = 0; i <= find.length - 1; i++) {
+            if (find[i].hasOwnProperty('lovEntity')) {
+                this.props.onFetchUnionSelect(find[i].lovEntity.lovQueryId, value, reportId);
+            }
+        }
+    }
+
+    queryType(antd_form, querys, reportId, getExcel, buttonState) {
         let controls = [];
         let _this = this;
-        const { getFieldDecorator } = antd_form;
-        console.log('queryType中的查询条件', querys);
-        querys.forEach(function(query) {
-            if(query.useLov === 'Y') {
+        const {getFieldDecorator} = antd_form;
+
+        querys.forEach(function (query) {
+            if (query.useLov == 'Y') {
                 controls.push(
                     <Col span={8}>
                         <FormItem
@@ -56,25 +65,21 @@ class DataForm extends Component {
                             {...formItemLayout}
                         >
                             {
-                                getFieldDecorator(query.fieldLabel, {
-                                    rules: [
-                                        {required: false}
-                                    ]
-                                })
-                                (
+                                getFieldDecorator(query.fieldLabel, {rules: [{required: false}]})(
                                     <Select
+                                        notFoundContent="没有数据"
                                         showSearch
-                                        style={{ width: 200 }}
+                                        onSelect={_this.fetchUnionSelect.bind(_this, query.chainedPosValue, reportId)}
+                                        style={{width: '100%'}}
                                         optionFilterProp="children"
                                         placeholder={query.showDescription ? query.shortDescription : ''}
                                         initialValue={query.defaultValue}
                                         filterOption={(input, option) => {
-                                            return option.props.children.indexOf(input) >= 0
-                                            // return option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                            return option.props.children.indexOf(input) >= 0;
                                         }}
                                     >
                                         {
-                                            _this.genOptions(query.lovEntity.values)
+                                            query.lovEntity && _this.genOptions(query.lovEntity.values)
                                         }
                                     </Select>
                                 )
@@ -82,55 +87,51 @@ class DataForm extends Component {
 
                         </FormItem>
                     </Col>
-
                 )
-            }else if(query.fieldDataType === 'DATE') {
+            } else if (query.fieldDataType === 'DATE') {
                 controls.push(
                     <Col span={8}>
                         <FormItem label={query.fieldShowName}
-                            {...formItemLayout}
+                                  {...formItemLayout}
                         >
                             {
 
                                 getFieldDecorator(query.fieldLabel, {
                                     rules: [
-                                        {required: true, type: 'object', message: 'Please select time!'}
+                                        {required: true, type: 'object', message: '请选择日期'}
                                     ]
                                 })(
-                                    <DatePicker
-                                        showTime
-                                        placeholder="选择时间"
-                                    />
+                                    <DatePicker placeholder="选择日期" style={{width: '100%'}}/>
                                 )
                             }
 
                         </FormItem>
                     </Col>
                 )
-            }else if(query.fieldDataType === 'MONTH') {
+            } else if (query.fieldDataType === 'MONTH') {
                 controls.push(
                     <Col span={8}>
                         <FormItem label={query.fieldShowName}
-                            {...formItemLayout}
+                                  {...formItemLayout}
                         >
                             {
                                 getFieldDecorator(query.fieldLabel, {
                                     rules: [
-                                        {required: true, type: 'object', message: 'Please select time!'}
+                                        {required: true, type: 'object', message: '请选择月份'}
                                     ]
                                 })(
-                                    <MonthPicker format="YYYY-MM"/>
+                                    <MonthPicker format="YYYY-MM" placeholder="选择月份" style={{width: '100%'}}/>
                                 )
                             }
                         </FormItem>
                     </Col>
                 )
 
-            }else if(query.fieldDataType === 'STRING') {
+            } else if (query.fieldDataType === 'STRING') {
                 controls.push(
                     <Col span={8}>
                         <FormItem label={query.fieldShowName}
-                            {...formItemLayout}
+                                  {...formItemLayout}
                         >
                             {
                                 getFieldDecorator(query.fieldLabel, {
@@ -138,7 +139,9 @@ class DataForm extends Component {
                                         {required: false}
                                     ]
                                 })(
-                                    <Input initialValue={query.defaultValue} placeholder={query.shortDescription} />
+                                    <Input initialValue={query.defaultValue}
+                                           style={{width: '100%'}}
+                                           placeholder={query.shortDescription || ''}/>
                                 )
                             }
                         </FormItem>
@@ -149,177 +152,56 @@ class DataForm extends Component {
         controls.push(
             <Col span={8} offset={16}>
                 <FormItem {...buttonItemLayout}>
-                    <Button type="danger" htmlType="submit">查询</Button>
-                    <span className={styles.separate}></span>
-                    <Button type="danger" onClick={ () => {this.getXls(antd_form, reportId, getExcel)}}>导出Excel</Button>
+                    <div className={styles.pullRight}>
+                        <Button type="primary"
+                                htmlType="submit"
+                                loading={buttonState.submit}
+                                className={styles.shadowButton}>查询</Button>
+                        <span className={styles.separate}/>
+                        <Button loading={buttonState.export} onClick={e => {
+                            this.getXls(antd_form, reportId, getExcel)
+                        }}>
+                            导出Excel
+                        </Button>
+                    </div>
                 </FormItem>
             </Col>
-
         );
-        // console.log('queryType中生成的控件列表', form);
         return controls;
     }
 
-    // queryType(antd_form, querys) {
-    //     let controls = [];
-    //     let _this = this;
-    //     const {getFieldDecorator, getFieldsError, getFieldError} = antd_form;
-    //     console.log('queryType中的查询条件', querys);
-    //     querys.forEach(function (query) {
-    //         // console.log('控件类型', query.fieldDataType);
-    //         if (query.useLov === 'Y') {
-    //             controls.push(
-    //                 <Col span={8}>
-    //                     <FormItem
-    //                         label={query.fieldShowName}
-    //                         {...formItemLayout}
-    //                     >
-    //                         {
-    //                             getFieldDecorator('shopName', {
-    //                                 rules: [
-    //                                     {required: false}
-    //                                 ]
-    //                             })
-    //                             (
-    //                                 <Select
-    //                                     showSearch
-    //                                     style={{width: 200}}
-    //                                     optionFilterProp="children"
-    //                                     placeholder={query.showDescription ? query.shortDescription : ''}
-    //                                     initialValue={query.defaultValue}
-    //                                     filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-    //                                 >
-    //                                     {
-    //                                         _this.genOptions(query.lovEntity.values)
-    //                                     }
-    //                                 </Select>
-    //                             )
-    //                         }
-    //
-    //                     </FormItem>
-    //                 </Col>
-    //             )
-    //         } else if (query.fieldDataType === 'DATE') {
-    //             controls.push(
-    //                 <Col span={8}>
-    //                     <FormItem label={query.fieldShowName}
-    //                               {...formItemLayout}
-    //                     >
-    //                         {
-    //
-    //                             getFieldDecorator('date-picker', {
-    //                                 rules: [
-    //                                     {required: true, type: 'object', message: 'Please select time!'}
-    //                                 ]
-    //                             })(
-    //                                 <DatePicker
-    //                                     showTime
-    //                                     placeholder="选择时间"
-    //                                 />
-    //                             )
-    //                         }
-    //
-    //                     </FormItem>
-    //                 </Col>
-    //             )
-    //         } else if (query.fieldDataType === 'MONTH') {
-    //             controls.push(
-    //                 <Col span={8}>
-    //                     <FormItem label={query.fieldShowName}
-    //                               {...formItemLayout}
-    //                     >
-    //                         {
-    //                             getFieldDecorator('month-picker', {
-    //                                 rules: [
-    //                                     {required: true, type: 'object', message: 'Please select time!'}
-    //                                 ]
-    //                             })(
-    //                                 <MonthPicker />
-    //                             )
-    //                         }
-    //
-    //                     </FormItem>
-    //                 </Col>
-    //             )
-    //
-    //         } else if (query.fieldDataType === 'STRING') {
-    //             controls.push(
-    //                 <Col span={8}>
-    //                     <FormItem label={query.fieldShowName}
-    //                               {...formItemLayout}
-    //                     >
-    //                         {
-    //                             getFieldDecorator('input', {
-    //                                 rules: [
-    //                                     {required: false}
-    //                                 ]
-    //                             })(
-    //                                 <Input initialValue={query.defaultValue} placeholder={query.shortDescription}/>
-    //                             )
-    //                         }
-    //                     </FormItem>
-    //                 </Col>
-    //             )
-    //         }
-    //     });
-    //     controls.push(
-    //         <Col span={8} offset={16}>
-    //             <FormItem {...buttonItemLayout}>
-    //                 <Button type="danger" htmlType="submit">查询</Button>
-    //                 <span className={styles.separate}></span>
-    //                 <Button type="danger">导出Excel</Button>
-    //             </FormItem>
-    //         </Col>
-    //     );
-    //     // console.log('queryType中生成的控件列表', form);
-    //     return controls;
-    // }
-
     render() {
-        // const onSubmit = this.props.onSubmit;
-        // const reportId = this.props.reportId;
-        // const antd_form = this.props.form;
-        // const conditions = this.props.conditions;
-        // return (
-        //     <Form className={styles.dataform}
-        //           onSubmit={(e) => {
-        //               e.preventDefault();
-        //
-        //               antd_form.validateFields((err, values) => {
-        //                   console.log('报表id', reportId);
-        //                   console.log('发送的表单值', values);
-        //                   if (!err) {
-        //                       onSubmit(reportId, values);
-        //                   }
-        //               });
-        //           }}
-        //     >
-        //         <Row>
-        //             {this.queryType(antd_form, conditions)}
-        //         </Row>
-        //     </Form>
-        // );
-        const   onSubmit = this.props.onSubmit;
-        const   reportId = this.props.reportId;
-        const   antd_form = this.props.form;
-        const   conditions = this.props.conditions;
-        const   getExcel = this.props.getExcel;
-        console.log('dataform组件中接收到的属性', this.props);
-        return  (
-            <Form className={styles.dataform}
-                  onSubmit={(e) => {
-                        e.preventDefault();
-                        antd_form.validateFields((err, values) => {
-                          console.log('报表id', reportId);
-                          console.log('发送的表单值', values);
-                          if (!err) {
-                            onSubmit(reportId, values);
-                          }
-                        });
-              }}
+        const onSubmit = this.props.onSubmit;
+        const reportId = this.props.reportId;
+        const antd_form = this.props.form;
+        const conditions = this.props.conditions;
+        const getExcel = this.props.getExcel;
+        const buttonState = this.props.buttonState;
+
+        return (
+            <Form className={styles.dataform} onSubmit={(e) => {
+                e.preventDefault();
+                antd_form.validateFields((err, values) => {
+                    if (err) {
+                        return;
+                    }
+
+                    const vKey = Object.keys(values);
+
+                    for (let i = 0; i <= vKey.length; i++) {
+                        if (values.hasOwnProperty(vKey[i])) {
+                            if ('object' == typeof values[vKey[i]]) {
+                                values[vKey[i]] = values[vKey[i]].format('YYYY-MM-DD HH:mm:ss');
+                            }
+                        }
+                    }
+
+                    onSubmit(values);
+                });
+            }}
             >
                 <Row>
-                    {this.queryType(antd_form, conditions,  reportId,   getExcel)}
+                    {this.queryType(antd_form, conditions, reportId, getExcel, buttonState)}
                 </Row>
             </Form>
         );

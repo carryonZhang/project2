@@ -6,11 +6,8 @@ import * as action from '../../action';
 
 import FileUpload from 'react-fileupload';
 
-console.log('action', action);
-
 function renderOptions() {
-    return (disaptch) => {
-        disaptch(action.globalMessageSuccess('Dispatch 进来了呀'));
+    return (dispatch) => {
         return {
             baseUrl: 'http://localhost:3001',
             param: {
@@ -19,9 +16,9 @@ function renderOptions() {
             },
             dataType: 'json',
             wrapperDisplay: 'inline-block',
-            multiple: true,
-            numberLimit: 9,
-            accept: '*',
+            multiple: false,
+            numberLimit: 1,
+            accept: '*/*',
             chooseAndUpload: false,
             paramAddToField: {purpose: 'save'},
             //fileFieldName : 'file',
@@ -37,19 +34,17 @@ function renderOptions() {
             chooseFile: (files) => {
                 if (!files) return false;
                 console.log('you choose', typeof files == 'string' ? files : files[0].name);
-                // Main.changeText (files);//todo
                 let txt = typeof files == 'string' ? files : files[0].name;
-                // dispatch(setInputText(txt));
-                action.setInputText(txt);
+                dispatch(action.setInputText(txt));
             },
-            // beforeUpload : function(files,mill){
-            //     if(typeof files == string) return true
-            //     if(files[0].size<1024*1024*20){
-            //         files[0].mill = mill
-            //         return true
-            //     }
-            //     return false
-            // },
+            beforeUpload : function(files,mill){
+                if(typeof files == String) return true
+                if(files[0]&&files[0].size<1024*1024*20){
+                    files[0].mill = mill
+                    return true
+                }
+                return false
+            },
             doUpload: function (files, mill) {
                 console.log('you just uploaded', typeof files == 'string' ? files : files[0].name)
             },
@@ -67,24 +62,32 @@ function renderOptions() {
                 console.log("失败", resp);
                 message.info("上传失败");
             },
+            textBeforeFiles: true
         };
     }
 }
 
+
 class Main extends Component {
 
-    constructor(props) {
-        super(props)
+	clearFn (e){
+		e.preventDefault();
 
-        this.state = {
-            files: ''
-        }
-    }
+		var oInput =  document.querySelector('input[name=ajax_upload_file_input]');
+		var { dispatch } = this.props.state;
+
+		if(oInput){
+			oInput.value='';
+			console.log('11',oInput.value);
+			dispatch(action.setInputText('未选择任何文件'));
+		}
+	
+	}
 
     render() {
 
-        const t = this;
-        const {txt} = this.props.state;
+        const { txt , dispatch } = this.props.state;
+        console.log('this.props.state',this.props.state);
 
         const _options = renderOptions();
 
@@ -92,7 +95,7 @@ class Main extends Component {
 
             <div className={styles.main_wrapper}>
                 <div className={styles.import_part}>
-                    <FileUpload options={_options(this.props.state.dispatch)} style={{'height': 62}}>
+                    <FileUpload options={_options(dispatch)} style={{'height': 62}}>
                         <div className={styles.chose_area} ref="chooseBtn">
                             <p className={styles.chose_text}>选择文件</p>
                             <div className={styles.chose_btn}>
@@ -102,7 +105,7 @@ class Main extends Component {
                         </div>
                         <div className={styles.view_area}>
                             <p className={styles.view_text}>{txt}</p>
-                            <div className={styles.delete_btn}>
+                            <div className={styles.delete_btn} onClick={e=>{this.clearFn(e)}}>
                                 <div className={styles.delete_vertical}></div>
                                 <div className={styles.delete_horizontal}></div>
                             </div>
@@ -112,7 +115,10 @@ class Main extends Component {
                         </div>
                     </FileUpload>
                 </div>
-                <div className={styles.export_part}></div>
+                <div className={styles.export_part}>
+					<div className={styles.download_btn}><a href="http://server.2dfire.com/rerp4/template/excelImportMenu.xls "></a>下载空白模版</div>
+					<div className={styles.export_btn}>导出商品信息</div>
+                </div>
             </div>
         )
     }

@@ -44,7 +44,8 @@ import {
     RECEIVE_CHARTS_CONSTRUCT,
     RECEIVE_CHARTS_DATA,
     SET_LEGEND_CHANGE,
-    SET_CHARTS_LEGEND
+    SET_CHARTS_LEGEND,
+    SET_SEARCH_BUTTON_STATE
 } from '../constants';
 
 import formatOptions from '../container/report/formatOptions';
@@ -72,10 +73,12 @@ const receiveChartsLegend = legend => ({
 
 // 1.获取报表初始化结构
 export const fetchChartConstruct = ({reportId}) => (dispatch) => {
+    dispatch(globalLoading());
+
     api.getChartDetails({reportId}).then(
-        e => dispatch(receiveChartConstruct(e)),
+        res => dispatch(receiveChartConstruct(res)),
         err => dispatch(globalMessageError('图表初始化失败，请刷新重试'))
-    )
+    ).then(e => dispatch(globalLoadingHide()));
 };
 
 export const receiveChartConstruct = construct => ({
@@ -84,23 +87,25 @@ export const receiveChartConstruct = construct => ({
 });
 
 // 2.获取报表详细数据
-export const fetchChartData = ({reportId, params}) => (dispatch, getState) => {
-
+export const fetchChartData = ({reportId, _params}) => (dispatch, getState) => {
     const {reports} = getState(); // 从之前初始化保存的 state 中取出结构数据
 
-    dispatch(globalLoading());
-    api.getChartData({reportId, ...params}).then(
-        e => {
-            const chartsConfig = formatOptions(reports.construct, e); // formatOptions(结构, 数据) 返回完整报表
+    dispatch(setChartButtonState({submit: true}));
 
+    api.getChartData({reportId, ..._params}).then(
+        res => {
+            const chartsConfig = formatOptions(reports.construct, res); // formatOptions(结构, 数据) 返回完整报表
             dispatch(receiveChartData(chartsConfig));
             dispatch(setChartLegend(chartsConfig.legend));
         },
-        err => dispatch(globalMessageError('图表数据获取失败，请刷新重试'))
-    );
-    dispatch(globalLoadingHide());
-
+        err => dispatch(globalMessageError(err.message))
+    ).then(e => dispatch(setChartButtonState({submit: false})));
 };
+
+export const setChartButtonState = status => ({
+    type: SET_SEARCH_BUTTON_STATE,
+    status
+});
 
 export const receiveChartData = data => ({
     type: RECEIVE_CHARTS_DATA,
@@ -115,15 +120,18 @@ export const receiveChartData = data => ({
 import {
     FORM_INIT,
     GET_REPORT,
-    RECEIVE_SEARCH_ARGS
+    RECEIVE_SEARCH_ARGS,
+    RECEIVE_UNION_SELECT
 } from '../constants';
 
+// 获取初始化参数
 export const fetchSearchArgs = ({reportId}) => {
     return (dispatch) => {
+        dispatch(globalLoading());
         api.getSearchFormArgs({reportId}).then(
-            e => dispatch(receiveSearchArgs(e)),
+            res => dispatch(receiveSearchArgs(res)),
             err => dispatch(globalMessageError('搜索框条件拉取失败'))
-        );
+        ).then(e => dispatch(globalLoadingHide()));
     }
 };
 
@@ -132,20 +140,7 @@ export const receiveSearchArgs = args => ({
     args
 });
 
-
-export const getReport = ({reportId, mapData}) => {
-    return (dispatch) => {
-        api.getReport({reportId, Map: mapData}).then((res) => {
-            dispatch({
-                type: GET_REPORT,
-                report: res
-            })
-        }, (err) => {
-            console.log(err);
-        });
-    }
-};
-//导出excel
+// 导出excel
 export const getExcel = (id, data) => {
     api.getExcel({reportId: id, Map: data}).then((res) => {
         console.log(res);
@@ -153,6 +148,25 @@ export const getExcel = (id, data) => {
         console.log(err);
     });
 };
+
+// 下拉框联动请求
+export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch => {
+    dispatch(globalLoading());
+
+    api.getUnionSelect({
+        chainedParamValue: parentValue,
+        lovQueryId: parentId,
+        reportId: reportId,
+    }).then(
+        res => dispatch(receiveUnionSelect(res)),
+        err => dispatch(globalMessageError(err.message))
+    ).then(e => dispatch(globalLoadingHide()));
+};
+
+export const receiveUnionSelect = child => ({
+    type: RECEIVE_UNION_SELECT,
+    child
+});
 
 /**
  * ****************************************************
