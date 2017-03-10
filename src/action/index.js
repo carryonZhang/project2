@@ -104,7 +104,7 @@ export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
 
     dispatch(setChartButtonState({submit: true}));
 
-    api.getChartData({reportId, ...args}).then(
+    api.getChartData({reportId, params: args}).then(
         res => {
             const chartsConfig = formatOptions(reports.construct, res); // formatOptions(结构, 数据) 返回完整报表
             dispatch(receiveChartData(chartsConfig));
