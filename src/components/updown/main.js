@@ -9,7 +9,7 @@ import FileUpload from 'react-fileupload';
 function renderOptions() {
     return (dispatch) => {
         return {
-            baseUrl: 'http://localhost:3001',
+            baseUrl: 'http://10.1.7.189:8080/merchant/import/v1/menus',
             param: {
                 category: '1',
                 // _: Date().getTime()
@@ -46,7 +46,7 @@ function renderOptions() {
                 return false
             },
             doUpload: function (files, mill) {
-                console.log('you just uploaded', typeof files === 'string' ? files : files[0].name)
+                console.log('you just uploaded', typeof files === 'string' ? files : files[0]);
             },
             uploading: function (progress) {
                 console.log('loading...', progress.loaded / progress.total + '%')
