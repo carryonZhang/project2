@@ -27,12 +27,10 @@ function renderOptions() {
                 return file.name
             },
             withCredentials: false,
+
             requestHeaders: {
                 'X-Token': storage.get('token')
             },
-            //   beforeChoose : ()=>{
-            // return user.isAllowUpload
-            //   },
 
             chooseFile: (files) => {
                 if (!files) return false;
@@ -49,20 +47,18 @@ function renderOptions() {
                 return false
             },
             doUpload: function (files, mill) {
-                console.log('you just uploaded', typeof files === 'string' ? files : files[0]);
+                // console.log('you just uploaded', typeof files === 'string' ? files : files[0]);
             },
             uploading: function (progress) {
-                console.log('loading...', progress.loaded / progress.total + '%')
+                // console.log('loading...', progress.loaded / progress.total + '%')
             },
             uploadSuccess: function (resp) {
-                console.log('upload success..!')
+                message.info('upload success..!')
             },
             uploadError: function (err) {
-                console.log("错误", err.message);
                 message.info(err.message)
             },
             uploadFail: function (resp) {
-                console.log("失败", resp);
                 message.info("上传失败");
             },
             textBeforeFiles: true
