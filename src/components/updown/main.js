@@ -11,57 +11,88 @@ function renderOptions() {
     return (dispatch) => {
         return {
             baseUrl: 'http://10.1.7.189:8080/merchant-api/import/v1/menus',
+
             param: {
-                category: '1',
+                // category: '1',
                 // _: Date().getTime()
             },
+
             dataType: 'json',
+
             wrapperDisplay: 'inline-block',
+
             multiple: false,
+
             numberLimit: 1,
+
             accept: '*/*',
+
             chooseAndUpload: false,
+
             paramAddToField: {purpose: 'save'},
-            //fileFieldName : 'file',
-            fileFieldName(file){
-                return file.name
-            },
+
             withCredentials: false,
 
             requestHeaders: {
                 'X-Token': storage.get('token')
             },
 
-            chooseFile: (files) => {
-                if (!files) return false;
-                console.log('you choose', typeof files === 'string' ? files : files[0].name);
-                let txt = typeof files === 'string' ? files : files[0].name;
-                dispatch(action.setInputText(txt));
-            },
             beforeUpload: function (files, mill) {
-                if (typeof files === String) return true
-                if (files[0] && files[0].size < 1024 * 1024 * 20) {
-                    files[0].mill = mill
-                    return true
+
+                if (!files) {
+
+					return false;
+
+                } else {
+
+					var name = (typeof files === 'string') ? files : files[0].name;
+					console.log("name\n",name);
+
+					if (files[0] && files[0].size < 1024 * 1024 * 20) {
+	                    files[0].mill = mill
+
+	                    if (/\.(xls)$/.test(name)) {
+
+			                dispatch(action.setInputText(name));
+			                return true
+
+						} else {
+
+							message.info('仅允许上传格式为.xls的文件！');
+							return false;
+
+						}
+	                } else {
+	                	message.info('文件太大，无法上传！');
+	                	return false
+	                }
+					
                 }
-                return false
+                
             },
+
             doUpload: function (files, mill) {
                 // console.log('you just uploaded', typeof files === 'string' ? files : files[0]);
             },
+
             uploading: function (progress) {
                 // console.log('loading...', progress.loaded / progress.total + '%')
             },
+
             uploadSuccess: function (resp) {
                 message.info('upload success..!')
             },
+
             uploadError: function (err) {
                 message.info(err.message)
             },
+
             uploadFail: function (resp) {
                 message.info("上传失败");
             },
+
             textBeforeFiles: true
+
         };
     }
 }
