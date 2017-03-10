@@ -4,20 +4,26 @@ import WrapForm from '../../components/dataform';
 import Chart from "../../components/chart";
 import DataTable from "../../components/datatable"
 
-import * as action from "../../action"
+import * as action from "../../action";
+import * as bridge from '../../utils/bridge';
 
 class ReportContainer extends Component {
 
     constructor(props) {
         super(props);
 
-
         const {query} = this.props.location;
-
-        this.REPORT_ID = query.reportId || '9fbc53fe14df458aa3a756c05dd4c816';
+        this.REPORT_ID = query.reportId;
     }
 
-    componentDidMount() {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location.query.reportId !== this.REPORT_ID) {
+            this.REPORT_ID = nextProps.location.query.reportId;
+            this.fetchInitialData();
+        }
+    }
+
+    fetchInitialData() {
         const {dispatch} = this.props;
 
         if (this.REPORT_ID) {
@@ -29,8 +35,14 @@ class ReportContainer extends Component {
         }
     }
 
+    componentDidMount() {
+        this.fetchInitialData();
+    }
+
     render() {
         const {
+            location,
+
             data,
             searchArgs,
             buttonState,
@@ -41,8 +53,9 @@ class ReportContainer extends Component {
             onLegendChange // legend 修改
         } = this.props;
 
-        const tableData = data.tableData;
+        this.REPORT_ID = location.query.reportId;
 
+        const tableData = data.tableData;
         return (
             <div>
                 {
@@ -58,8 +71,7 @@ class ReportContainer extends Component {
                 }
 
                 {
-                    data.hasTable && <DataTable dataSource={tableData.dataSource}
-                                                columns={tableData.columns}/>
+                    data.hasTable && <DataTable dataSource={tableData.dataSource} columns={tableData.columns}/>
                 }
             </div>
         )

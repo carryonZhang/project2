@@ -7,7 +7,7 @@ const configureStore = (initialState = {}) => {
 
     const middleware = [
         thunkMiddleware,
-        createLogger(),
+        // createLogger(),
     ];
 
     const store = createStore(

@@ -5,7 +5,7 @@ import {injectAsyncReducer} from './utils/asyncInjector';
 export default function createRoutes(store) {
     return [
         {
-            path: '/reports',
+            path: '/reports/:reportId',
             name: 'reports',
             getComponent: (location, render) => {
                 require.ensure([

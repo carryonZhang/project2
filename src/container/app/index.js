@@ -1,13 +1,32 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {message} from 'antd';
 
-const App = ({children}) => (
-    <div>
-        {React.Children.toArray(children)}
-    </div>
-);
+import storage from '../../utils/storage';
 
+class App extends Component {
+
+    constructor(props) {
+        super(props);
+
+        const {location} = props;
+
+        if (location.query.token) {
+            storage.set({token: location.query.token});
+        }
+    }
+
+    render() {
+        const {children} = this.props;
+        return (
+            <div>
+                {React.Children.toArray(children)}
+            </div>
+        )
+
+    }
+
+}
 App.propTypes = {
     children: PropTypes.node
 };

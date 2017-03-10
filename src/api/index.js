@@ -1,8 +1,8 @@
 import nattyFetch from 'natty-fetch';
+import storage from '../utils/storage';
 
 const envUrlPrefix = {
     'DEV': 'http://10.1.7.61:8080/athena-api/', // 项目环境
-
     'DAILY': 'http://athena-api.2dfire-daily.com/',
     'PRE': 'http://athena-api.2dfire-pre.com/',
     'PUBLISH': 'http://merchant-api.2dfire.com/',
@@ -14,11 +14,12 @@ const apiContext = nattyFetch.context({
     mockUrlPrefix: 'http://mock.2dfire-daily.com/mock-serverapi/mockjsdata/',
     withCredentials: false,
     postDataFormat: 'JSON',
-    // willFetch: (vars, config) => {
-    //     if (!config.mock) {
-    //         config.header['X-Token'] = storage.get('token') || ''
-    //     }
-    // },
+    willFetch: (vars, config) => {
+        if (!config.mock) {
+            const {token} = storage.get();
+            config.header['X-Token'] = token || ''
+        }
+    },
     fit: (res) => {
         return {
             success: res.code && res.code === 1,

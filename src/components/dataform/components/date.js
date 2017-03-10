@@ -5,7 +5,7 @@ import {Form, DatePicker} from 'antd';
 const DateComponent = ({form, data, layout}) => {
 
     const options = {
-        initialValue: moment(data.defaultValue, 'YYYY-MM-DD'),
+        initialValue: moment(data.defaultValue || moment(), 'YYYY-MM-DD'),
         rules: [
             {
                 required: false,

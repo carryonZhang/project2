@@ -4,6 +4,8 @@
  * 位于 `/src/container/App` 下的 action 是相对于全局使用，集成错误提示、弹窗等。
  */
 import api from '../api';
+import storage from '../utils/storage';
+import * as bridge from '../utils/bridge';
 
 /******************************************************
  * 全局
@@ -61,11 +63,11 @@ export const setLegendChange = (legendSelected) => ({
 
 //  return whole legend to reducer
 /*
-const receiveChartsLegend = legend => ({
-    type: RECEIVE_CHARTS_LEGEND,
-    legend
-});
-*/
+ const receiveChartsLegend = legend => ({
+ type: RECEIVE_CHARTS_LEGEND,
+ legend
+ });
+ */
 
 /**
  * 1.进入页面直接拉取原始结构，并存储到 reducer
@@ -81,17 +83,23 @@ export const receiveChartConstruct = construct => ({
 export const fetchChartConstruct = ({reportId}) => (dispatch) => {
     dispatch(globalLoading());
 
-    api.getChartDetails({reportId}).then(
+    const {entityId, shopCode, userId} = bridge.getQueryObject();
+
+    api.getChartDetails({
+        entityId,
+        shopCode,
+        userId,
+        reportId
+    }).then(
         res => dispatch(receiveChartConstruct(res)),
         err => dispatch(globalMessageError('图表初始化失败，请刷新重试'))
     ).then(e => dispatch(globalLoadingHide()));
 };
 
 
-
 // 2.获取报表详细数据
 export const setChartButtonState = status => ({
-type: SET_SEARCH_BUTTON_STATE,
+    type: SET_SEARCH_BUTTON_STATE,
     status
 });
 export const receiveChartData = data => ({
@@ -102,9 +110,16 @@ export const receiveChartData = data => ({
 export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
     const {reports} = getState(); // 从之前初始化保存的 state 中取出结构数据
 
+    const {entityId, shopCode, userId} = bridge.getQueryObject();
     dispatch(setChartButtonState({submit: true}));
 
-    api.getChartData({reportId, params: args}).then(
+    api.getChartData({
+        entityId,
+        shopCode,
+        userId,
+        reportId,
+        params: args
+    }).then(
         res => {
             const chartsConfig = formatOptions(reports.construct, res); // formatOptions(结构, 数据) 返回完整报表
             dispatch(receiveChartData(chartsConfig));
@@ -113,7 +128,6 @@ export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
         err => dispatch(globalMessageError(err.message))
     ).then(e => dispatch(setChartButtonState({submit: false})));
 };
-
 
 
 /******************************************************
@@ -134,7 +148,9 @@ export const receiveSearchArgs = args => ({
 export const fetchSearchArgs = ({reportId}) => {
     return (dispatch) => {
         dispatch(globalLoading());
-        api.getSearchFormArgs({reportId}).then(
+        const {entityId, shopCode, userId} = bridge.getQueryObject();
+
+        api.getSearchFormArgs({reportId, entityId, shopCode, userId}).then(
             res => dispatch(receiveSearchArgs(res)),
             err => dispatch(globalMessageError('搜索框条件拉取失败'))
         ).then(e => dispatch(globalLoadingHide()));
@@ -159,10 +175,16 @@ export const receiveUnionSelect = child => ({
 export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch => {
     dispatch(globalLoading());
 
+
+    const {entityId, shopCode, userId} = bridge.getQueryObject();
+
     api.getUnionSelect({
         chainedParamValue: parentValue,
         lovQueryId: parentId,
         reportId: reportId,
+        entityId,
+        shopCode,
+        userId
     }).then(
         res => dispatch(receiveUnionSelect(res)),
         err => dispatch(globalMessageError(err.message))
