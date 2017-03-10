@@ -3,13 +3,14 @@ import styles from './style.css';
 import {message} from 'antd';
 
 import * as action from '../../action';
-
+import storage from '../../utils/storage';
 import FileUpload from 'react-fileupload';
+
 
 function renderOptions() {
     return (dispatch) => {
         return {
-            baseUrl: 'http://10.1.7.189:8080/merchant/import/v1/menus',
+            baseUrl: 'http://10.1.7.189:8080/merchant-api/import/v1/menus',
             param: {
                 category: '1',
                 // _: Date().getTime()
@@ -26,7 +27,9 @@ function renderOptions() {
                 return file.name
             },
             withCredentials: false,
-            //   requestHeaders: {'User-Agent': 'So Aanyip'},
+            requestHeaders: {
+                'X-Token': storage.get('token')
+            },
             //   beforeChoose : ()=>{
             // return user.isAllowUpload
             //   },
@@ -37,9 +40,9 @@ function renderOptions() {
                 let txt = typeof files === 'string' ? files : files[0].name;
                 dispatch(action.setInputText(txt));
             },
-            beforeUpload : function(files,mill){
-                if(typeof files === String) return true
-                if(files[0]&&files[0].size<1024*1024*20){
+            beforeUpload: function (files, mill) {
+                if (typeof files === String) return true
+                if (files[0] && files[0].size < 1024 * 1024 * 20) {
                     files[0].mill = mill
                     return true
                 }
@@ -70,24 +73,24 @@ function renderOptions() {
 
 class Main extends Component {
 
-	clearFn (e){
-		e.preventDefault();
+    clearFn(e) {
+        e.preventDefault();
 
-		var oInput =  document.querySelector('input[name=ajax_upload_file_input]');
-		var { dispatch } = this.props.state;
+        var oInput = document.querySelector('input[name=ajax_upload_file_input]');
+        var {dispatch} = this.props.state;
 
-		if(oInput){
-			oInput.value='';
-			console.log('11',oInput.value);
-			dispatch(action.setInputText('未选择任何文件'));
-		}
+        if (oInput) {
+            oInput.value = '';
+            console.log('11', oInput.value);
+            dispatch(action.setInputText('未选择任何文件'));
+        }
 
-	}
+    }
 
     render() {
 
-        const { txt , dispatch } = this.props.state;
-        console.log('this.props.state',this.props.state);
+        const {txt, dispatch} = this.props.state;
+        console.log('this.props.state', this.props.state);
 
         const _options = renderOptions();
 
@@ -105,7 +108,9 @@ class Main extends Component {
                         </div>
                         <div className={styles.view_area}>
                             <p className={styles.view_text}>{txt}</p>
-                            <div className={styles.delete_btn} onClick={e=>{this.clearFn(e)}}>
+                            <div className={styles.delete_btn} onClick={e => {
+                                this.clearFn(e)
+                            }}>
                                 <div className={styles.delete_vertical}></div>
                                 <div className={styles.delete_horizontal}></div>
                             </div>
@@ -116,8 +121,10 @@ class Main extends Component {
                     </FileUpload>
                 </div>
                 <div className={styles.export_part}>
-					<div className={styles.download_btn}><a href="http://server.2dfire.com/rerp4/template/excelImportMenu.xls "></a>下载空白模版</div>
-					<div className={styles.export_btn}>导出商品信息</div>
+                    <div className={styles.download_btn}><a
+                        href="http://server.2dfire.com/rerp4/template/excelImportMenu.xls "></a>下载空白模版
+                    </div>
+                    <div className={styles.export_btn}>导出商品信息</div>
                 </div>
             </div>
         )
