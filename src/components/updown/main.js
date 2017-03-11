@@ -15,18 +15,19 @@ function clearFn(e,dispatch){
 
     if (oInput) {
         oInput.value = '';
-        console.log('11', oInput.value);
         dispatch(action.setInputText('未选择任何文件'));
     }
 }
 
 function renderOptions() {
+
     return (dispatch) => {
+    	
         return {
             baseUrl: 'http://10.1.7.189:8080/merchant-api/import/v1/menus',
 
             param: {
-                entityId:'',
+                entityId:'99928542',
                 // _: Date().getTime()
             },
 
@@ -53,8 +54,6 @@ function renderOptions() {
 			chooseFile: function (files) {
 		
 				var name = (typeof files === 'string') ? files : files[0].name;
-
-				console.log("name",name);
 
 				if (files[0] && files[0].size < 1024 * 1024 * 20) {
 
@@ -87,7 +86,6 @@ function renderOptions() {
                 } else {
 					//此块逻辑可以省略，留着做为双重保险
 					var name = (typeof files === 'string') ? files : files[0].name;
-					console.log("name\n",name);
 
 					if (files[0] && files[0].size < 1024 * 1024 * 20) {
 	                    files[0].mill = mill
@@ -145,24 +143,9 @@ function renderOptions() {
 
 class Main extends Component {
 
-    clearFn(e) {
-        e.preventDefault();
-
-        var oInput = document.querySelector('input[name=ajax_upload_file_input]');
-        var {dispatch} = this.props.state;
- 
-        if (oInput) {
-            oInput.value = '';
-            // console.log('11', oInput.value);
-            dispatch(action.setInputText('未选择任何文件'));
-        }
-
-    }
-
     render() {
 
         const {txt, dispatch} = this.props.state;
-        // console.log('this.props.state', this.props.state);
 
         const _options = renderOptions();
 
