@@ -161,20 +161,6 @@ function formatOptions(details, data) {
         }
     }
 
-    /*    // fake pie data
-     columns = "白天; 晚上";
-     let pieRows = [{
-     "支付宝": "30",
-     "微信": "30",
-     "现金": "40",
-     },
-     {
-     "支付宝": "10",
-     "微信": "50",
-     "现金": "40"
-     }
-     ];*/
-
     const staticOption = {
         // option
         color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
@@ -218,8 +204,9 @@ function formatOptions(details, data) {
 }
 
 function getTableData(xLabel, rows, columnsData) {
+    console.log(rows);
     const dataSource = rows.map((daily, index) => {
-        console.log(daily)
+        // console.log(daily)
         daily.key = index;
         return daily;
     });
@@ -228,14 +215,14 @@ function getTableData(xLabel, rows, columnsData) {
         col.title = ele;
         col.dataIndex = ele;
         col.key = ele;
-        col.width = 200;
+        col.width = "150";
         if (ele === xLabel) {
             col.fixed = 'left';
         }
         return col;
     });
-    console.log(columns)
-    console.log(dataSource);
+    /*console.log(columns)
+    console.log(dataSource);*/
     return {
         dataSource,
         columns
