@@ -1,7 +1,9 @@
 import nattyFetch from 'natty-fetch';
 import storage from '../utils/storage';
+import * as bridge from '../utils/bridge';
 
 const envUrlPrefix = {
+    // 'DEV': 'http://10.1.135.242:8080/athena-api/', // 项目环境
     'DEV': 'http://10.1.7.61:8080/athena-api/', // 项目环境
     'DAILY': 'http://athena-api.2dfire-daily.com/',
     'PRE': 'http://athena-api.2dfire-pre.com/',
@@ -16,7 +18,7 @@ const apiContext = nattyFetch.context({
     postDataFormat: 'JSON',
     willFetch: (vars, config) => {
         if (!config.mock) {
-            const {token} = storage.get();
+            const {token} = bridge.getParamsObject();
             config.header['X-Token'] = token || ''
         }
     },

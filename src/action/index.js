@@ -83,7 +83,7 @@ export const receiveChartConstruct = construct => ({
 export const fetchChartConstruct = ({reportId}) => (dispatch) => {
     dispatch(globalLoading());
 
-    const {entityId, shopCode, userId} = bridge.getQueryObject();
+    const {entityId, shopCode, userId} = bridge.getParamsObject();
 
     api.getChartDetails({
         entityId,
@@ -110,7 +110,7 @@ export const receiveChartData = data => ({
 export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
     const {reports} = getState(); // 从之前初始化保存的 state 中取出结构数据
 
-    const {entityId, shopCode, userId} = bridge.getQueryObject();
+    const {entityId, shopCode, userId} = bridge.getParamsObject();
     dispatch(setChartButtonState({submit: true}));
 
     api.getChartData({
@@ -148,7 +148,7 @@ export const receiveSearchArgs = args => ({
 export const fetchSearchArgs = ({reportId}) => {
     return (dispatch) => {
         dispatch(globalLoading());
-        const {entityId, shopCode, userId} = bridge.getQueryObject();
+        const {entityId, shopCode, userId} = bridge.getParamsObject();
 
         api.getSearchFormArgs({reportId, entityId, shopCode, userId}).then(
             res => dispatch(receiveSearchArgs(res)),
@@ -176,7 +176,7 @@ export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch 
     dispatch(globalLoading());
 
 
-    const {entityId, shopCode, userId} = bridge.getQueryObject();
+    const {entityId, shopCode, userId} = bridge.getParamsObject();
 
     api.getUnionSelect({
         chainedParamValue: parentValue,

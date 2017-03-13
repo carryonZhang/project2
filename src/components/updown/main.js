@@ -8,7 +8,7 @@ import FileUpload from 'react-fileupload';
 
 
 function clearFn(e,dispatch){
-	
+
     (e !== undefined) && e.preventDefault();
 
     // var oInput = document.querySelector('input[name=ajax_upload_file_input]');
@@ -26,10 +26,10 @@ function renderOptions() {
 
     return (dispatch) => {
 
-    	const query = bridge.getQueryObject();
+    	const query = bridge.getParamsObject();
 
     	const {entityId, userName, token, memberId, userId} = query;
-    	
+
         return {
             baseUrl: 'http://10.1.131.242:8080/merchant-api/merchant/import/v1/card',
 
@@ -67,9 +67,9 @@ function renderOptions() {
             requestHeaders: {
                 'X-Token': token
             },
-			
+
 			chooseFile: function (files) {
-		
+
 				var name = (typeof files === 'string') ? files : files[0].name;
 
 				if (files[0] && files[0].size < 1024 * 1024 * 20) {
@@ -126,9 +126,9 @@ function renderOptions() {
 	                	return false
 
 	                }
-					
+
                 }
-                
+
             },
 
             doUpload: function (files, mill) {
@@ -142,7 +142,7 @@ function renderOptions() {
             uploadSuccess: function (resp) {
 
             	let code = resp.code;
-				
+
 				if(code==1){
 
 					message.info('导入成功！');
@@ -153,7 +153,7 @@ function renderOptions() {
 
 				}
 
-                
+
                 clearFn(undefined,dispatch);
 			},
 
@@ -214,7 +214,7 @@ class Main extends Component {
                             			return null
                             		}
                             	})(show)
-                            }                           
+                            }
                         </div>
                         <div className={styles.submit_btn_wrapper} ref="uploadBtn">
                             <div className={styles.submit_btn}>导入</div>

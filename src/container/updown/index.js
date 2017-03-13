@@ -1,4 +1,4 @@
-import React , {Component}from 'react';
+import React, {Component}from 'react';
 import {connect} from 'react-redux';
 
 import Header from '../../components/header';
@@ -12,26 +12,30 @@ import styles from './style.css';
 class UpdownContainer extends Component {
 
 
-	componentDidMount (dispatch){
+    componentWillMount() {
 
-		dispatch(action.initData());
+        const {dispatch, params} = this.props;
 
-	}
+        console.log(params.method); // 取页面方法
 
-	render (){
+        dispatch(action.initData());
 
-		const state = this.props;
+    }
 
-		return (
-		    <div className={styles.wrapper}>
-		        <div className={styles.wrapper}>
-		            <Header title={state.title}/>
-		            <Main state={state} />
-		        </div>
-		    </div>
-		)
+    render() {
 
-	}
+        const state = this.props;
+
+        return (
+            <div className={styles.wrapper}>
+                <div className={styles.wrapper}>
+                    <Header title={state.title}/>
+                    <Main state={state}/>
+                </div>
+            </div>
+        )
+
+    }
 
 }
 
