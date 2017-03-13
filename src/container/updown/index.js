@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import Header from '../../components/header';
 import Main from '../../components/updown/main';
+import InitData from './init';
 
 import * as action from '../../action';
 
@@ -15,7 +16,6 @@ class UpdownContainer extends Component {
     componentWillMount() {
 
         const {dispatch, params} = this.props;
-
         console.log(params.method); // 取页面方法
 
         dispatch(action.initData());
