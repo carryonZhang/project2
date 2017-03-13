@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import Header from '../../components/header';
 import Main from '../../components/updown/main';
+import InitData from './init';
 
 import * as action from '../../action';
 
@@ -12,8 +13,8 @@ import styles from './style.css';
 class UpdownContainer extends Component {
 
 
-	componentDidMount (dispatch){
-
+	componentDidMount (){
+		const { dispatch } = this.props;
 		dispatch(action.initData());
 
 	}
