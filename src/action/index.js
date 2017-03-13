@@ -4,7 +4,6 @@
  * 位于 `/src/container/App` 下的 action 是相对于全局使用，集成错误提示、弹窗等。
  */
 import api from '../api';
-import storage from '../utils/storage';
 import * as bridge from '../utils/bridge';
 
 /******************************************************
@@ -197,14 +196,17 @@ export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch 
  * 导入导出模块
  */
 
-import {INPUT_YEXT} from '../constants';
-
+import {INPUT_TEXT, INIT_DATA} from '../constants';
 export const setInputText = (txt) => ({
-    type: INPUT_YEXT,
+    type: INPUT_TEXT,
     txt
 });
 
 
+export const initData = (data) => ({
+    type: INIT_DATA,
+    data
+});
 
 
 

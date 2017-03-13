@@ -1,6 +1,8 @@
 import React, {Component}from 'react';
 import {connect} from 'react-redux';
 
+import * as bridge from '../../utils/bridge';
+
 import Header from '../../components/header';
 import Main from '../../components/updown/main';
 import InitData from './init';
@@ -15,22 +17,24 @@ class UpdownContainer extends Component {
 
     componentWillMount() {
 
+    	const query = bridge.getParamsObject();
         const {dispatch, params} = this.props;
-        console.log(params.method); // 取页面方法
+	
+		const data = InitData(params.pageType, query);
 
-        dispatch(action.initData());
+        dispatch(action.initData(data));
 
     }
 
     render() {
 
-        const state = this.props;
-
+        const { data, dispatch} = this.props;
+		
         return (
             <div className={styles.wrapper}>
                 <div className={styles.wrapper}>
-                    <Header title={state.title}/>
-                    <Main state={state}/>
+                    <Header title={data.title}/>
+                    <Main data={data} dispatch= {dispatch} />
                 </div>
             </div>
         )
@@ -40,8 +44,7 @@ class UpdownContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    title: state.updown.title || '商品导入导出',
-    txt: state.updown.txt || '请上传excel文件'
+    data: state.updown
 });
 
 const mapDispatchToProps = (dispatch) => ({

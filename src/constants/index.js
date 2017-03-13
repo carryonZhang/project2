@@ -18,4 +18,8 @@ export const RECEIVE_SEARCH_ARGS = 'platform/Reports/RECEIVE_SEARCH_ARGS'; //点
 export const RECEIVE_UNION_SELECT = 'platform/Reports/RECEIVE_UNION_SELECT'; //点击查询,获取图表数据
 export const SET_SEARCH_BUTTON_STATE = 'platform/Reports/SET_SEARCH_BUTTON_STATE'; //点击查询,获取图表数据
 
-export const INPUT_YEXT = 'inside-boss/updown/INPUT_YEXT';
+export const INPUT_TEXT = 'inside-boss/updown/INPUT_YEXT';
+export const INIT_DATA = 'inside-boss/updown/INIT_DATA';
+export const EXPORT_DATA = 'inside-boss/updown/EXPORT_DATA';
+
+

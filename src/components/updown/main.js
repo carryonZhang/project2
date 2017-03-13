@@ -11,35 +11,22 @@ function clearFn(e,dispatch){
 
     (e !== undefined) && e.preventDefault();
 
-    // var oInput = document.querySelector('input[name=ajax_upload_file_input]');
-
-    // if (oInput) {
-    //     oInput.value = '';
-    //     dispatch(action.setInputText('请上传excel文件'));
-    // }
-
 	window.location.reload();
 
 }
 
 function renderOptions() {
 
-    return (dispatch) => {
+    return (dispatch, importUrl, importData) => {
 
     	const query = bridge.getParamsObject();
 
-    	const {entityId, userName, token, memberId, userId} = query;
+    	const { token } = query;
 
         return {
-            baseUrl: 'http://10.1.131.242:8080/merchant-api/merchant/import/v1/card',
+            baseUrl: importUrl,
 
-            param: {
-                entityId:'99928542',
-                userName: '小洛',
-                memberId: 'e50ee33a75614c19a0e49045d706c808',
-            	userId: '9992854258d3a5610158d80dad7f00ba'
-                // _: Date().getTime()
-            },
+            param: importData,
 
             fileFieldName: "file",
 
@@ -55,12 +42,7 @@ function renderOptions() {
 
             chooseAndUpload: false,
 
-            paramAddToField: {
-            	entityId: '99928542',
-            	userName: '小洛',
-            	memberId: 'e50ee33a75614c19a0e49045d706c808',
-            	userId: '9992854258d3a5610158d80dad7f00ba'
-            },
+            paramAddToField: importData,
 
             withCredentials: false,
 
@@ -81,15 +63,18 @@ function renderOptions() {
 					} else {
 
 						message.info('仅允许上传格式为.xls或.xlsx的文件！');
-						clearFn(undefined,dispatch);
+						setTimeout(function (){
+							clearFn(undefined,dispatch);
+						},1500);
 
 					}
 
                 } else {
 
                 	message.info('文件太大，无法上传！');
-                	clearFn(undefined,dispatch);
-
+					setTimeout(function (){
+						clearFn(undefined,dispatch);
+					},1500);
                 }
 
 			},
@@ -114,7 +99,9 @@ function renderOptions() {
 						} else {
 
 							message.info('仅允许上传格式为.xls或.xlsx的文件！');
-							clearFn(undefined,dispatch);
+							setTimeout(function (){
+								clearFn(undefined,dispatch);
+							},1500);
 							return false;
 
 						}
@@ -122,7 +109,9 @@ function renderOptions() {
 	                } else {
 
 	                	message.info('文件太大，无法上传！');
-	                	clearFn(undefined,dispatch);
+	                	setTimeout(function (){
+							clearFn(undefined,dispatch);
+						},1500);
 	                	return false
 
 	                }
@@ -154,17 +143,24 @@ function renderOptions() {
 				}
 
 
-                clearFn(undefined,dispatch);
+                setTimeout(function (){
+					clearFn(undefined,dispatch);
+				},1500);
+
 			},
 
             uploadError: function (err) {
                 message.info(err.message);
-                clearFn(undefined,dispatch);
+                setTimeout(function (){
+					clearFn(undefined,dispatch);
+				},1500);
             },
 
             uploadFail: function (resp) {
                 message.info("导入失败！");
-                clearFn(undefined,dispatch);
+                setTimeout(function (){
+					clearFn(undefined,dispatch);
+				},1500);
             },
 
             textBeforeFiles: true
@@ -176,12 +172,23 @@ function renderOptions() {
 
 class Main extends Component {
 
+	exportEvent (e){
+
+		e.preventDefault();
+
+		const {data} =  this.props;
+
+		const {exportData} = data;
+
+	}
+
     render() {
 
-		const state =  this.props.state;
-        const {txt, dispatch} = state;
+		const {dispatch, data} =  this.props;
 
-        const show = (txt == '请上传excel文件') ? false : true;
+        const {previewText, importUrl, importData, exportUrl, exportData, exportBtnText} = data;
+
+        const show = (previewText == '请上传excel文件') ? false : true;
 
         const _options = renderOptions();
 
@@ -189,7 +196,7 @@ class Main extends Component {
 
             <div className={styles.main_wrapper}>
                 <div className={styles.import_part}>
-                    <FileUpload options={_options(dispatch)} style={{'height': 62}}>
+                    <FileUpload options={_options(dispatch, importUrl, importData)} style={{'height': 62}}>
                         <div className={styles.chose_area} ref="chooseBtn">
                             <p className={styles.chose_text}>选择文件</p>
                             <div className={styles.chose_btn}>
@@ -198,7 +205,7 @@ class Main extends Component {
                             </div>
                         </div>
                         <div className={styles.view_area}>
-                            <p className={styles.view_text}>{txt}</p>
+                            <p className={styles.view_text}>{previewText}</p>
                             {
                             	((show)=>{
                             		if(show){
@@ -213,7 +220,7 @@ class Main extends Component {
                             		} else {
                             			return null
                             		}
-                            	})(show)
+                            	})(show,dispatch)
                             }
                         </div>
                         <div className={styles.submit_btn_wrapper} ref="uploadBtn">
@@ -225,7 +232,7 @@ class Main extends Component {
                     <div className={styles.download_btn}><a
                         href="http://server.2dfire.com/rerp4/template/excelImportMenu.xls "></a>下载空白模版
                     </div>
-                    <div className={styles.export_btn}>导出商品信息</div>
+                    <div className={styles.export_btn} onClick= {e=>{this.exportEvent(e)}}>{exportBtnText}</div>
                 </div>
             </div>
         )
