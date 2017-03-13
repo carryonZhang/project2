@@ -1,0 +1,44 @@
+
+
+body,html{
+	background: #fff;
+}
+
+body{
+	height: 100%;
+}
+.wrapper{
+	height: 100%;
+	padding-top: 334px;
+}
+
+.wrapper p{
+	text-align: center;
+	color: #333;
+}
+
+.wrapper .user_name{
+	height: 44px;
+	line-height: 44px;
+	font-size: 34px;
+	margin-bottom: 30px;
+	font-family: "Adobe HeiTi Std";
+}
+
+.wrapper .hi{
+	font-size: 44px;
+}
+
+.wrapper .welc{
+	font-size: 24px;
+	margin-bottom: 28px;
+}
+
+.wrapper .disc{
+	font-size: 18px;
+	color: #a7a6a6;
+}
+
+.disc .erweihuo{
+	color: #d32919;
+}

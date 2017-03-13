@@ -1,0 +1,67 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.grid {
+    height: 400px;
+    margin: 34px;
+    border: 2px solid #eff3f3;
+}
+
+.legend {
+    margin:34px;
+    padding: 25px;
+    box-shadow: 7px 11px 29px rgba(230, 230, 230, 0.76);
+    border-radius: 3px;
+}
+
+.label{
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.labelText {
+    width: 80px;
+    margin-right: 20px;
+    color: #999;
+    font-family: "ST Heiti SC", sans-serif;
+    font-size: 16px;
+    vertical-align: bottom;
+    /*text-align: right;*/
+    line-height: 1;
+    /*white-space: nowrap;*/
+    /*overflow: hidden;*/
+    /*text-overflow:ellipsis;*/
+
+}
+.labelIcon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 0 10px 0 0;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+    border: 2px solid #f2f2f2;
+    border-radius: 4px;
+}
+
+.iconSelected {
+   composes: labelIcon;
+    border-color: transparent;
+}
+.iconSelected::before {
+    content: url("./images/hook.png");
+    position: relative;
+    top: -15%;
+    left: 10%;
+}
+
+
+.dataTalbe {
+    height: 500px;
+}

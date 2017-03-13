@@ -1,28 +1,32 @@
 #!/usr/bin/env bash
 
-REMOTE_PATH=insideboss
+REMOTE_PATH=union
 
 case "$1" in
     dev)
-        args="CDN_JS_URL=./ \
+        args="REACT_APP_ENV=DEV \
+              CDN_JS_URL=./ \
               CDN_CSS_URL=./ \
               CDN_IMG_URL=../../"
         ;;
 
     daily)
-        args="CDN_JS_URL=http://d.2dfire-daily.com/${REMOTE_PATH}/ \
+        args="REACT_APP_ENV=DAILY \
+              CDN_JS_URL=http://d.2dfire-daily.com/${REMOTE_PATH}/ \
               CDN_CSS_URL=http://d.2dfire-daily.com/${REMOTE_PATH}/ \
               CDN_IMG_URL=http://d.2dfire-daily.com/${REMOTE_PATH}/"
         ;;
 
     pre)
-        args="CDN_JS_URL=http://d.2dfire-pre.com/${REMOTE_PATH}/ \
+        args="REACT_APP_ENV=PRE \
+              CDN_JS_URL=http://d.2dfire-pre.com/${REMOTE_PATH}/ \
               CDN_CSS_URL=http://cdn.2dfire-pre.com/${REMOTE_PATH}/ \
               CDN_IMG_URL=http://cdn.2dfire-pre.com/${REMOTE_PATH}/"
         ;;
 
     publish)
-        args="CDN_JS_URL=//jscdn.2dfire.com/${REMOTE_PATH}/ \
+        args="REACT_APP_ENV=PUBLISH \
+              CDN_JS_URL=//jscdn.2dfire.com/${REMOTE_PATH}/ \
               CDN_CSS_URL=//csscdn.2dfire.com/${REMOTE_PATH}/ \
               CDN_IMG_URL=https://imgcdn.2dfire.com/${REMOTE_PATH}/"
         ;;

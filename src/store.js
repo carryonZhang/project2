@@ -1,27 +1,27 @@
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import {createStore, applyMiddleware, compose} from 'redux';
-import createReducer from './reducers';
+import createReducer from './reducerLoader';
 
 const configureStore = (initialState = {}) => {
 
-  const middleware = [
-    thunkMiddleware,
-    createLogger(),
-  ];
+    const middleware = [
+        thunkMiddleware,
+        // createLogger(),
+    ];
 
-  const store = createStore(
-    createReducer(),
-    initialState,
-    compose(
-      applyMiddleware(...middleware)
-    )
-  );
+    const store = createStore(
+        createReducer(),
+        initialState,
+        compose(
+            applyMiddleware(...middleware)
+        )
+    );
 
-  store.asyncReducers = {};
+    store.asyncReducers = {};
 
 
-  return store;
+    return store;
 };
 
 

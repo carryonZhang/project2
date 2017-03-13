@@ -117,17 +117,15 @@ module.exports = {
         ];
     },
     plugins: [
-        // Makes some environment variables available in index.html.
-        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-        // In development, this will be an empty string.
+        new webpack.DefinePlugin(Object.assign({}, env.stringified, {
+            '__CDN_JS__': `"${CDN_JS}"`
+        })),
         new InterpolateHtmlPlugin(env.raw),
         new HtmlWebpackPlugin({
             inject: false,
             template: paths.appHtml,
             prefix: {CDN_JS, CDN_CSS},
         }),
-        new webpack.DefinePlugin(env.stringified),
         new webpack.HotModuleReplacementPlugin(),
         new CaseSensitivePathsPlugin(),
         new WatchMissingNodeModulesPlugin(paths.appNodeModules)

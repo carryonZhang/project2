@@ -55,10 +55,13 @@
     "classnames": "^2.2.5",
     "echarts": "^3.4.0",
     "echarts-for-react": "^1.1.6",
+    "moment": "^2.17.1",
     "natty-fetch": "^2.2.3",
     "natty-storage": "^1.1.2",
+    "querystring": "^0.2.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-fileupload": "^2.4.0",
     "react-redux": "^5.0.2",
     "react-router": "^3.0.2",
     "redux": "^3.6.0",
@@ -67,7 +70,8 @@
     "url": "^0.11.0"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "PORT=3001 node scripts/start.js",
+    "_launcher": "REACT_APP_ENV=DEV CDN_JS_URL=./ CDN_CSS_URL=./ CDN_IMG_URL=../../ node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
