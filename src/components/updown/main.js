@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styles from './style.css';
-import {message} from 'antd';
+import {message,Spin} from 'antd';
 
 import * as action from '../../action';
 import * as bridge from '../../utils/bridge';
@@ -172,16 +172,6 @@ function renderOptions() {
 
 class Main extends Component {
 
-	exportEvent (e){
-
-		e.preventDefault();
-
-		const {data} =  this.props;
-
-		const {exportData} = data;
-
-	}
-
     render() {
 
 		const {dispatch, data} =  this.props;
@@ -232,7 +222,7 @@ class Main extends Component {
                     <div className={styles.download_btn}><a
                         href="http://server.2dfire.com/rerp4/template/excelImportMenu.xls "></a>下载空白模版
                     </div>
-                    <div className={styles.export_btn} onClick= {e=>{this.exportEvent(e)}}>{exportBtnText}</div>
+                    <div className={styles.export_btn}><a href={exportUrl}>{exportBtnText}</a></div>
                 </div>
             </div>
         )
