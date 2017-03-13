@@ -3,7 +3,7 @@ import styles from './style.css';
 import {message} from 'antd';
 
 import * as action from '../../action';
-import storage from '../../utils/storage';
+import * as bridge from '../../utils/bridge';
 import FileUpload from 'react-fileupload';
 
 
@@ -11,25 +11,37 @@ function clearFn(e,dispatch){
 	
     (e !== undefined) && e.preventDefault();
 
-    var oInput = document.querySelector('input[name=ajax_upload_file_input]');
+    // var oInput = document.querySelector('input[name=ajax_upload_file_input]');
 
-    if (oInput) {
-        oInput.value = '';
-        dispatch(action.setInputText('未选择任何文件'));
-    }
+    // if (oInput) {
+    //     oInput.value = '';
+    //     dispatch(action.setInputText('请上传excel文件'));
+    // }
+
+	window.location.reload();
+
 }
 
 function renderOptions() {
 
     return (dispatch) => {
+
+    	const query = bridge.getQueryObject();
+
+    	const {entityId, userName, token, memberId, userId} = query;
     	
         return {
-            baseUrl: 'http://10.1.7.189:8080/merchant-api/import/v1/menus',
+            baseUrl: 'http://10.1.131.242:8080/merchant-api/merchant/import/v1/card',
 
             param: {
                 entityId:'99928542',
+                userName: '小洛',
+                memberId: 'e50ee33a75614c19a0e49045d706c808',
+            	userId: '9992854258d3a5610158d80dad7f00ba'
                 // _: Date().getTime()
             },
+
+            fileFieldName: "file",
 
             dataType: 'json',
 
@@ -43,12 +55,17 @@ function renderOptions() {
 
             chooseAndUpload: false,
 
-            paramAddToField: {purpose: 'save'},
+            paramAddToField: {
+            	entityId: '99928542',
+            	userName: '小洛',
+            	memberId: 'e50ee33a75614c19a0e49045d706c808',
+            	userId: '9992854258d3a5610158d80dad7f00ba'
+            },
 
             withCredentials: false,
 
             requestHeaders: {
-                'X-Token': storage.get('token')
+                'X-Token': token
             },
 			
 			chooseFile: function (files) {
@@ -57,13 +74,13 @@ function renderOptions() {
 
 				if (files[0] && files[0].size < 1024 * 1024 * 20) {
 
-                    if (/\.(xls)$/.test(name)) {
+                    if (/\.(xls|xlsx)$/.test(name)) {
 
 		                dispatch(action.setInputText(name));
 
 					} else {
 
-						message.info('仅允许上传格式为.xls的文件！');
+						message.info('仅允许上传格式为.xls或.xlsx的文件！');
 						clearFn(undefined,dispatch);
 
 					}
@@ -96,7 +113,7 @@ function renderOptions() {
 
 						} else {
 
-							message.info('仅允许上传格式为.xls的文件！');
+							message.info('仅允许上传格式为.xls或.xlsx的文件！');
 							clearFn(undefined,dispatch);
 							return false;
 
@@ -123,15 +140,31 @@ function renderOptions() {
             },
 
             uploadSuccess: function (resp) {
-                message.info('upload success..!')
-            },
+
+            	let code = resp.code;
+				
+				if(code==1){
+
+					message.info('导入成功！');
+
+				} else {
+
+					message.info(resp.message);
+
+				}
+
+                
+                clearFn(undefined,dispatch);
+			},
 
             uploadError: function (err) {
-                message.info(err.message)
+                message.info(err.message);
+                clearFn(undefined,dispatch);
             },
 
             uploadFail: function (resp) {
-                message.info("上传失败");
+                message.info("导入失败！");
+                clearFn(undefined,dispatch);
             },
 
             textBeforeFiles: true
@@ -145,7 +178,10 @@ class Main extends Component {
 
     render() {
 
-        const {txt, dispatch} = this.props.state;
+		const state =  this.props.state;
+        const {txt, dispatch} = state;
+
+        const show = (txt == '请上传excel文件') ? false : true;
 
         const _options = renderOptions();
 
@@ -163,12 +199,22 @@ class Main extends Component {
                         </div>
                         <div className={styles.view_area}>
                             <p className={styles.view_text}>{txt}</p>
-                            <div className={styles.delete_btn} onClick={e => {
-                                clearFn(e,dispatch)
-                            }}>
-                                <div className={styles.delete_vertical}></div>
-                                <div className={styles.delete_horizontal}></div>
-                            </div>
+                            {
+                            	((show)=>{
+                            		if(show){
+                            			return (
+											<div className={styles.delete_btn} onClick={e => {
+				                            	clearFn(e,dispatch)
+				                            }}>
+				                                <div className={styles.delete_vertical}></div>
+				                                <div className={styles.delete_horizontal}></div>
+				                            </div>
+                            			)
+                            		} else {
+                            			return null
+                            		}
+                            	})(show)
+                            }                           
                         </div>
                         <div className={styles.submit_btn_wrapper} ref="uploadBtn">
                             <div className={styles.submit_btn}>导入</div>

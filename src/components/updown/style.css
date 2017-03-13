@@ -44,7 +44,7 @@
 .chose_btn{
 	width: 26px;
 	height: 26px;
-	background-color: #f2f2f2;
+	background-color: #d52632;
 	border-radius: 4px;
 	float: right;
 	position: relative;
@@ -90,7 +90,7 @@
 .view_text{
 	width: 146px;
 	height: 18px;
-	font-size: 16px;
+	font-size: 12px;
 	line-height: 18px;
 	text-indent: 22px;
 	overflow: hidden;
