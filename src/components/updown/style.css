@@ -12,10 +12,8 @@
 
 .import_part {
     border-right: 2px solid #e6e6e5;
-    height: 62px;
+    padding-right: 30px;
     float: left;
-    width: 570px;
-    line-height: 62px;
 }
 
 .chose_area {
@@ -138,7 +136,6 @@
 }
 
 .submit_btn_wrapper {
-    width: 162px;
     height: 62px;
 / / float: left;
     display: inline-block;
@@ -167,52 +164,30 @@
 
 .export_part {
     height: 68px;
+    width: 400px;
     padding-top: 12px;
-    margin-left: 600px;
-    line-height: 68px;
+    margin-left: 620px;
 }
 
-.download_btn {
+.secondButton, .primaryButton {
     display: inline-block;
-    vertical-align: top;
-    width: 142px;
+    width: 164px;
     height: 42px;
-    border: 2px solid #e6e6e5;
+    font-size: 14px;
     border-radius: 8px;
-    text-align: center;
-    color: #999;
-    font-size: 18px;
-    line-height: 42px;
-    position: relative;
 }
 
-.download_btn a {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
+.secondButton {
+    border: 2px solid #e6e6e5;
+    color: #999;
+}
+
+.primaryButton {
+    color: #fff;
+    background-color: #d52632;
+    box-shadow: 0 4px 10px rgba(213, 38, 50, 0.4);
 }
 
 .export_btn {
-    display: inline-block;
-    vertical-align: top;
-    line-height: 42px;
-    width: 164px;
-    height: 42px;
-    text-align: center;
-    font-size: 18px;
-    color: #fff;
-    background-color: #d52632;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(213, 38, 50, 0.4);
-    margin-left: 60px;
-}
-
-.export_btn a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    color: #fff;
+    margin-left: 40px;
 }

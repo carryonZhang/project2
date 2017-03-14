@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import cx from 'classnames';
 import styles from './style.css';
-import {message, Spin} from 'antd';
+import {message, Spin, Button} from 'antd';
 
 import * as action from '../../action';
 import api from '../../api';
@@ -184,14 +185,31 @@ function json2url(json) {
 
 class Main extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            importLock: false,
+            exportLock: false
+        }
+    }
+
     handleExport(url) {
         const {exportFn, exportData} = this.props.data;
         const {token} = bridge.getParamsObject();
 
+        this.setState({
+            exportLock: true
+        });
+
         saveAs(url, token, 'export.xls').then(
-            filename => console.log(filename), // 成功返回文件名
+            filename => message.success('导出成功!'), // 成功返回文件名
             err => message.error(err)
-        )
+        ).then(e => this.setState({exportLock: false}));
+    }
+
+    handleDownload() {
+        location.href = 'http://server.2dfire.com/rerp4/template/excelImportMenu.xls'
     }
 
     render() {
@@ -207,14 +225,12 @@ class Main extends Component {
 
         const _exportUrl = exportUrl + '?' + json2url(exportData);
 
-        console.log("_exportUrl", _exportUrl);
-
 
         return (
 
             <div className={styles.main_wrapper}>
                 <div className={styles.import_part}>
-                    <FileUpload options={_options(dispatch, importUrl, importData)} style={{'height': 62}}>
+                    <FileUpload options={_options(dispatch, importUrl, importData)}>
                         <div className={styles.chose_area} ref="chooseBtn">
                             <p className={styles.chose_text}>选择文件</p>
                             <div className={styles.chose_btn}>
@@ -242,17 +258,18 @@ class Main extends Component {
                             }
                         </div>
                         <div className={styles.submit_btn_wrapper} ref="uploadBtn">
-                            <div className={styles.submit_btn}>导入</div>
+                            <Button type="primary" loading={this.state.importLock} className={cx(styles.primaryButton)}>导入</Button>
                         </div>
                     </FileUpload>
                 </div>
                 <div className={styles.export_part}>
-                    <div className={styles.download_btn}><a
-                        href="http://server.2dfire.com/rerp4/template/excelImportMenu.xls "></a>下载空白模版
-                    </div>
-                    <div className={styles.export_btn}>
-                        <div onClick={t.handleExport.bind(t, _exportUrl)}>{exportBtnText}</div>
-                    </div>
+                    <Button className={styles.secondButton} onClick={t.handleDownload.bind(t)}>下载空白模版</Button>
+
+                    <Button type="primary" loading={this.state.exportLock}
+                            className={cx(styles.primaryButton, styles.export_btn)}
+                            onClick={t.handleExport.bind(t, _exportUrl)}>
+                        {exportBtnText}
+                    </Button>
                 </div>
             </div>
         )

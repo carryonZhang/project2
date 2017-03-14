@@ -1,7 +1,8 @@
 import {saveAs} from 'file-saver';
 
 function save(xhr, filename) {
-    saveAs(xhr.response, filename);
+    const blob = new Blob([xhr.response], {type: 'application/vnd.ms-excel'});
+    saveAs(blob, filename);
 }
 
 function send(url, token, cb) {
@@ -10,10 +11,12 @@ function send(url, token, cb) {
     xhr.setRequestHeader('X-Token', token);
     xhr.responseType = 'blob';
     xhr.onreadystatechange = function () {
-        if ((xhr.status >= 200 && xhr.status < 300 ) || xhr.status == 304) {
-            cb(null, xhr);
-        } else {
-            return cb('导出失败');
+        if (xhr.readyState === 4) {
+            if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+                cb(null, xhr);
+            } else {
+                return cb('导出失败');
+            }
         }
     };
     xhr.send();
