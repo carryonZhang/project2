@@ -90,7 +90,7 @@ function renderOptions() {
 					//此块逻辑可以省略，留着做为双重保险
 					var name = (typeof files === 'string') ? files : files[0].name;
 
-					if(/\.(xls)$/.test(name)){
+					if(/\.(xls|xlsx)$/.test(name)){
 
 						if (files[0] && files[0].size < 1024 * 1024 * 20) {
 
