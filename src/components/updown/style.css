@@ -1,9 +1,7 @@
 
-.wrapper {
-}
-
 .main_wrapper {
     height: 702px;
+    min-width: 989px;
     border: 2px solid #f2f2f2;
     padding-top: 82px;
     margin-left: 45px;
@@ -19,7 +17,6 @@
 .chose_area {
     width: 178px;
     height: 62px;
-/ / float: left;
     display: inline-block;
     vertical-align: top;
     padding-right: 22px;
@@ -74,7 +71,6 @@
 .view_area {
     width: 184px;
     height: 62px;
-/ / float: left;
     display: inline-block;
     vertical-align: top;
     background-color: #f2f2f2;
@@ -137,7 +133,6 @@
 
 .submit_btn_wrapper {
     height: 62px;
-/ / float: left;
     display: inline-block;
     vertical-align: top;
     padding-top: 12px;

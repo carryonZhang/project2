@@ -196,18 +196,21 @@ export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch 
  * 导入导出模块
  */
 
-import {INPUT_TEXT, INIT_DATA} from '../constants';
+import {INPUT_TEXT, INIT_DATA, IMPORT_INFO} from '../constants';
 export const setInputText = (txt) => ({
     type: INPUT_TEXT,
     txt
 });
-
 
 export const initData = (data) => ({
     type: INIT_DATA,
     data
 });
 
+export const showModal = (data) => ({
+    type: IMPORT_INFO,
+    data
+});
 
 
 

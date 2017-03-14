@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
 import styles from './style.css';
-import {message, Spin, Button} from 'antd';
+import {message, Spin, Button, Modal} from 'antd';
 
 import * as action from '../../action';
 import api from '../../api';
@@ -138,13 +138,17 @@ function renderOptions() {
 
                 if (code == 1) {
 
-                    message.info('导入成功！');
+					message.info('导入成功！');
+					let data = resp.data;
+					dispatch(action.showModal(data));
 
                 } else {
 
                     message.info(resp.message);
 
-                }
+					// console.log("resp.message\n",resp.message);
+
+				}
 
 
                 setTimeout(function () {
@@ -223,8 +227,7 @@ class Main extends Component {
 
         const _options = renderOptions();
 
-        const _exportUrl = exportUrl + '?' + json2url(exportData);
-
+        const _exportUrl = exportUrl+'?'+json2url(exportData);
 
         return (
 
