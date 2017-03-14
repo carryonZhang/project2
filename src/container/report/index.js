@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import WrapForm from '../../components/dataform';
 import Chart from "../../components/chart";
 import DataTable from "../../components/datatable"
+import Header from '../../components/header';
 
 import * as action from "../../action";
 import * as bridge from '../../utils/bridge';
@@ -14,6 +15,7 @@ class ReportContainer extends Component {
 
         const {query} = this.props.location;
         this.REPORT_ID = query.reportId;
+        this.MENU_TITLE = query.menuTitle;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -58,6 +60,7 @@ class ReportContainer extends Component {
         const tableData = data.tableData;
         return (
             <div>
+                <Header title={this.MENU_TITLE}/>
                 {
                     searchArgs && <WrapForm buttonState={buttonState}
                                             conditions={searchArgs}
