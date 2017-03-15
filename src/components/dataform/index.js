@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Form, Col, Row, Button} from 'antd';
 import styles from './style.css';
-import api from '../../api';
+import moment from 'moment';
 
 import DateComponent from './components/date';
 import MonthComponent from './components/month';
@@ -81,13 +81,16 @@ class SearchFilter extends Component {
             if (err) {
                 return;
             }
-
             const valueKeys = Object.keys(fieldsValue);
 
             for (let i = 0; i <= valueKeys.length; i++) {
                 if (fieldsValue.hasOwnProperty(valueKeys[i])) {
-                    if ('object' == typeof fieldsValue[valueKeys[i]]) {
-                        fieldsValue[valueKeys[i]] = fieldsValue[valueKeys[i]]._i;
+
+                    let _current = fieldsValue[valueKeys[i]];
+
+                    // if ('object' == typeof _current) {
+                    if (_current instanceof moment) {
+                        fieldsValue[valueKeys[i]] = _current.format(_current._f);
                     }
                 }
             }
