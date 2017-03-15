@@ -212,9 +212,13 @@ function getTableData(xLabel, rows, columnsData, footRows) {
         daily.key = index;
         return daily;
     });
-    footRows.key = dataSource.length;
-    footRows.rowkey = "footRows";
-    dataSource.push(footRows);
+    console.log(footRows)
+    if(footRows) {
+        footRows.key = dataSource.length;
+        footRows.rowkey = "footRows";
+        dataSource.push(footRows);
+    }
+
 
     const columns = columnsData.map((ele, index) => {
         const col = {};
@@ -232,7 +236,6 @@ function getTableData(xLabel, rows, columnsData, footRows) {
     return {
         dataSource,
         columns,
-        footRows,
     }
 }
 

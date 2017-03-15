@@ -5,7 +5,7 @@ import React from 'react';
 import {Table} from 'antd';
 import styles from "./style.css"
 
-export default function DataTable({dataSource, columns, footer}) {
+export default function DataTable({dataSource, columns}) {
     const xLength = 150 * columns.length;
     return (
         <div className={styles.dataTable}>
