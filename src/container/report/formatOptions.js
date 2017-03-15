@@ -13,6 +13,8 @@ function formatOptions(details, data) {
     const yLabels = DETAILS.axisYLabel.split(";").map(label => label.trim());
     const types = DETAILS.reportType.toLowerCase().split(",").map(type => type.trim());
     const rows = DATA.rows;
+    const footRows = DATA.footRows[0];
+    // console.log("footRows", footRows);
     const columnsData = DATA.columns;
 
     let hasChart = false;
@@ -22,7 +24,7 @@ function formatOptions(details, data) {
     let tableData = null;
     if (types.includes(TABLE)) {
         hasTable = true;
-        tableData = getTableData(xLabel, rows, columnsData);
+        tableData = getTableData(xLabel, rows, columnsData, footRows);
         types.splice(types.indexOf(TABLE), 1);
     }
     // table end
@@ -203,13 +205,17 @@ function formatOptions(details, data) {
         })
 }
 
-function getTableData(xLabel, rows, columnsData) {
+function getTableData(xLabel, rows, columnsData, footRows) {
     console.log(rows);
     const dataSource = rows.map((daily, index) => {
         // console.log(daily)
         daily.key = index;
         return daily;
     });
+    footRows.key = dataSource.length;
+    footRows.rowkey = "footRows";
+    dataSource.push(footRows);
+
     const columns = columnsData.map((ele, index) => {
         const col = {};
         col.title = ele;
@@ -221,14 +227,13 @@ function getTableData(xLabel, rows, columnsData) {
         }
         return col;
     });
-    /*console.log(columns)
+/*    console.log(columns)
     console.log(dataSource);*/
     return {
         dataSource,
-        columns
+        columns,
+        footRows,
     }
 }
 
 export default formatOptions;
-
-
