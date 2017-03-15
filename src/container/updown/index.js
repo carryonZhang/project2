@@ -5,7 +5,6 @@ import * as bridge from '../../utils/bridge';
 
 import Header from '../../components/header';
 import Main from '../../components/updown/main';
-import ModalComponent from '../../components/updown/modal';
 import InitData from './init';
 
 import * as action from '../../action';
@@ -33,10 +32,8 @@ class UpdownContainer extends Component {
         
         return (
             <div className={styles.wrapper}>
-                <ModalComponent importInfo={importInfo} />
                 <Header title={data.title}/>
                 <Main data={data} dispatch= {dispatch} />
-                
             </div>
         )
 

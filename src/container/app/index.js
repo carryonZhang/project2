@@ -55,7 +55,7 @@ const mapStateToProps = (state) => {
                 setTimeout(() => {
                     globalMessage();
                     globalMessage = null;
-                }, 1000); // 1 秒后自动移除
+                }, 1500); // 1.5 秒后自动移除
             }
             return;
 

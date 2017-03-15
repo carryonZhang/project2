@@ -208,10 +208,6 @@ export const initData = (data) => ({
     data
 });
 
-export const showModal = (data) => ({
-    type: IMPORT_INFO,
-    data
-});
 
 
 

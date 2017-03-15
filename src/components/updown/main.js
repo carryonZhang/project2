@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
 import styles from './style.css';
-import {message, Spin, Button, Modal} from 'antd';
+import {message, Button, Modal} from 'antd';
 
 import * as action from '../../action';
 import api from '../../api';
@@ -9,23 +9,29 @@ import saveAs from '../../utils/saveAs';
 import * as bridge from '../../utils/bridge';
 import FileUpload from 'react-fileupload';
 
+class Main extends Component {
 
-function clearFn(e, dispatch) {
+    constructor(props) {
+        super(props);
 
-    (e !== undefined) && e.preventDefault();
+        this.state = {
+            importLock: false,
+            exportLock: false
+        }
+    }
 
-    window.location.reload();
+    setOptions (){
 
-}
+        const t = this;
 
-function renderOptions() {
+        const {dispatch, data} =  t.props;
 
-    return (dispatch, importUrl, importData) => {
+        const { importUrl, importData } = data;
 
         const query = bridge.getParamsObject();
 
-        const {token} = query;
-
+       	const {token} = query;
+		
         return {
             baseUrl: importUrl,
 
@@ -67,7 +73,7 @@ function renderOptions() {
 
                         message.info('文件太大，无法上传！');
                         setTimeout(function () {
-                            clearFn(undefined, dispatch);
+                            t.clearFn(undefined, dispatch);
                         }, 1500);
 
                     }
@@ -76,7 +82,7 @@ function renderOptions() {
 
                     message.info('仅允许上传格式为.xls或.xlsx的文件！');
                     setTimeout(function () {
-                        clearFn(undefined, dispatch);
+                        t.clearFn(undefined, dispatch);
                     }, 1500);
                 }
 
@@ -86,7 +92,8 @@ function renderOptions() {
 
                 if (!files || files.length == 0) {
 
-                    message.info('请先选择合适的文件！');
+                    dispatch(action.globalMessageError('请先选择合适的文件！'));
+
                     return false;
 
                 } else {
@@ -104,7 +111,7 @@ function renderOptions() {
 
                             message.info('文件太大，无法上传！');
                             setTimeout(function () {
-                                clearFn(undefined, dispatch);
+                                t.clearFn(undefined, dispatch);
                             }, 1500);
                             return false
 
@@ -114,7 +121,7 @@ function renderOptions() {
 
                         message.info('仅允许上传格式为.xls或.xlsx的文件！');
                         setTimeout(function () {
-                            clearFn(undefined, dispatch);
+                            t.clearFn(undefined, dispatch);
                         }, 1500);
                         return false;
 
@@ -130,6 +137,10 @@ function renderOptions() {
 
             uploading: function (progress) {
                 // console.log('loading...', progress.loaded / progress.total + '%')
+            	t.setState({
+					importLock: true
+            	});	
+               
             },
 
             uploadSuccess: function (resp) {
@@ -138,68 +149,78 @@ function renderOptions() {
 
                 if (code == 1) {
 
-					message.info('导入成功！');
-					let data = resp.data;
-					// dispatch(action.showModal(data));
+					const { failCnt, successCnt, totalCnt } = resp.data;
+
+					Modal.info({
+						title: "导入信息",
+						onOk: ()=>{
+							setTimeout(function () {
+			                    t.clearFn(undefined, dispatch);
+			                }, 1000);
+						},
+						content: <p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
+						
+					});					
 
                 } else {
+					
+                   //失败接口返回字符串
+                    const {message} = resp;
 
-                    message.info(resp.message);
-
-					// console.log("resp.message\n",resp.message);
+                    Modal.info({
+						title: "导入信息",
+						onOk: ()=>{
+							setTimeout(function () {
+			                    t.clearFn(undefined, dispatch);
+			                }, 1000);
+						},
+						content: <p>{message}</p>														
+					});					
 
 				}
-
-
-                setTimeout(function () {
-                    clearFn(undefined, dispatch);
-                }, 1500);
 
             },
 
             uploadError: function (err) {
                 message.info(err.message);
                 setTimeout(function () {
-                    clearFn(undefined, dispatch);
+                    t.clearFn(undefined, dispatch);
                 }, 1500);
             },
 
             uploadFail: function (resp) {
                 message.info("导入失败！");
                 setTimeout(function () {
-                    clearFn(undefined, dispatch);
+                    t.clearFn(undefined, dispatch);
                 }, 1500);
             },
 
             textBeforeFiles: true
 
         };
+
     }
-}
 
-function json2url(json) {
-    var url = '';
-    var arr = [];
-    for (let i in json) {
-        arr.push(i + '=' + json[i]);
-    }
-    url = arr.join('&');
-    return url;
-}
+    clearFn (e, dispatch) {
 
-class Main extends Component {
+	    (e !== undefined) && e.preventDefault();
 
-    constructor(props) {
-        super(props);
+	    window.location.reload();
 
-        this.state = {
-            importLock: false,
-            exportLock: false
-        }
-    }
+	}
+
+	json2url (json) {
+	    var url = '';
+	    var arr = [];
+	    for (let i in json) {
+	        arr.push(i + '=' + json[i]);
+	    }
+	    url = arr.join('&');
+	    return url;
+	}
 
     handleExport(url) {
-        const {exportFn, exportData} = this.props.data;
+
         const {token} = bridge.getParamsObject();
 
         this.setState({
@@ -219,21 +240,20 @@ class Main extends Component {
     render() {
 
         const t = this;
+
         const {dispatch, data} =  this.props;
 
-        const {previewText, importUrl, importData, exportUrl, exportData, exportBtnText} = data;
+        const {previewText, exportUrl, exportData, exportBtnText} = data;
 
         const show = (previewText == '请上传excel文件') ? false : true;
 
-        const _options = renderOptions();
-
-        const _exportUrl = exportUrl+'?'+json2url(exportData);
+        const _exportUrl = exportUrl+'?'+t.json2url(exportData);
 
         return (
 
             <div className={styles.main_wrapper}>
                 <div className={styles.import_part}>
-                    <FileUpload options={_options(dispatch, importUrl, importData)}>
+                    <FileUpload options={t.setOptions()}>
                         <div className={styles.chose_area} ref="chooseBtn">
                             <p className={styles.chose_text}>选择文件</p>
                             <div className={styles.chose_btn}>
@@ -248,7 +268,7 @@ class Main extends Component {
                                     if (show) {
                                         return (
                                             <div className={styles.delete_btn} onClick={e => {
-                                                clearFn(e, dispatch)
+                                                t.clearFn(e, dispatch)
                                             }}>
                                                 <div className={styles.delete_vertical}></div>
                                                 <div className={styles.delete_horizontal}></div>
