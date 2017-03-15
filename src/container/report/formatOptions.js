@@ -212,8 +212,8 @@ function getTableData(xLabel, rows, columnsData, footRows) {
         daily.key = index;
         return daily;
     });
-    console.log(footRows)
-    if(footRows) {
+
+    if(footRows && Object.keys(footRows).length > 0) {
         footRows.key = dataSource.length;
         footRows.rowkey = "footRows";
         dataSource.push(footRows);
