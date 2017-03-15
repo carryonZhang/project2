@@ -20,7 +20,7 @@ function save(xhr, filename) {
 function send(url, token, cb) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
-    xhr.setRequestHeader('X-Token', token + '1');
+    xhr.setRequestHeader('X-Token', token);
     xhr.responseType = 'blob';
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
