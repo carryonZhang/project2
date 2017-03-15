@@ -138,17 +138,17 @@ function renderOptions() {
 
                 if (code == 1) {
 
-					message.info('导入成功！');
-					let data = resp.data;
-					// dispatch(action.showModal(data));
+                    message.info('导入成功！');
+                    let data = resp.data;
+                    // dispatch(action.showModal(data));
 
                 } else {
 
                     message.info(resp.message);
 
-					// console.log("resp.message\n",resp.message);
+                    // console.log("resp.message\n",resp.message);
 
-				}
+                }
 
 
                 setTimeout(function () {
@@ -208,7 +208,16 @@ class Main extends Component {
 
         saveAs(url, token, 'export.xls').then(
             filename => message.success('导出成功!'), // 成功返回文件名
-            err => message.error(err)
+            err => {
+                if (err.code === 0 && err.errorCode == '401') {
+
+                    // 可以加提示信息
+                    bridge.callParent('logout');
+                    return;
+                }
+
+                message.error(err);
+            }
         ).then(e => this.setState({exportLock: false}));
     }
 
@@ -227,7 +236,7 @@ class Main extends Component {
 
         const _options = renderOptions();
 
-        const _exportUrl = exportUrl+'?'+json2url(exportData);
+        const _exportUrl = exportUrl + '?' + json2url(exportData);
 
         return (
 
