@@ -5,7 +5,7 @@ import {Form, DatePicker} from 'antd';
 const DateComponent = ({form, data, layout}) => {
 
     const options = {
-        // initialValue: moment(data.defaultValue || moment(), 'YYYY-MM-DD'),  // TODO 默认值会引起 Date 字段不更新 @yama
+        initialValue: data.defaultValue ? moment(data.defaultValue, 'YYYY-MM-DD') : '',
         rules: [
             {
                 required: false,

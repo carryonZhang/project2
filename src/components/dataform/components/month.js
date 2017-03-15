@@ -7,7 +7,7 @@ const MonthPicker = DatePicker.MonthPicker;
 const MonthComponent = ({form, data, layout}) => {
 
     const options = {
-        initialValue: moment(data.defaultValue, 'YYYY-MM'),
+        initialValue: data.defaultValue ? moment(data.defaultValue, 'YYYY-MM') : '',
         rules: [
             {
                 required: false,
