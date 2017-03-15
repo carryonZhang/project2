@@ -159,6 +159,7 @@ export const fetchSearchArgs = ({reportId}) => {
 // 导出excel
 export const getExcel = (id, data) => {
     api.getExcel({reportId: id, Map: data}).then((res) => {
+        // debugger;
         console.log(res);
     }, (err) => {
         console.log(err);

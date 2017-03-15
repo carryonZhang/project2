@@ -94,7 +94,7 @@ class SearchFilter extends Component {
                     }
                 }
             }
-
+            console.log(fieldsValue);
             callback(reportId, fieldsValue);
         });
     }

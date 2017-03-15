@@ -216,7 +216,7 @@ function getTableData(xLabel, rows, columnsData, footRows) {
     if(footRows && Object.keys(footRows).length > 0) {
         footRows.key = dataSource.length;
         footRows.rowkey = "footRows";
-        dataSource.push(footRows);
+        dataSource.unshift(footRows);
     }
 
 
