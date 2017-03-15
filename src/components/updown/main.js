@@ -140,7 +140,7 @@ function renderOptions() {
 
 					message.info('导入成功！');
 					let data = resp.data;
-					dispatch(action.showModal(data));
+					// dispatch(action.showModal(data));
 
                 } else {
 
