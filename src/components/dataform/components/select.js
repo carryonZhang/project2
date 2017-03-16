@@ -14,7 +14,7 @@ const SelectComponent = ({form, data, layout, onFetchUnionSelect}) => {
         optionFilterProp: 'children',
         placeholder: data.showDescription || '请选择' + data.fieldLabel,
         filterOption: (input, option) => {
-            return option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+            return option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
         }
     };
 
