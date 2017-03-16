@@ -66,7 +66,7 @@ function exportFile(url, token) {
                 filename = 'export_' + (new Date()).getTime() + '.xls'
             }
 
-            save(xhr, filename);
+            save(xhr, decodeURIComponent(filename));
 
             return resolve('导出成功');
         });

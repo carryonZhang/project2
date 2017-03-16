@@ -5,7 +5,7 @@
  */
 import api from '../api';
 import * as bridge from '../utils/bridge';
-import saveAs from '../utils/saveAs';
+import {message as MessageComponent} from 'antd';
 
 /******************************************************
  * 全局
@@ -18,15 +18,13 @@ import {
     GLOBAL_LOADING_HIDE
 } from '../constants';
 
-export const globalMessageError = (message) => ({
-    type: GLOBAL_MESSAGE_ERROR,
-    message
-});
+export const globalMessageError = (message) => dispatch => {
+    MessageComponent.error(message);
+};
 
-export const globalMessageSuccess = (message) => ({
-    type: GLOBAL_MESSAGE_SUCCESS,
-    message: message
-});
+export const globalMessageSuccess = (message) => dispatch => {
+    MessageComponent.success(message);
+};
 
 export const globalLoading = () => ({
     type: GLOBAL_LOADING
