@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REMOTE_PATH=union
+REMOTE_PATH=insideboss
 
 case "$1" in
     dev)
