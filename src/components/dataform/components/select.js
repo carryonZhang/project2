@@ -22,8 +22,9 @@ const SelectComponent = ({form, data, layout, onFetchUnionSelect}) => {
         initialValue: data.defaultValue, // || (data.lovEntity && data.lovEntity.values.length > 0 ? data.lovEntity.values[0].right : ''),
         rules: [
             {
-                required: false,
+                required: data.chainedFieldPos > 0,
                 type: 'string',
+                message: '请选择' + data.fieldShowName
             }
         ]
     };
