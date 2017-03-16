@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import WrapForm from '../../components/dataform';
-import Chart from "../../components/chart";
-import DataTable from "../../components/datatable"
+import Report from "../../components/report/index"
+/*import Chart from "../../components/chart";
+ import DataTable from "../../components/datatable"*/
 import Header from '../../components/header';
 
 import * as action from "../../action";
@@ -57,7 +58,6 @@ class ReportContainer extends Component {
 
         this.REPORT_ID = location.query.reportId;
 
-        const tableData = data.tableData;
         return (
             <div>
                 <Header title={this.MENU_TITLE}/>
@@ -70,11 +70,7 @@ class ReportContainer extends Component {
                                             onFetchUnionSelect={onFetchUnionSelect}/>
                 }
                 {
-                    data.hasChart && <Chart option={data} onLegendChange={onLegendChange}/>
-                }
-
-                {
-                    data.hasTable && <DataTable dataSource={tableData.dataSource} columns={tableData.columns}/>
+                    <Report data={data} onLegendChange={onLegendChange}/>
                 }
             </div>
         )
