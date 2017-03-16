@@ -147,9 +147,9 @@ class Main extends Component {
                 let code = resp.code;
 
                 if (code == 1) {
-
-                    const {failCnt, successCnt, totalCnt} = resp.data;
-
+					//区别于会员信息导入，商品信息导入会返回messages @Array
+                    const {failCnt, successCnt, totalCnt, messages} = resp.data;
+					let message = messages ? messages[0] : '';
                     Modal.info({
                         title: "导入信息",
                         onOk: () => {
@@ -157,8 +157,11 @@ class Main extends Component {
                                 t.clearFn(undefined, dispatch);
                             }, 1000);
                         },
-                        content: <p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
-
+                        content: 
+                        	<div>
+                        		<p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
+								<p>{message}</p>
+                        	</div>
                     });
 
                 } else {
