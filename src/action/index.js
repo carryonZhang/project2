@@ -5,6 +5,7 @@
  */
 import api from '../api';
 import * as bridge from '../utils/bridge';
+import saveAs from '../utils/saveAs';
 
 /******************************************************
  * 全局
@@ -208,10 +209,6 @@ export const initData = (data) => ({
     data
 });
 
-export const showModal = (data) => ({
-    type: IMPORT_INFO,
-    data
-});
 
 
 

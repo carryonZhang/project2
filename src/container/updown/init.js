@@ -1,3 +1,5 @@
+import {currentAPIUrlPrefix} from '../../utils/env-import';
+
 export default (key, query) => {
 
     const {entityId, userName, token, memberId, userId} = query;
@@ -5,14 +7,14 @@ export default (key, query) => {
     const options = {
 
         'member': {
-            importUrl: 'http://10.1.7.189:8080/merchant-api/merchant/import/v1/card',
+            importUrl: currentAPIUrlPrefix + '/merchant/import/v1/card',
             importData: {
                 entityId: entityId,
                 userName: userName,
                 memberId: memberId,
                 userId: userId
             },
-            exportUrl: 'http://10.1.7.189:8080/merchant-api/merchant/export/v1/card',
+            exportUrl: currentAPIUrlPrefix + '/merchant/export/v1/card',
             exportData: {
                 entityId: entityId,
                 memberId: memberId,
@@ -24,13 +26,13 @@ export default (key, query) => {
         },
 
         'item': {
-            importUrl: 'http://10.1.7.189:8080/merchant-api/merchant/import/v1/menus',
+            importUrl: currentAPIUrlPrefix + '/merchant/import/v1/menus',
             importData: {
                 entityId: entityId,
                 memberId: memberId,
                 userId: userId
             },
-            exportUrl: 'http://10.1.7.189:8080/merchant-api/merchant/export/v1/menus',
+            exportUrl: currentAPIUrlPrefix + '/merchant/export/v1/menus',
             exportData: {
                 entityId: entityId,
                 memberId: memberId,

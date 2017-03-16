@@ -21,7 +21,6 @@ export const SET_SEARCH_BUTTON_STATE = 'platform/Reports/SET_SEARCH_BUTTON_STATE
 export const INPUT_TEXT = 'inside-boss/updown/INPUT_YEXT';
 export const INIT_DATA = 'inside-boss/updown/INIT_DATA';
 export const EXPORT_DATA = 'inside-boss/updown/EXPORT_DATA';
-export const IMPORT_INFO = 'inside-boss/updown/IMPORT_INFO';
 
 
 

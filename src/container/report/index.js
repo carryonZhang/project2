@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import {stringify} from "querystring";
 import WrapForm from '../../components/dataform';
 import Report from "../../components/report/index"
 /*import Chart from "../../components/chart";
@@ -8,6 +9,8 @@ import Header from '../../components/header';
 
 import * as action from "../../action";
 import * as bridge from '../../utils/bridge';
+import saveAs from '../../utils/saveAs';
+import {currentAPIUrlPrefix} from '../../utils/env';
 
 class ReportContainer extends Component {
 
@@ -97,8 +100,34 @@ const mapDispatchToProps = (dispatch) => ({
     onLegendChange: (itemInfo) => {
         dispatch(action.setLegendChange(itemInfo))
     },
-    onExportExcel: (id, data) => {
-        dispatch(action.getExcel(id, data));
+    onExportExcel: (reportId, args) => {
+
+        const {entityId, shopCode, userId, token} = bridge.getParamsObject();
+
+        const qs = stringify({
+            ...args,
+            entityId,
+            reportId,
+            shopCode,
+            userId
+        });
+
+        saveAs(currentAPIUrlPrefix + 'report/exportXls.do?' + qs, token).then(
+            filename => dispatch(action.globalMessageSuccess('导出成功!')), // 成功返回文件名
+            err => {
+                if (err.code === 0 && err.errorCode == '401') {
+
+                    // 可以加提示信息
+                    bridge.callParent('logout');
+                    return;
+                }
+
+                dispatch(action.globalMessageError(err));
+            }
+        );//.then(e => this.setState({exportLock: false}));
+
+
+        //dispatch(action.getExcel(reportId, args));
     },
     onFetchUnionSelect: (id, value, reportId) => {
         dispatch(action.fetchUnionSelect({
