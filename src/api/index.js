@@ -1,18 +1,11 @@
 import nattyFetch from 'natty-fetch';
-import storage from '../utils/storage';
 import * as bridge from '../utils/bridge';
-
-const envUrlPrefix = {
-    // 'DEV': 'http://10.1.135.242:8080/athena-api/', // 项目环境
-    'DEV': 'http://10.1.7.61:8080/athena-api/', // 项目环境
-    'DAILY': 'http://athena-api.2dfire-daily.com/',
-    'PRE': 'http://athena-api.2dfire-pre.com/',
-    'PUBLISH': 'http://merchant-api.2dfire.com/',
-};
+import {callParent} from '../utils/bridge';
+import {currentAPIUrlPrefix} from '../utils/env';
 
 const apiContext = nattyFetch.context({
     mock: false,
-    urlPrefix: envUrlPrefix[process.env.REACT_APP_ENV || 'DEV'], // eslint-disable-line
+    urlPrefix: currentAPIUrlPrefix, // eslint-disable-line
     mockUrlPrefix: 'http://mock.2dfire-daily.com/mock-serverapi/mockjsdata/',
     withCredentials: false,
     postDataFormat: 'JSON',
@@ -23,10 +16,16 @@ const apiContext = nattyFetch.context({
         }
     },
     fit: (res) => {
+
+        if (res.code === 0 && res.errorCode === '401') {
+            callParent('logout');
+            return;
+        }
+
         return {
             success: res.code && res.code === 1,
             content: res.data,
-            error: {message: res.message}
+            error: {message: res.message, errorCode: res.errorCode}
         }
     }
 });

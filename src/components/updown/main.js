@@ -4,7 +4,6 @@ import styles from './style.css';
 import {message, Button, Modal} from 'antd';
 
 import * as action from '../../action';
-import api from '../../api';
 import saveAs from '../../utils/saveAs';
 import * as bridge from '../../utils/bridge';
 import FileUpload from 'react-fileupload';

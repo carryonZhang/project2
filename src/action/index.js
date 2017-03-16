@@ -5,6 +5,7 @@
  */
 import api from '../api';
 import * as bridge from '../utils/bridge';
+import saveAs from '../utils/saveAs';
 
 /******************************************************
  * 全局

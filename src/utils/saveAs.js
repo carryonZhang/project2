@@ -25,7 +25,6 @@ function send(url, token, cb) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-
                 if (xhr.response.type === 'application/json') {
                     try {
                         let json = JSON.parse(blobToString(xhr.response));
@@ -50,9 +49,8 @@ function send(url, token, cb) {
  * 项目定制的下载文件
  * @param {string} url
  * @param {string} token xhr.headers['X-Token']
- * @param {string} filename 下载后
  */
-function exportFile(url, token, filename) {
+function exportFile(url, token) {
     return new Promise((resolve, reject) => {
         send(url, token, (err, xhr) => {
 
@@ -60,8 +58,17 @@ function exportFile(url, token, filename) {
                 return reject(err);
             }
 
+            let filename = '';
+
+            try {
+                filename = xhr.getResponseHeader('Content-Disposition').match(/filename=(.*)$/)[1];
+            } catch (e) {
+                filename = 'export_' + (new Date()).getTime() + '.xls'
+            }
+
             save(xhr, filename);
-            return resolve(filename);
+
+            return resolve('导出成功');
         });
     });
 

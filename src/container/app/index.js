@@ -2,18 +2,10 @@ import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {message} from 'antd';
 
-import storage from '../../utils/storage';
-
 class App extends Component {
 
     constructor(props) {
         super(props);
-
-        const {location} = props;
-
-        if (location.query.token) {
-            storage.set({token: location.query.token});
-        }
     }
 
     render() {
