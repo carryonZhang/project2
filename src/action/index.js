@@ -122,8 +122,9 @@ export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
     }).then(
         res => {
             const chartsConfig = formatOptions(reports.construct, res); // formatOptions(结构, 数据) 返回完整报表
+            // debugger
             dispatch(receiveChartData(chartsConfig));
-            dispatch(setChartLegend(chartsConfig.legend));
+            chartsConfig.legend && dispatch(setChartLegend(chartsConfig.legend));
         },
         err => dispatch(globalMessageError(err.message))
     ).then(e => dispatch(setChartButtonState({submit: false})));

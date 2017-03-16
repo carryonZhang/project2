@@ -5,9 +5,7 @@ import DataTable from "./datatable/index"
 export default function Report({data, onLegendChange}) {
     const tableData = data.tableData;
     const hasTable = tableData && Object.keys(tableData) > 0;
-    console.log("isWrong", data.isWrong)
-    console.log("hasReport", data.hasData)
-    console.log(data)
+    // debugger
     return (
         <div>
             {
