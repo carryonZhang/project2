@@ -13,6 +13,8 @@ function formatOptions(details, data) {
     const yLabels = DETAILS.axisYLabel.split(";").map(label => label.trim());
     const types = DETAILS.reportType.toLowerCase().split(",").map(type => type.trim());
     const rows = DATA.rows;
+    const footRows = DATA.footRows[0];
+    // console.log("footRows", footRows);
     const columnsData = DATA.columns;
 
     let hasChart = false;
@@ -22,7 +24,7 @@ function formatOptions(details, data) {
     let tableData = null;
     if (types.includes(TABLE)) {
         hasTable = true;
-        tableData = getTableData(xLabel, rows, columnsData);
+        tableData = getTableData(xLabel, rows, columnsData, footRows);
         types.splice(types.indexOf(TABLE), 1);
     }
     // table end
@@ -161,20 +163,6 @@ function formatOptions(details, data) {
         }
     }
 
-    /*    // fake pie data
-     columns = "白天; 晚上";
-     let pieRows = [{
-     "支付宝": "30",
-     "微信": "30",
-     "现金": "40",
-     },
-     {
-     "支付宝": "10",
-     "微信": "50",
-     "现金": "40"
-     }
-     ];*/
-
     const staticOption = {
         // option
         color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
@@ -217,31 +205,38 @@ function formatOptions(details, data) {
         })
 }
 
-function getTableData(xLabel, rows, columnsData) {
+function getTableData(xLabel, rows, columnsData, footRows) {
+    console.log(rows);
     const dataSource = rows.map((daily, index) => {
-        console.log(daily)
+        // console.log(daily)
         daily.key = index;
         return daily;
     });
+
+    if(footRows && Object.keys(footRows).length > 0) {
+        footRows.key = dataSource.length;
+        footRows.rowkey = "footRows";
+        dataSource.unshift(footRows);
+    }
+
+
     const columns = columnsData.map((ele, index) => {
         const col = {};
         col.title = ele;
         col.dataIndex = ele;
         col.key = ele;
-        col.width = 200;
+        col.width = "150";
         if (ele === xLabel) {
             col.fixed = 'left';
         }
         return col;
     });
-    console.log(columns)
-    console.log(dataSource);
+/*    console.log(columns)
+    console.log(dataSource);*/
     return {
         dataSource,
-        columns
+        columns,
     }
 }
 
 export default formatOptions;
-
-

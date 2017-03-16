@@ -4,8 +4,8 @@
  * 位于 `/src/container/App` 下的 action 是相对于全局使用，集成错误提示、弹窗等。
  */
 import api from '../api';
-import storage from '../utils/storage';
 import * as bridge from '../utils/bridge';
+import saveAs from '../utils/saveAs';
 
 /******************************************************
  * 全局
@@ -83,7 +83,7 @@ export const receiveChartConstruct = construct => ({
 export const fetchChartConstruct = ({reportId}) => (dispatch) => {
     dispatch(globalLoading());
 
-    const {entityId, shopCode, userId} = bridge.getQueryObject();
+    const {entityId, shopCode, userId} = bridge.getParamsObject();
 
     api.getChartDetails({
         entityId,
@@ -110,7 +110,7 @@ export const receiveChartData = data => ({
 export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
     const {reports} = getState(); // 从之前初始化保存的 state 中取出结构数据
 
-    const {entityId, shopCode, userId} = bridge.getQueryObject();
+    const {entityId, shopCode, userId} = bridge.getParamsObject();
     dispatch(setChartButtonState({submit: true}));
 
     api.getChartData({
@@ -148,7 +148,7 @@ export const receiveSearchArgs = args => ({
 export const fetchSearchArgs = ({reportId}) => {
     return (dispatch) => {
         dispatch(globalLoading());
-        const {entityId, shopCode, userId} = bridge.getQueryObject();
+        const {entityId, shopCode, userId} = bridge.getParamsObject();
 
         api.getSearchFormArgs({reportId, entityId, shopCode, userId}).then(
             res => dispatch(receiveSearchArgs(res)),
@@ -160,6 +160,7 @@ export const fetchSearchArgs = ({reportId}) => {
 // 导出excel
 export const getExcel = (id, data) => {
     api.getExcel({reportId: id, Map: data}).then((res) => {
+        // debugger;
         console.log(res);
     }, (err) => {
         console.log(err);
@@ -176,7 +177,7 @@ export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch 
     dispatch(globalLoading());
 
 
-    const {entityId, shopCode, userId} = bridge.getQueryObject();
+    const {entityId, shopCode, userId} = bridge.getParamsObject();
 
     api.getUnionSelect({
         chainedParamValue: parentValue,
@@ -197,14 +198,16 @@ export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch 
  * 导入导出模块
  */
 
-import {INPUT_YEXT} from '../constants';
-
+import {INPUT_TEXT, INIT_DATA, IMPORT_INFO} from '../constants';
 export const setInputText = (txt) => ({
-    type: INPUT_YEXT,
+    type: INPUT_TEXT,
     txt
 });
 
-
+export const initData = (data) => ({
+    type: INIT_DATA,
+    data
+});
 
 
 

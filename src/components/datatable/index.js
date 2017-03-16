@@ -6,15 +6,18 @@ import {Table} from 'antd';
 import styles from "./style.css"
 
 export default function DataTable({dataSource, columns}) {
+    const xLength = 150 * columns.length;
     return (
         <div className={styles.dataTable}>
             <Table
                 dataSource={dataSource}
                 columns={columns}
-                scroll={{x: 10000, y: 500}}
-                pagination={{defaultPageSize: 10, }}
+                scroll={{x:xLength, y: 500}}
+                pagination={{defaultPageSize: 20, }}
                 bordered
+
             />
         </div>
     )
 }
+{/*footer = {() => {return "this is header"}}*/}

@@ -2,18 +2,10 @@ import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {message} from 'antd';
 
-import storage from '../../utils/storage';
-
 class App extends Component {
 
     constructor(props) {
         super(props);
-
-        const {location} = props;
-
-        if (location.query.token) {
-            storage.set({token: location.query.token});
-        }
     }
 
     render() {
@@ -55,7 +47,7 @@ const mapStateToProps = (state) => {
                 setTimeout(() => {
                     globalMessage();
                     globalMessage = null;
-                }, 1000); // 1 秒后自动移除
+                }, 1500); // 1.5 秒后自动移除
             }
             return;
 

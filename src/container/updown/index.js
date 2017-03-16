@@ -1,23 +1,48 @@
-import React from 'react'
+import React, {Component}from 'react';
 import {connect} from 'react-redux';
+
+import * as bridge from '../../utils/bridge';
 
 import Header from '../../components/header';
 import Main from '../../components/updown/main';
+import InitData from './init';
+
+import * as action from '../../action';
 
 import styles from './style.css';
 
-const UpdownContainer = (state) => (
-    <div className={styles.wrapper}>
-        <div className={styles.wrapper}>
-            <Header title={state.title}/>
-            <Main state={state} />
-        </div>
-    </div>
-);
+
+class UpdownContainer extends Component {
+
+
+    componentWillMount() {
+
+    	const query = bridge.getParamsObject();
+        const {dispatch, params} = this.props;
+	
+		const data = InitData(params.pageType, query);
+
+        dispatch(action.initData(data));
+
+    }
+
+    render() {
+		
+        const { data, dispatch, importInfo } = this.props;
+        
+        return (
+            <div className={styles.wrapper}>
+                <Header title={data.title}/>
+                <Main data={data} dispatch= {dispatch} />
+            </div>
+        )
+
+    }
+
+}
 
 const mapStateToProps = (state) => ({
-    title: state.updown.title || '商品导入导出',
-    txt: state.updown.txt || '未选择任何文件'
+    data: state.updown
 });
 
 const mapDispatchToProps = (dispatch) => ({

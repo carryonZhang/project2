@@ -1,35 +1,42 @@
 import React, {Component} from 'react';
+import cx from 'classnames';
 import styles from './style.css';
-import {message} from 'antd';
+import {message, Button, Modal} from 'antd';
 
 import * as action from '../../action';
-import storage from '../../utils/storage';
+import saveAs from '../../utils/saveAs';
+import * as bridge from '../../utils/bridge';
 import FileUpload from 'react-fileupload';
 
+class Main extends Component {
 
-function clearFn(e,dispatch){
-	
-    (e !== undefined) && e.preventDefault();
+    constructor(props) {
+        super(props);
 
-    var oInput = document.querySelector('input[name=ajax_upload_file_input]');
-
-    if (oInput) {
-        oInput.value = '';
-        dispatch(action.setInputText('未选择任何文件'));
+        this.state = {
+            importLock: false,
+            exportLock: false
+        }
     }
-}
 
-function renderOptions() {
+    setOptions() {
 
-    return (dispatch) => {
-    	
+        const t = this;
+
+        const {dispatch, data} =  t.props;
+
+        const {importUrl, importData} = data;
+
+        const query = bridge.getParamsObject();
+
+        const {token} = query;
+
         return {
-            baseUrl: 'http://10.1.7.189:8080/merchant-api/import/v1/menus',
+            baseUrl: importUrl,
 
-            param: {
-                entityId:'99928542',
-                // _: Date().getTime()
-            },
+            param: importData,
+
+            fileFieldName: "file",
 
             dataType: 'json',
 
@@ -43,75 +50,84 @@ function renderOptions() {
 
             chooseAndUpload: false,
 
-            paramAddToField: {purpose: 'save'},
+            paramAddToField: importData,
 
             withCredentials: false,
 
             requestHeaders: {
-                'X-Token': storage.get('token')
+                'X-Token': token
             },
-			
-			chooseFile: function (files) {
-		
-				var name = (typeof files === 'string') ? files : files[0].name;
 
-				if (files[0] && files[0].size < 1024 * 1024 * 20) {
+            chooseFile: function (files) {
 
-                    if (/\.(xls)$/.test(name)) {
+                var name = (typeof files === 'string') ? files : files[0].name;
 
-		                dispatch(action.setInputText(name));
+                if (/\.(xls|xlsx)$/.test(name)) {
 
-					} else {
+                    if (files[0] && files[0].size < 1024 * 1024 * 20) {
 
-						message.info('仅允许上传格式为.xls的文件！');
-						clearFn(undefined,dispatch);
+                        dispatch(action.setInputText(name));
 
-					}
+                    } else {
+
+                        message.info('文件太大，无法上传！');
+                        setTimeout(function () {
+                            t.clearFn(undefined, dispatch);
+                        }, 1500);
+
+                    }
 
                 } else {
 
-                	message.info('文件太大，无法上传！');
-                	clearFn(undefined,dispatch);
-
+                    message.info('仅允许上传格式为.xls或.xlsx的文件！');
+                    setTimeout(function () {
+                        t.clearFn(undefined, dispatch);
+                    }, 1500);
                 }
 
-			},
+            },
 
             beforeUpload: function (files, mill) {
 
                 if (!files || files.length == 0) {
-					message.info('请先选择合适的文件！');
-					return false;
+
+                    dispatch(action.globalMessageError('请先选择合适的文件！'));
+
+                    return false;
 
                 } else {
-					//此块逻辑可以省略，留着做为双重保险
-					var name = (typeof files === 'string') ? files : files[0].name;
+                    //此块逻辑可以省略，留着做为双重保险
+                    var name = (typeof files === 'string') ? files : files[0].name;
 
-					if (files[0] && files[0].size < 1024 * 1024 * 20) {
-	                    files[0].mill = mill
+                    if (/\.(xls|xlsx)$/.test(name)) {
 
-	                    if (/\.(xls)$/.test(name)) {
+                        if (files[0] && files[0].size < 1024 * 1024 * 20) {
 
-			                return true
+                            files[0].mill = mill;
+                            return true
 
-						} else {
+                        } else {
 
-							message.info('仅允许上传格式为.xls的文件！');
-							clearFn(undefined,dispatch);
-							return false;
+                            message.info('文件太大，无法上传！');
+                            setTimeout(function () {
+                                t.clearFn(undefined, dispatch);
+                            }, 1500);
+                            return false
 
-						}
+                        }
 
-	                } else {
+                    } else {
 
-	                	message.info('文件太大，无法上传！');
-	                	clearFn(undefined,dispatch);
-	                	return false
+                        message.info('仅允许上传格式为.xls或.xlsx的文件！');
+                        setTimeout(function () {
+                            t.clearFn(undefined, dispatch);
+                        }, 1500);
+                        return false;
 
-	                }
-					
+                    }
+
                 }
-                
+
             },
 
             doUpload: function (files, mill) {
@@ -120,40 +136,133 @@ function renderOptions() {
 
             uploading: function (progress) {
                 // console.log('loading...', progress.loaded / progress.total + '%')
+                t.setState({
+                    importLock: true
+                });
+
             },
 
             uploadSuccess: function (resp) {
-                message.info('upload success..!')
+
+                let code = resp.code;
+
+                if (code == 1) {
+
+                    const {failCnt, successCnt, totalCnt} = resp.data;
+
+                    Modal.info({
+                        title: "导入信息",
+                        onOk: () => {
+                            setTimeout(function () {
+                                t.clearFn(undefined, dispatch);
+                            }, 1000);
+                        },
+                        content: <p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
+
+                    });
+
+                } else {
+
+                    //失败接口返回字符串
+                    const {message} = resp;
+
+                    Modal.info({
+                        title: "导入信息",
+                        onOk: () => {
+                            setTimeout(function () {
+                                t.clearFn(undefined, dispatch);
+                            }, 1000);
+                        },
+                        content: <p>{message}</p>
+                    });
+
+                }
+
             },
 
             uploadError: function (err) {
-                message.info(err.message)
+                message.info(err.message);
+                setTimeout(function () {
+                    t.clearFn(undefined, dispatch);
+                }, 1500);
             },
 
             uploadFail: function (resp) {
-                message.info("上传失败");
+                message.info("导入失败！");
+                setTimeout(function () {
+                    t.clearFn(undefined, dispatch);
+                }, 1500);
             },
 
             textBeforeFiles: true
 
         };
+
     }
-}
 
+    clearFn(e, dispatch) {
 
-class Main extends Component {
+        (e !== undefined) && e.preventDefault();
+
+        window.location.reload();
+
+    }
+
+    json2url(json) {
+        var url = '';
+        var arr = [];
+        for (let i in json) {
+            arr.push(i + '=' + json[i]);
+        }
+        url = arr.join('&');
+        return url;
+    }
+
+    handleExport(url) {
+
+        const {token} = bridge.getParamsObject();
+
+        this.setState({
+            exportLock: true
+        });
+
+        saveAs(url, token, 'export.xls').then(
+            filename => message.success('导出成功!'), // 成功返回文件名
+            err => {
+                if (err.code === 0 && err.errorCode == '401') {
+
+                    // 可以加提示信息
+                    bridge.callParent('logout');
+                    return;
+                }
+
+                message.error(err);
+            }
+        ).then(e => this.setState({exportLock: false}));
+    }
+
+    handleDownload() {
+        location.href = 'http://server.2dfire.com/rerp4/template/excelImportMenu.xls'
+    }
 
     render() {
 
-        const {txt, dispatch} = this.props.state;
+        const t = this;
 
-        const _options = renderOptions();
+        const {dispatch, data} =  this.props;
+
+        const {previewText, exportUrl, exportData, exportBtnText} = data;
+
+        const show = (previewText == '请上传excel文件') ? false : true;
+
+
+        const _exportUrl = exportUrl + '?' + t.json2url(exportData);
 
         return (
 
             <div className={styles.main_wrapper}>
                 <div className={styles.import_part}>
-                    <FileUpload options={_options(dispatch)} style={{'height': 62}}>
+                    <FileUpload options={t.setOptions()}>
                         <div className={styles.chose_area} ref="chooseBtn">
                             <p className={styles.chose_text}>选择文件</p>
                             <div className={styles.chose_btn}>
@@ -162,24 +271,37 @@ class Main extends Component {
                             </div>
                         </div>
                         <div className={styles.view_area}>
-                            <p className={styles.view_text}>{txt}</p>
-                            <div className={styles.delete_btn} onClick={e => {
-                                clearFn(e,dispatch)
-                            }}>
-                                <div className={styles.delete_vertical}></div>
-                                <div className={styles.delete_horizontal}></div>
-                            </div>
+                            <p className={styles.view_text}>{previewText}</p>
+                            {
+                                ((show) => {
+                                    if (show) {
+                                        return (
+                                            <div className={styles.delete_btn} onClick={e => {
+                                                t.clearFn(e, dispatch)
+                                            }}>
+                                                <div className={styles.delete_vertical}></div>
+                                                <div className={styles.delete_horizontal}></div>
+                                            </div>
+                                        )
+                                    } else {
+                                        return null
+                                    }
+                                })(show, dispatch)
+                            }
                         </div>
                         <div className={styles.submit_btn_wrapper} ref="uploadBtn">
-                            <div className={styles.submit_btn}>导入</div>
+                            <Button type="primary" loading={this.state.importLock} className={cx(styles.primaryButton)}>导入</Button>
                         </div>
                     </FileUpload>
                 </div>
                 <div className={styles.export_part}>
-                    <div className={styles.download_btn}><a
-                        href="http://server.2dfire.com/rerp4/template/excelImportMenu.xls "></a>下载空白模版
-                    </div>
-                    <div className={styles.export_btn}>导出商品信息</div>
+                    <Button className={styles.secondButton} onClick={t.handleDownload.bind(t)}>下载空白模版</Button>
+
+                    <Button type="primary" loading={this.state.exportLock}
+                            className={cx(styles.primaryButton, styles.export_btn)}
+                            onClick={t.handleExport.bind(t, _exportUrl)}>
+                        {exportBtnText}
+                    </Button>
                 </div>
             </div>
         )

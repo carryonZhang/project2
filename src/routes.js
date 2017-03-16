@@ -21,7 +21,7 @@ export default function createRoutes(store) {
             }
         },
         {
-            path: '/updown',
+            path: '/updown/:pageType',
             name: 'updown',
             getComponent: (location, render) => {
                 require.ensure([
