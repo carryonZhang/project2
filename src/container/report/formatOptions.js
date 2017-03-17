@@ -8,13 +8,15 @@ const allCharts = [LINE, BAR, RADAR, PIE];
 function formatOptions(details, data) {
     // 接口数据： xLabel, yLabels, types, rows, footRows, columns
     const DETAILS = details;
-    const DATA = data;
     const xLabel = DETAILS.axisXLabel;
     const yLabels = DETAILS.axisYLabel.split(";").map(label => label.trim());
     const types = DETAILS.reportType.toLowerCase().split(",").map(type => type.trim());
+
+    const DATA = data;
     const rows = DATA.rows;
-    const footRows = DATA.footRows[0];
     const columnsData = DATA.columns;
+    const footRows = DATA.footRows[0];
+    const hasCut = !!DATA.haveCut;
 
     // 标识变量
     // 没有响应
@@ -23,34 +25,35 @@ function formatOptions(details, data) {
     let hasNullData = rows.length < 1;
     // 是否有 chart:
     let hasChart = false;
-
+    let hasTable = false;
     // table
     let tableData;
-    if (types.includes(TABLE)) {
-        tableData = getTableData(xLabel, rows, columnsData, footRows);
+    if (types.includes(TABLE) && rows.length > 0) {
+        hasTable = true;
+        tableData = getTableData(xLabel, rows, columnsData, footRows, hasCut);
         types.splice(types.indexOf(TABLE), 1);
     }
     // chart
     let chartOption;
+
     if (allCharts.includes(types[0]) && rows.length > 0) {
         hasChart = true;
-        const type= types[0];
-        switch (types){
+        const chartType= types[0];
+        switch (chartType){
             case LINE:
-                chartOption = getLineOrBarOption(xLabel, yLabels, type, rows, columnsData);
+                chartOption = getLineOrBarOption(xLabel, yLabels, chartType, rows, columnsData);
                 break;
             case BAR:
-                chartOption = getLineOrBarOption(xLabel, yLabels, type, rows, columnsData);
+                chartOption = getLineOrBarOption(xLabel, yLabels, chartType, rows, columnsData);
                 break;
             case PIE:
-                chartOption = getPieOption(xLabel, yLabels, type, rows, columnsData);
+                chartOption = getPieOption(xLabel, yLabels, chartType, rows, columnsData);
                 break;
             case RADAR:
                 // chartOption = getRadarOption(xLabel, yLabels, type, rows, columnsData);
                 alert("不处理")
                 break;
         }
-
     }
 
     return Object.assign({},
@@ -59,6 +62,7 @@ function formatOptions(details, data) {
             hasError,
             hasNullData,
             hasChart,
+            hasTable,
             tableData,
         });
 }
@@ -140,6 +144,7 @@ function getPieOption(xLabel, yLabels, type, rows) {
         },
         series: [
             {
+                radius: "55%",
                 type: seriesType,
                 data: seriesData
             }
@@ -150,8 +155,7 @@ function getPieOption(xLabel, yLabels, type, rows) {
     }
 }
 
-function getTableData(xLabel, rows, columnsData, footRows) {
-    console.log(rows);
+function getTableData(xLabel, rows, columnsData, footRows, hasCut) {
     const dataSource = rows.map((daily, index) => {
         // console.log(daily)
         daily.key = index;
@@ -181,6 +185,7 @@ function getTableData(xLabel, rows, columnsData, footRows) {
     return {
         dataSource,
         columns,
+        hasCut
     }
 }
 export default formatOptions;

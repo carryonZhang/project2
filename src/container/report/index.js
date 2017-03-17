@@ -3,8 +3,7 @@ import {connect} from "react-redux";
 import {stringify} from "querystring";
 import WrapForm from '../../components/dataform';
 import Report from "../../components/report/index"
-/*import Chart from "../../components/chart";
- import DataTable from "../../components/datatable"*/
+
 import Header from '../../components/header';
 
 import * as action from "../../action";
