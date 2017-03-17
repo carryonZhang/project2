@@ -19,6 +19,8 @@ const chartLegend = (state = {}, action) => {
         case SET_LEGEND_CHANGE:
             const {legendSelected} = action;
             return Object.assign({}, state, {legendSelected});
+        /*cast 'FLUSH_ALL':
+            return {};*/
 
         default:
             return state;

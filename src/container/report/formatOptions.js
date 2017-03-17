@@ -3,217 +3,166 @@ const LINE = "line";
 const BAR = "bar";
 const PIE = "pie";
 const RADAR = "radar";
+const allCharts = [LINE, BAR, RADAR, PIE];
 
 function formatOptions(details, data) {
-
+    // 接口数据： xLabel, yLabels, types, rows, footRows, columns
     const DETAILS = details;
-    const DATA = data;
-
     const xLabel = DETAILS.axisXLabel;
     const yLabels = DETAILS.axisYLabel.split(";").map(label => label.trim());
     const types = DETAILS.reportType.toLowerCase().split(",").map(type => type.trim());
-    const rows = DATA.rows;
-    const footRows = DATA.footRows[0];
-    // console.log("footRows", footRows);
-    const columnsData = DATA.columns;
 
+    const DATA = data;
+    const rows = DATA.rows;
+    const columnsData = DATA.columns;
+    const footRows = DATA.footRows[0];
+    const hasCut = !!DATA.haveCut;
+
+    // 标识变量
+    // 没有响应
+    let hasError = Object.keys(DATA).length < 1;
+    // 响应但是无有效数据
+    let hasNullData = rows.length < 1;
+    // 是否有 chart:
     let hasChart = false;
     let hasTable = false;
-
-    // table start
-    let tableData = null;
-    if (types.includes(TABLE)) {
+    // table
+    let tableData;
+    if (types.includes(TABLE) && rows.length > 0) {
         hasTable = true;
-        tableData = getTableData(xLabel, rows, columnsData, footRows);
+        tableData = getTableData(xLabel, rows, columnsData, footRows, hasCut);
         types.splice(types.indexOf(TABLE), 1);
     }
-    // table end
+    // chart
+    let chartOption;
 
-
-    if (types.includes(LINE) ||
-        types.includes(BAR) ||
-        types.includes(PIE) ||
-        types.includes(RADAR)) {
+    if (allCharts.includes(types[0]) && rows.length > 0) {
         hasChart = true;
-    }
-
-    let dynamicOption;
-    if (types.includes(LINE) || types.includes(BAR)) {
-        // seriesItemType = LINE;
-        dynamicOption = getLineOrBarOption(types, yLabels, rows)
-    } else if (types.includes(PIE)) {
-        // seriesItemType = PIE;
-        dynamicOption = getPieOption(types, yLabels, rows);
-    } else if (types.includes(RADAR)) {
-        dynamicOption = getRadarOption(types, yLabels, rows);
-    }
-
-    function getLineOrBarOption(types, yLabels, rows) {
-        // legend and series
-        const legendData = [];
-        let legendSelected = {};
-        const series = [];
-        let seriesItemType = types[0];
-
-        yLabels.forEach((label, index) => {
-            legendData[index] = label;
-            // 默认选中第一项
-            legendSelected[label] = index === 0;
-
-            let seriesItem = {};
-            seriesItem.name = label;
-            seriesItem.type = seriesItemType;
-            seriesItem.data = rows.map(daily => daily[label]);
-            series.push(seriesItem);
-        });
-
-        //获取x轴标签间隔多少显示
-        const xAxisData = rows.map(daily => daily[xLabel]);
-
-        let interval = 0;
-        if (xAxisData.length > 15) {
-            interval = xAxisData.length / 12;
-        } else {
-            interval = -1;
-        }
-        //四舍五入
-        interval = Math.round(interval);
-
-        return {
-            legend: {
-                data: legendData,
-                selected: legendSelected,
-                show: false
-            },
-            series: series,
-            xAxis: {
-                type: "category",
-                data: xAxisData,
-                axisLabel: {
-                    interval: interval,
-                    rotate: 45
-                }
-            },
-            yAxis: {
-                type: "value"
-            },
-        }
-
-    }
-
-    function getPieOption(types, yLabels, rows) {
-        const legendData = [];
-        const legendSelected = {};
-        const seriesType = types[0];
-        const seriesData = [];
-
-        yLabels.forEach((label, index) => {
-            legendData[index] = label;
-            // 默认全部选中;
-            legendSelected[label] = true;
-
-            const item = {};
-            item.name = label;
-            item.value = rows[0][label];
-            seriesData.push(item);
-        });
-        return {
-            legend: {
-                data: legendData,
-                selected: legendSelected,
-                show: false
-            },
-            series: [
-                {
-                    type: seriesType,
-                    data: seriesData
-                }
-            ]
+        const chartType= types[0];
+        switch (chartType){
+            case LINE:
+                chartOption = getLineOrBarOption(xLabel, yLabels, chartType, rows, columnsData);
+                break;
+            case BAR:
+                chartOption = getLineOrBarOption(xLabel, yLabels, chartType, rows, columnsData);
+                break;
+            case PIE:
+                chartOption = getPieOption(xLabel, yLabels, chartType, rows, columnsData);
+                break;
+            case RADAR:
+                // chartOption = getRadarOption(xLabel, yLabels, type, rows, columnsData);
+                alert("不处理")
+                break;
         }
     }
 
-    function getRadarOption(types, yLabels, rows) {
-        const legendData = [];
-        const legendSelected = {};
-        const seriesType = types[0];
-        const seriesData = [];
-
-        yLabels.forEach((label, index) => {
-            legendData[index] = label;
-            // 默认全部选中;
-            legendSelected[label] = true;
-
-            const item = {};
-            item.name = label;
-            item.value = rows.map(daily => daily[label]);
-            seriesData.push(item);
-        });
-        return {
-            legend: {
-                data: legendData,
-                selected: legendSelected,
-                show: false
-            },
-            series: [
-                {
-                    type: seriesType,
-                    data: seriesData
-                }
-            ]
-        }
-    }
-
-    const staticOption = {
-        // option
-        color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
-        grid: {
-            top: "5%",
-            height: "75%",
-        },
-        tooltip: {
-            show: true,
-            trigger: 'axis'
-        },
-       toolbox: {
-            show: true
-        },
-        /*legend: {
-         data: legendData,
-         selected: legendSelected,
-         show: false
-         },
-         series: series,
-         xAxis: {
-         type: "category",
-         data: xAxisData,
-         axisLabel: {
-         interval: interval,
-         rotate: 45
-         }
-         },
-        yAxis: {
-         type: "value"
-         },*/
-    };
-    return Object.assign({}, staticOption, dynamicOption,
+    return Object.assign({},
+        chartOption,
         {
-            // flag
-            hasTable,
+            hasError,
+            hasNullData,
             hasChart,
+            hasTable,
             tableData,
-
-        })
+        });
 }
 
-function getTableData(xLabel, rows, columnsData, footRows) {
-    console.log(rows);
+function getLineOrBarOption(xLabel, yLabels, type, rows) {
+    // legend and series
+    const legendData = [];
+    let legendSelected = {};
+    const series = [];
+    let seriesItemType = type;
+
+    yLabels.forEach((label, index) => {
+        legendData[index] = label;
+        // 默认选中第一项
+        legendSelected[label] = index === 0;
+
+        let seriesItem = {};
+        seriesItem.name = label;
+        seriesItem.type = seriesItemType;
+        seriesItem.data = rows.map(daily => daily[label]);
+        series.push(seriesItem);
+    });
+
+    //获取x轴标签间隔多少显示
+    const xAxisData = rows.map(daily => daily[xLabel]);
+
+    let interval = 0;
+    if (xAxisData.length > 15) {
+        interval = xAxisData.length / 12;
+    } else {
+        interval = -1;
+    }
+    //四舍五入
+    interval = Math.round(interval);
+
+    return {
+        legend: {
+            data: legendData,
+            selected: legendSelected,
+            show: false
+        },
+        series: series,
+        xAxis: {
+            type: "category",
+            data: xAxisData,
+            axisLabel: {
+                interval: interval,
+                rotate: 45
+            }
+        },
+        yAxis: {
+            type: "value"
+        },
+    }
+
+}
+
+function getPieOption(xLabel, yLabels, type, rows) {
+    const legendData = [];
+    const legendSelected = {};
+    const seriesType = type;
+    const seriesData = [];
+
+    yLabels.forEach((label, index) => {
+        legendData[index] = label;
+        // 默认全部选中;
+        legendSelected[label] = true;
+
+        const item = {};
+        item.name = label;
+        item.value = rows[0][label];
+        seriesData.push(item);
+    });
+    return {
+        legend: {
+            data: legendData,
+            selected: legendSelected,
+            show: false
+        },
+        series: [
+            {
+                radius: "55%",
+                type: seriesType,
+                data: seriesData
+            }
+        ],
+        tooltip: {
+            trigger: "item"
+        }
+    }
+}
+
+function getTableData(xLabel, rows, columnsData, footRows, hasCut) {
     const dataSource = rows.map((daily, index) => {
         // console.log(daily)
         daily.key = index;
         return daily;
     });
 
-    if(footRows && Object.keys(footRows).length > 0) {
+    if (footRows && Object.keys(footRows).length > 0) {
         footRows.key = dataSource.length;
         footRows.rowkey = "footRows";
         dataSource.unshift(footRows);
@@ -231,12 +180,13 @@ function getTableData(xLabel, rows, columnsData, footRows) {
         }
         return col;
     });
-/*    console.log(columns)
-    console.log(dataSource);*/
+    /*    console.log(columns)
+     console.log(dataSource);*/
     return {
         dataSource,
         columns,
+        hasCut
     }
 }
-
 export default formatOptions;
+
