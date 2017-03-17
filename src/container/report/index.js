@@ -101,13 +101,13 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onExportExcel: (reportId, args) => {
 
-        const {entityId, shopCode, userId, token} = bridge.getParamsObject();
+        const {entityId, entityCode, userId, token} = bridge.getParamsObject();
 
         const qs = stringify({
             ...args,
             entityId,
             reportId,
-            shopCode,
+            entityCode,
             userId
         });
 
