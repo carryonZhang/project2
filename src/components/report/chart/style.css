@@ -57,9 +57,8 @@
 }
 .iconSelected::before {
     content: url("./images/hook.png");
-    position: relative;
-    top: -15%;
-    left: 10%;
+   /* position: relative;
+    top: -10%;*/
 }
 
 
