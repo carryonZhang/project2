@@ -149,7 +149,9 @@ class Main extends Component {
                 if (code == 1) {
                     //区别于会员信息导入，商品信息导入会返回messages @Array
                     const {failCnt, successCnt, totalCnt, messages} = resp.data;
-                    let message = messages ? messages[0] : '';
+
+					let messageList = messages ? messages : '';
+
                     Modal.info({
                         title: "导入信息",
                         onOk: () => {
@@ -157,10 +159,12 @@ class Main extends Component {
                                 t.clearFn(undefined, dispatch);
                             }, 1000);
                         },
-                        content: <div>
-                            <p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
-                            <p>{message}</p>
-                        </div>
+
+                        content: 
+                        	<div>
+                        		<p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
+								<p>{messageList}</p>
+                        	</div>
                     });
 
                 } else {
@@ -171,7 +175,7 @@ class Main extends Component {
                     }
 
                     //失败接口返回字符串
-                    const {message} = resp;
+                    const {messages} = resp;
 
                     Modal.info({
                         title: "导入信息",
@@ -180,7 +184,7 @@ class Main extends Component {
                                 t.clearFn(undefined, dispatch);
                             }, 1000);
                         },
-                        content: <p>{message}</p>
+                        content: <p>{messages}</p>
                     });
 
                 }
