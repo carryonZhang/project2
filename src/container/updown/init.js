@@ -1,4 +1,7 @@
-import {currentAPIUrlPrefix} from '../../utils/env-import';
+import {currentAPIUrlPrefix, currentEnvString} from '../../utils/env-import';
+
+const protocol = (currentEnvString == 'PUBLISH' ? 'https://' : 'http://');
+const templateDomainPrefix = (currentEnvString == 'PUBLISH' || currentEnvString == 'PRE' ? 'ifile' : 'ifiletest');
 
 export default (key, query) => {
 
@@ -20,6 +23,7 @@ export default (key, query) => {
                 memberId: memberId,
                 userId: userId
             },
+            templateFile: protocol + templateDomainPrefix + '.2dfire.com/template/merchant/excelImportCard.xls',
             previewText: '请上传excel文件',
             title: '会员信息导入导出',
             exportBtnText: '导出会员信息'
@@ -38,6 +42,7 @@ export default (key, query) => {
                 memberId: memberId,
                 userId: userId
             },
+            templateFile: protocol + templateDomainPrefix + '.2dfire.com/template/merchant/excelImportMenu.xls',
             previewText: '请上传excel文件',
             title: '商品信息导入导出',
             exportBtnText: '导出商品信息'
