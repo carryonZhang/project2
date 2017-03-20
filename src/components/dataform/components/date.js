@@ -18,7 +18,7 @@ const DateComponent = ({form, data, layout}) => {
     return (
         <Form.Item label={data.fieldShowName} {...layout}>
             {form.getFieldDecorator(data.fieldLabel, options)(
-                <DatePicker placeholder="请选择日期" format="YYYY-MM-DD" style={{width: '100%'}}/>
+                <DatePicker placeholder="请选择日期" showToday={false} format="YYYY-MM-DD" style={{width: '100%'}}/>
             )}
         </Form.Item>
     )

@@ -147,8 +147,10 @@ class Main extends Component {
                 let code = resp.code;
 
                 if (code == 1) {
+                    //区别于会员信息导入，商品信息导入会返回messages @Array
+                    const {failCnt, successCnt, totalCnt, messages} = resp.data;
 
-                    const {failCnt, successCnt, totalCnt} = resp.data;
+					let messageList = messages ? messages : [];
 
                     Modal.info({
                         title: "导入信息",
@@ -157,11 +159,25 @@ class Main extends Component {
                                 t.clearFn(undefined, dispatch);
                             }, 1000);
                         },
-                        content: <p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
 
+                        content: 
+                        	<div>
+                        		<p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
+                        		{
+                        			messageList.map(e=>{
+                        				return <p>{e}</p>
+                        			})
+                        		}
+								
+                        	</div>
                     });
 
                 } else {
+
+                    if (resp.errorCode == '401') {
+                        bridge.callParent('logout');
+                        return;
+                    }
 
                     //失败接口返回字符串
                     const {message} = resp;
@@ -173,7 +189,8 @@ class Main extends Component {
                                 t.clearFn(undefined, dispatch);
                             }, 1000);
                         },
-                        content: <p>{message}</p>
+                        content: 
+							<p>{message}</p>
                     });
 
                 }
@@ -181,6 +198,12 @@ class Main extends Component {
             },
 
             uploadError: function (err) {
+
+                if (err.errorCode == '401') {
+                    bridge.callParent('logout');
+                    return;
+                }
+
                 message.info(err.message);
                 setTimeout(function () {
                     t.clearFn(undefined, dispatch);

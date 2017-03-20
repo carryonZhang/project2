@@ -5,7 +5,7 @@
  */
 import api from '../api';
 import * as bridge from '../utils/bridge';
-import saveAs from '../utils/saveAs';
+import {message as MessageComponent} from 'antd';
 
 /******************************************************
  * 全局
@@ -18,15 +18,13 @@ import {
     GLOBAL_LOADING_HIDE
 } from '../constants';
 
-export const globalMessageError = (message) => ({
-    type: GLOBAL_MESSAGE_ERROR,
-    message
-});
+export const globalMessageError = (message) => dispatch => {
+    MessageComponent.error(message);
+};
 
-export const globalMessageSuccess = (message) => ({
-    type: GLOBAL_MESSAGE_SUCCESS,
-    message: message
-});
+export const globalMessageSuccess = (message) => dispatch => {
+    MessageComponent.success(message);
+};
 
 export const globalLoading = () => ({
     type: GLOBAL_LOADING
@@ -36,7 +34,14 @@ export const globalLoadingHide = () => ({
     type: GLOBAL_LOADING_HIDE
 });
 
+export const errorHandler = (err) => dispatch => {
+    if (err.status && err.status > 200) {
+        dispatch(globalMessageError('服务器连接失败，请稍后重试'));
+        return;
+    }
 
+    dispatch(globalMessageError(err.message));
+};
 /******************************************************
  * 报表
  */
@@ -83,11 +88,11 @@ export const receiveChartConstruct = construct => ({
 export const fetchChartConstruct = ({reportId}) => (dispatch) => {
     dispatch(globalLoading());
 
-    const {entityId, shopCode, userId} = bridge.getParamsObject();
+    const {entityId, entityCode, userId} = bridge.getParamsObject();
 
     api.getChartDetails({
         entityId,
-        shopCode,
+        entityCode,
         userId,
         reportId
     }).then(
@@ -110,22 +115,23 @@ export const receiveChartData = data => ({
 export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
     const {reports} = getState(); // 从之前初始化保存的 state 中取出结构数据
 
-    const {entityId, shopCode, userId} = bridge.getParamsObject();
+    const {entityId, entityCode, userId} = bridge.getParamsObject();
     dispatch(setChartButtonState({submit: true}));
 
     api.getChartData({
         entityId,
-        shopCode,
+        entityCode,
         userId,
         reportId,
         params: args
     }).then(
         res => {
             const chartsConfig = formatOptions(reports.construct, res); // formatOptions(结构, 数据) 返回完整报表
+            // debugger
             dispatch(receiveChartData(chartsConfig));
-            dispatch(setChartLegend(chartsConfig.legend));
+            chartsConfig.legend && dispatch(setChartLegend(chartsConfig.legend));
         },
-        err => dispatch(globalMessageError(err.message))
+        err => dispatch(errorHandler(err))
     ).then(e => dispatch(setChartButtonState({submit: false})));
 };
 
@@ -148,9 +154,9 @@ export const receiveSearchArgs = args => ({
 export const fetchSearchArgs = ({reportId}) => {
     return (dispatch) => {
         dispatch(globalLoading());
-        const {entityId, shopCode, userId} = bridge.getParamsObject();
+        const {entityId, entityCode, userId} = bridge.getParamsObject();
 
-        api.getSearchFormArgs({reportId, entityId, shopCode, userId}).then(
+        api.getSearchFormArgs({reportId, entityId, entityCode, userId}).then(
             res => dispatch(receiveSearchArgs(res)),
             err => dispatch(globalMessageError('搜索框条件拉取失败'))
         ).then(e => dispatch(globalLoadingHide()));
@@ -177,18 +183,18 @@ export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch 
     dispatch(globalLoading());
 
 
-    const {entityId, shopCode, userId} = bridge.getParamsObject();
+    const {entityId, entityCode, userId} = bridge.getParamsObject();
 
     api.getUnionSelect({
         chainedParamValue: parentValue,
         lovQueryId: parentId,
         reportId: reportId,
         entityId,
-        shopCode,
+        entityCode,
         userId
     }).then(
         res => dispatch(receiveUnionSelect(res)),
-        err => dispatch(globalMessageError(err.message))
+        err => dispatch(errorHandler(err))
     ).then(e => dispatch(globalLoadingHide()));
 };
 
