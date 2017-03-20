@@ -150,7 +150,7 @@ class Main extends Component {
                     //区别于会员信息导入，商品信息导入会返回messages @Array
                     const {failCnt, successCnt, totalCnt, messages} = resp.data;
 
-					let messageList = messages ? messages : '';
+					let messageList = messages ? messages : [];
 
                     Modal.info({
                         title: "导入信息",
@@ -163,7 +163,12 @@ class Main extends Component {
                         content: 
                         	<div>
                         		<p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
-								<p>{messageList}</p>
+                        		{
+                        			messageList.map(e=>{
+                        				return <p>{e}</p>
+                        			})
+                        		}
+								
                         	</div>
                     });
 
@@ -184,7 +189,14 @@ class Main extends Component {
                                 t.clearFn(undefined, dispatch);
                             }, 1000);
                         },
-                        content: <p>{messages}</p>
+                        content: 
+							<div>
+							{
+								messages.map(e=>{
+									<p>{e}</p>
+								})
+							}
+							</div>
                     });
 
                 }
