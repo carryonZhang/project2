@@ -10,14 +10,14 @@ export default (key, query) => {
     const options = {
 
         'member': {
-            importUrl: currentAPIUrlPrefix + '/merchant/import/v1/card',
+            importUrl: currentAPIUrlPrefix + 'merchant/import/v1/card',
             importData: {
                 entityId: entityId,
                 userName: userName,
                 memberId: memberId,
                 userId: userId
             },
-            exportUrl: currentAPIUrlPrefix + '/merchant/export/v1/card',
+            exportUrl: currentAPIUrlPrefix + 'merchant/export/v1/card',
             exportData: {
                 entityId: entityId,
                 memberId: memberId,
@@ -30,13 +30,13 @@ export default (key, query) => {
         },
 
         'item': {
-            importUrl: currentAPIUrlPrefix + '/merchant/import/v1/menus',
+            importUrl: currentAPIUrlPrefix + 'merchant/import/v1/menus',
             importData: {
                 entityId: entityId,
                 memberId: memberId,
                 userId: userId
             },
-            exportUrl: currentAPIUrlPrefix + '/merchant/export/v1/menus',
+            exportUrl: currentAPIUrlPrefix + 'merchant/export/v1/menus',
             exportData: {
                 entityId: entityId,
                 memberId: memberId,
