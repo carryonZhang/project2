@@ -180,7 +180,7 @@ class Main extends Component {
                     }
 
                     //失败接口返回字符串
-                    const {messages} = resp;
+                    const {message} = resp;
 
                     Modal.info({
                         title: "导入信息",
@@ -190,13 +190,7 @@ class Main extends Component {
                             }, 1000);
                         },
                         content: 
-							<div>
-							{
-								messages.map(e=>{
-									<p>{e}</p>
-								})
-							}
-							</div>
+							<p>{message}</p>
                     });
 
                 }
