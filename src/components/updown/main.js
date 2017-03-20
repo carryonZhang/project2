@@ -263,7 +263,6 @@ class Main extends Component {
     }
 
     handleDownload(url) {
-        debugger
         location.href = url;
     }
 

@@ -132,11 +132,7 @@
 }
 
 .submit_btn_wrapper {
-    height: 62px;
-    display: inline-block;
-    vertical-align: top;
-    padding-top: 12px;
-    padding-left: 16px;
+    padding: 10px;
 }
 
 .submit_btn {
