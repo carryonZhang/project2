@@ -150,7 +150,7 @@ class Main extends Component {
                     //区别于会员信息导入，商品信息导入会返回messages @Array
                     const {failCnt, successCnt, totalCnt, messages} = resp.data;
 
-					let messageList = messages ? messages : [];
+                    let messageList = messages ? messages : [];
 
                     Modal.info({
                         title: "导入信息",
@@ -160,16 +160,15 @@ class Main extends Component {
                             }, 1000);
                         },
 
-                        content: 
-                        	<div>
-                        		<p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
-                        		{
-                        			messageList.map(e=>{
-                        				return <p>{e}</p>
-                        			})
-                        		}
-								
-                        	</div>
+                        content: <div>
+                            <p>共{totalCnt}条数据，导入成功{successCnt}条，导入失败{failCnt}条</p>
+                            {
+                                messageList.map(e => {
+                                    return <p>{e}</p>
+                                })
+                            }
+
+                        </div>
                     });
 
                 } else {
@@ -189,8 +188,7 @@ class Main extends Component {
                                 t.clearFn(undefined, dispatch);
                             }, 1000);
                         },
-                        content: 
-							<p>{message}</p>
+                        content: <p>{message}</p>
                     });
 
                 }
@@ -249,7 +247,7 @@ class Main extends Component {
             exportLock: true
         });
 
-        saveAs(url, token, 'export.xls').then(
+        saveAs(url, token).then(
             filename => message.success('导出成功!'), // 成功返回文件名
             err => {
                 if (err.code === 0 && err.errorCode == '401') {
@@ -264,8 +262,9 @@ class Main extends Component {
         ).then(e => this.setState({exportLock: false}));
     }
 
-    handleDownload() {
-        location.href = 'http://server.2dfire.com/rerp4/template/excelImportMenu.xls'
+    handleDownload(url) {
+        debugger
+        location.href = url;
     }
 
     render() {
@@ -274,7 +273,7 @@ class Main extends Component {
 
         const {dispatch, data} =  this.props;
 
-        const {previewText, exportUrl, exportData, exportBtnText} = data;
+        const {previewText, exportUrl, exportData, exportBtnText, templateFile} = data;
 
         const show = (previewText == '请上传excel文件') ? false : true;
 
@@ -318,7 +317,8 @@ class Main extends Component {
                     </FileUpload>
                 </div>
                 <div className={styles.export_part}>
-                    <Button className={styles.secondButton} onClick={t.handleDownload.bind(t)}>下载空白模版</Button>
+                    <Button className={styles.secondButton}
+                            onClick={t.handleDownload.bind(t, templateFile)}>下载空白模版</Button>
 
                     <Button type="primary" loading={this.state.exportLock}
                             className={cx(styles.primaryButton, styles.export_btn)}
