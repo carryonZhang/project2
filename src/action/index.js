@@ -34,7 +34,14 @@ export const globalLoadingHide = () => ({
     type: GLOBAL_LOADING_HIDE
 });
 
+export const errorHandler = (err) => dispatch => {
+    if (err.status && err.status > 200) {
+        dispatch(globalMessageError('服务器连接失败，请稍后重试'));
+        return;
+    }
 
+    dispatch(globalMessageError(err.message));
+};
 /******************************************************
  * 报表
  */
@@ -124,7 +131,7 @@ export const fetchChartData = ({reportId, args}) => (dispatch, getState) => {
             dispatch(receiveChartData(chartsConfig));
             chartsConfig.legend && dispatch(setChartLegend(chartsConfig.legend));
         },
-        err => dispatch(globalMessageError(err.message))
+        err => dispatch(errorHandler(err))
     ).then(e => dispatch(setChartButtonState({submit: false})));
 };
 
@@ -187,7 +194,7 @@ export const fetchUnionSelect = ({parentValue, parentId, reportId}) => dispatch 
         userId
     }).then(
         res => dispatch(receiveUnionSelect(res)),
-        err => dispatch(globalMessageError(err.message))
+        err => dispatch(errorHandler(err))
     ).then(e => dispatch(globalLoadingHide()));
 };
 
