@@ -39,8 +39,8 @@ function formatOptions(details, data) {
 
     if (allCharts.includes(types[0]) && rows.length > 0) {
         hasChart = true;
-        const chartType= types[0];
-        switch (chartType){
+        const chartType = types[0];
+        switch (chartType) {
             case LINE:
                 chartOption = getLineOrBarOption(xLabel, yLabels, chartType, rows, columnsData);
                 break;
@@ -111,7 +111,7 @@ function getLineOrBarOption(xLabel, yLabels, type, rows) {
         },
         series: series,
         tooltip: {
-           trigger: "axis"
+            trigger: "axis"
         },
         xAxis: {
             type: "category",
@@ -146,17 +146,17 @@ function getPieOption(xLabel, yLabels, type, rows) {
         seriesData.push(item);
     });
 
-/*    yLabels.forEach((label, index) => {
-        legendData[index] = label;
-        // 默认全部选中;
-        legendSelected[label] = true;
+    /*    yLabels.forEach((label, index) => {
+     legendData[index] = label;
+     // 默认全部选中;
+     legendSelected[label] = true;
 
-        const item = {};
-        item.name = label;
-        item.value = rows[0][label];
+     const item = {};
+     item.name = label;
+     item.value = rows[0][label];
 
-        seriesData.push(item);
-    });*/
+     seriesData.push(item);
+     });*/
 
     return {
         legend: {
@@ -191,7 +191,8 @@ function getTableData(xLabel, rows, columnsData, footRows, hasCut) {
     }
 
 
-    const columns = columnsData.map((ele, index) => {
+    const columns = [];
+    columnsData.forEach((ele, index) => {
         const col = {};
         col.title = ele;
         col.dataIndex = ele;
@@ -199,11 +200,12 @@ function getTableData(xLabel, rows, columnsData, footRows, hasCut) {
         col.width = "150";
         if (ele === xLabel) {
             col.fixed = 'left';
+            columns.unshift(col);
+        } else {
+            columns.push(col);
         }
-        return col;
     });
-    /*    console.log(columns)
-     console.log(dataSource);*/
+
     return {
         dataSource,
         columns,
@@ -214,8 +216,10 @@ function getTableData(xLabel, rows, columnsData, footRows, hasCut) {
 function sortDate(dates) {
     // 日期输入格式是 YYYY-MM-DD
     // const dates = ["2014-12-04","2014-12-05","2014-12-01", "2014-12-02", "2014-12-03"]
-    const parsedDates = dates.map(date => Date.parse(date) );
-    parsedDates.sort((a, b) => { return a - b})
+    const parsedDates = dates.map(date => Date.parse(date));
+    parsedDates.sort((a, b) => {
+        return a - b
+    })
     const sortedDates = parsedDates.map(time => {
         return new Date(time);
     });
