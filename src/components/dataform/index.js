@@ -153,7 +153,7 @@ class SearchFilter extends Component {
                             查询
                         </Button>
                         <span className={styles.separate}/>
-                        <Button loading={buttonState.export} onClick={this.handleSubmit.bind(this, onExportExcel)}>
+                        <Button type="primary" loading={buttonState.export} onClick={this.handleSubmit.bind(this, onExportExcel)}>
                             导出Excel
                         </Button>
                     </Col>
