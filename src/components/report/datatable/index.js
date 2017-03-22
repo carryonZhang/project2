@@ -7,7 +7,7 @@ import styles from "./style.css"
 
 export default function DataTable({tableData}) {
     const {dataSource, columns, hasCut} = tableData;
-    const xLength = 200 * columns.length;
+    const xLength = 150 * columns.length;
     const footer = hasCut ? "数据量过大，请导出到excel查看所有数据" : " ";
     return (
         <div className={styles.dataTable}>

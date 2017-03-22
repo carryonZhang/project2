@@ -196,7 +196,10 @@ function getTableData(xLabel, rows, columnsData, footRows, hasCut) {
         col.title = ele;
         col.dataIndex = ele;
         col.key = ele;
-        col.width = "200";
+        if(index !== columnsData.length - 1) {
+            col.width = "150";
+        }
+
         if (index === 0) {
             col.fixed = 'left';
         }
