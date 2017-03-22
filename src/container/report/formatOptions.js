@@ -1,3 +1,4 @@
+import sortBy from "../../utils/sortBy"
 const TABLE = "table";
 const LINE = "line";
 const BAR = "bar";
@@ -68,6 +69,10 @@ function formatOptions(details, data) {
 }
 
 function getLineOrBarOption(xLabel, yLabels, type, rows) {
+
+    // 对 rows 按xlabel进行排序
+    rows.sort(sortBy(xLabel));
+
     // legend and series
     const legendData = [];
     let legendSelected = {};
