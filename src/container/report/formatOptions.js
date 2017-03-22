@@ -134,7 +134,19 @@ function getPieOption(xLabel, yLabels, type, rows) {
     const seriesType = type;
     const seriesData = [];
 
-    yLabels.forEach((label, index) => {
+
+    rows.forEach((daily, index) => {
+        const category = daily[xLabel];
+        legendData[index] = category;
+        legendSelected[category] = true;
+
+        const item = {};
+        item.name = category;
+        item.value = daily[yLabels];
+        seriesData.push(item);
+    });
+
+/*    yLabels.forEach((label, index) => {
         legendData[index] = label;
         // 默认全部选中;
         legendSelected[label] = true;
@@ -142,8 +154,10 @@ function getPieOption(xLabel, yLabels, type, rows) {
         const item = {};
         item.name = label;
         item.value = rows[0][label];
+
         seriesData.push(item);
-    });
+    });*/
+
     return {
         legend: {
             data: legendData,
