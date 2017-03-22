@@ -1,0 +1,185 @@
+
+.main_wrapper {
+    height: 702px;
+    min-width: 989px;
+    border: 2px solid #f2f2f2;
+    padding-top: 82px;
+    margin-left: 45px;
+    overflow: hidden;
+}
+
+.import_part {
+    border-right: 2px solid #e6e6e5;
+    padding-right: 30px;
+    float: left;
+}
+
+.chose_area {
+    width: 178px;
+    height: 62px;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 22px;
+    padding-top: 18px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.chose_text {
+    width: 128px;
+    height: 26px;
+    float: left;
+    text-indent: 46px;
+    line-height: 26px;
+    font-size: 16px;
+    color: #999;
+}
+
+.chose_btn {
+    width: 26px;
+    height: 26px;
+    background-color: #d52632;
+    border-radius: 4px;
+    float: right;
+    position: relative;
+}
+
+.chose_vertical {
+    width: 1px;
+    height: 13px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.chose_horizontal {
+    width: 13px;
+    height: 1px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.view_area {
+    width: 184px;
+    height: 62px;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #f2f2f2;
+    padding-top: 22px;
+    padding-right: 14px;
+    overflow: hidden;
+    margin-right: 24px;
+}
+
+.view_text {
+    width: 146px;
+    height: 18px;
+    font-size: 12px;
+    line-height: 18px;
+    text-indent: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: left;
+    color: #333;
+}
+
+.delete_btn {
+    width: 18px;
+    height: 18px;
+    background-color: #333;
+    float: right;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+
+.delete_vertical {
+    width: 8px;
+    height: 1px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.delete_horizontal {
+    width: 8px;
+    height: 1px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.submit_btn_wrapper {
+    padding: 10px;
+}
+
+.submit_btn {
+    width: 124px;
+    height: 42px;
+    background-color: #d52632;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #fff;
+    line-height: 42px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(213, 38, 50, 0.4);
+    cursor: pointer;
+}
+
+/*
+* 导出部分
+*
+ */
+
+.export_part {
+    height: 68px;
+    width: 400px;
+    padding-top: 12px;
+    margin-left: 620px;
+}
+
+.secondButton, .primaryButton {
+    display: inline-block;
+    width: 164px;
+    height: 42px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+.secondButton {
+    border: 2px solid #e6e6e5;
+    color: #999;
+}
+
+.primaryButton {
+    color: #fff;
+    background-color: #d52632;
+    box-shadow: 0 4px 10px rgba(213, 38, 50, 0.4);
+}
+
+.export_btn {
+    margin-left: 40px;
+}
+

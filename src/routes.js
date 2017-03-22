@@ -1,45 +1,52 @@
+__webpack_public_path__ = __CDN_JS__; // eslint-disable-line
+
 import {injectAsyncReducer} from './utils/asyncInjector';
 
 export default function createRoutes(store) {
-  return [
-    {
-      path: '/',
-      name: 'Reports',
-      getComponent: (location, render) => {
-        require.ensure([
-          './container/Reports/reducers',
-          './container/Reports'
-        ], (require) => {
-          const container = require('./container/Reports').default;
-          const reducer = require('./container/Reports/reducers').default;
+    return [
+        {
+            path: '/reports/:reportId',
+            name: 'reports',
+            getComponent: (location, render) => {
+                require.ensure([
+                    './container/report/reducers',
+                    './container/report'
+                ], (require) => {
+                    const container = require('./container/report').default;
+                    const reducer = require('./container/report/reducers').default;
 
-          injectAsyncReducer(store, 'Reports', reducer);
-          render(null, container);
-        });
-      }
-    },
-    {
-      path: '/brands',
-      name: 'brands',
-      getComponent: (location, render) => {
-        require.ensure([
-          './container/brands/reducers',
-          './container/brands'
-        ], (require) => {
-          const container = require('./container/brands').default;
-          const reducer = require('./container/brands/reducers').default;
+                    injectAsyncReducer(store, 'reports', reducer);
+                    render(null, container);
+                }, 'reports');
+            }
+        },
+        {
+            path: '/updown/:pageType',
+            name: 'updown',
+            getComponent: (location, render) => {
+                require.ensure([
+                    './container/updown/reducers',
+                    './container/updown'
+                ], (require) => {
+                    const container = require('./container/updown').default;
+                    const reducer = require('./container/updown/reducers').default;
 
-          injectAsyncReducer(store, 'brands', reducer);
-          render(null, container);
-        });
-      }
-    },
-  ]
+                    injectAsyncReducer(store, 'updown', reducer);
+                    render(null, container);
+                }, 'updown');
+            }
+        },
+        {
+            path: '/welcome',
+            name: 'welcome',
+            getComponent: (location, render) => {
+                require.ensure([
+                    './container/welcome'
+                ], (require) => {
+                    const container = require('./container/welcome').default;
+                    render(null, container);
+                }, 'welcome');
+            }
+        }
+    ]
 }
-
-// 1. Reducers 别名何处定义
-// 4. 何处注册进 createStore
-
-
-// 2. 何处 import 的reducer
-// 3. 何处render component

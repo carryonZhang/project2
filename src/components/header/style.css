@@ -1,0 +1,24 @@
+.wrapper{
+	position: relative;
+	background: #fff;
+	height: 88px;
+	min-width: 1018px;
+	border-bottom: 3px solid #c92932;
+	font-size: 30px;
+	color: #000;
+	line-height: 88px;
+	text-indent: 38px;
+	overflow: hidden;
+	margin-bottom: 26px;
+}
+
+.arrow{
+	width: 12px;
+	height: 12px;
+	background-color: #c92932;
+	position: absolute;
+	bottom: -6px;
+	left: 114px;
+	transform: rotate(90deg);
+	-webkit-transform: rotate(45deg);
+}

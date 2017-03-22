@@ -1,0 +1,27 @@
+.dataform {
+    margin: 34px;
+    padding: 30px;
+    border: 2px solid #eff3f3;
+}
+
+.separate {
+    margin: 0 10px;
+    font-size: 0;
+    vertical-align: middle;
+    width: 1px;
+    display: inline-block;
+    height: 24px;
+}
+
+.shadowButton {
+    color: #fff;
+    background-color: #d52632;
+}
+
+.inputWidth {
+    width: 100%;
+}
+
+.pullRight {
+    text-align: right;
+}

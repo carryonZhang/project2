@@ -7,117 +7,132 @@ var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeMod
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
 
-
 var publicPath = '/';
 var publicUrl = '';
 var env = getClientEnvironment(publicUrl);
 
+var CDN_JS = process.env.CDN_JS_URL || '';
+var CDN_CSS = process.env.CDN_CSS_URL || '';
+var CDN_IMG = process.env.CDN_IMG_URL || '';
+
 module.exports = {
-  devtool: 'cheap-module-source-map',
+    devtool: 'cheap-module-source-map',
 
-  entry: [
-    require.resolve('react-dev-utils/webpackHotDevClient'),
-    require.resolve('./polyfills'),
-    paths.appIndexJs
-  ],
-  output: {
-    path: paths.appBuild,
-    pathinfo: true,
-    filename: 'static/js/bundle.js',
-    publicPath: publicPath
-  },
-  resolve: {
-    fallback: paths.nodePaths,
-    extensions: ['.js', '.json', '.jsx', '']
-  },
-
-  module: {
-    preLoaders: [
-      {
-        test: /\.(js|jsx)$/,
-        loader: 'eslint',
-        include: paths.appSrc,
-      }
+    entry: [
+        require.resolve('react-dev-utils/webpackHotDevClient'),
+        require.resolve('./polyfills'),
+        paths.appIndexJs
     ],
-    loaders: [
-      {
-        exclude: [
-          /\.html$/,
-          /\.(js|jsx)$/,
-          /\.css$/,
-          /\.json$/,
-          /\.svg$/
-        ],
-        loader: 'url',
-        query: {
-          limit: 10000,
-          name: 'static/media/[name].[hash:8].[ext]'
-        }
-      },
-      {
-        test: /\.(js|jsx)$/,
-        include: paths.appSrc,
-        loader: 'babel',
-        query: {
-          cacheDirectory: true
-        }
-      },
-      {
-        test: /\.css$/,
-        loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss',
-        exclude: /node_modules/
-      },
-      // antd 的 require 会与 CSS Module 冲突，因此要额外做 loader
-      {
-        test: /\.css$/,
-        loader: 'style!css',
-        include: /node_modules/
-      },
-      {
-        test: /\.json$/,
-        loader: 'json'
-      },
-      {
-        test: /\.svg$/,
-        loader: 'file',
-        query: {
-          name: 'static/media/[name].[hash:8].[ext]'
-        }
-      }
-    ]
-  },
+    output: {
+        path: paths.appBuild,
+        pathinfo: true,
+        filename: 'static/js/bundle.js',
+        publicPath: publicPath
+    },
+    resolve: {
+        fallback: paths.nodePaths,
+        extensions: ['.js', '.json', '.jsx', '']
+    },
 
-  // We use PostCSS for autoprefixing only.
-  postcss: function () {
-    return [
-      autoprefixer({
-        browsers: [
-          '>1%',
-          'last 4 versions',
-          'Firefox ESR',
-          'not ie < 9', // React doesn't support IE8 anyway
+    module: {
+        preLoaders: [
+            {
+                test: /\.(js|jsx)$/,
+                loader: 'eslint',
+                include: paths.appSrc,
+            }
+        ],
+        loaders: [
+            {
+                exclude: [
+                    /\.html$/,
+                    /\.(js|jsx)$/,
+                    /\.less$/,
+                    /\.css$/,
+                    /\.json$/,
+                    /\.svg$/
+                ],
+                loader: 'url',
+                query: {
+                    limit: 10000,
+                    name: 'static/media/[name].[hash:8].[ext]'
+                }
+            },
+            {
+                test: /\.(js|jsx)$/,
+                include: paths.appSrc,
+                loader: 'babel',
+                query: {
+                    plugins: [
+                        ['import', [{libraryName: "antd", style: true}]]
+                    ],
+                    cacheDirectory: true
+                }
+            },
+            {
+                test: /global.css$/,
+                exclude: /node_modules/,
+                loader: 'style!css!postcss'
+            },
+            {
+                test: /^((?!global).)*\.css$/,
+                loader: 'style!css?modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]!postcss',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.less$/,
+                loader: 'style!css!postcss!less?{modifyVars:{"@primary-color":"#d52632"}}',
+                include: /node_modules/
+            },
+            {
+                test: /\.json$/,
+                loader: 'json'
+            },
+            {
+                test: /\.svg$/,
+                loader: 'file',
+                query: {
+                    name: 'static/media/[name].[hash:8].[ext]'
+                }
+            }
         ]
-      }),
-    ];
-  },
-  plugins: [
-    // Makes some environment variables available in index.html.
-    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-    // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    // In development, this will be an empty string.
-    new InterpolateHtmlPlugin(env.raw),
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: paths.appHtml,
-    }),
-    new webpack.DefinePlugin(env.stringified),
-    new webpack.HotModuleReplacementPlugin(),
-    new CaseSensitivePathsPlugin(),
-    new WatchMissingNodeModulesPlugin(paths.appNodeModules)
-  ],
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  }
+    },
+
+    externals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM'
+    },
+
+    // We use PostCSS for autoprefixing only.
+    postcss: function () {
+        return [
+            autoprefixer({
+                browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9', // React doesn't support IE8 anyway
+                ]
+            }),
+        ];
+    },
+    plugins: [
+        new webpack.DefinePlugin(Object.assign({}, env.stringified, {
+            '__CDN_JS__': `"${CDN_JS}"`
+        })),
+        new InterpolateHtmlPlugin(env.raw),
+        new HtmlWebpackPlugin({
+            inject: false,
+            template: paths.appHtml,
+            prefix: {CDN_JS, CDN_CSS},
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new CaseSensitivePathsPlugin(),
+        new WatchMissingNodeModulesPlugin(paths.appNodeModules)
+    ],
+    node: {
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty'
+    }
 };
