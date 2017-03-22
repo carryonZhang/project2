@@ -192,7 +192,7 @@ function getTableData(xLabel, rows, columnsData, footRows, hasCut) {
     }
 
 
-    const columns = columnsData.forEach((ele, index) => {
+    const columns = columnsData.map((ele, index) => {
         const col = {};
         col.title = ele;
         col.dataIndex = ele;
@@ -201,7 +201,7 @@ function getTableData(xLabel, rows, columnsData, footRows, hasCut) {
         if (index === 0) {
             col.fixed = 'left';
         }
-        columns.push(col);
+        return col;
     });
 
     return {
