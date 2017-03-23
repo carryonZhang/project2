@@ -37,11 +37,11 @@ class Grid extends Component {
                 '#024067',
                 '#ded28b',
                 '#4e4c67',
-                '#fdf6de',
+                // '#fdf6de',
                 '#63001c',
                 '#ffd038',
                 '#383d3b',
-                '#f1f0e1',
+                // '#f1f0e1',
                 '#ca8622',
                 '#91c7ae',
                 '#393d54',
@@ -59,7 +59,7 @@ class Grid extends Component {
                 '#e0a590',
                 '#61a0a8',
                 '#d6605c',
-                '#c4ccd3',
+                // '#c4ccd3',
             ];
         return (
             <div className={styles.grid}>
