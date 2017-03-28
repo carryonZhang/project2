@@ -202,6 +202,8 @@ function getTableData(xLabel, rows, columnsData, footRows, hasCut) {
 
         if (index === 0) {
             col.fixed = 'left';
+        //    首列加宽
+            col.width = '300'
         }
         return col;
     });
